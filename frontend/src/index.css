@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --color-hydro-bg: #0B132B;
+  --color-hydro-panel: #1C2541;
+  --color-hydro-accent: #3A506B;
+  --color-hydro-text: #5BC0BE;
+  --color-hydro-danger: #FF595E;
+  --color-hydro-warn: #FFCA3A;
+  --color-hydro-safe: #8AC926;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #0B132B;
+  color: white;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #1C2541 !important;
+}
+
+/* Fix leaflet map z-index */
+.leaflet-pane {
+  z-index: 10;
+}
+.leaflet-top, .leaflet-bottom {
+  z-index: 20;
+}

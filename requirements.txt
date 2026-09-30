@@ -1,0 +1,14 @@
+psycopg2-binary
+rasterio
+numpy
+boto3
+requests
+beautifulsoup4
+pandas
+pyarrow
+torch
+fastapi
+uvicorn
+pydantic
+httpx
+scikit-learn

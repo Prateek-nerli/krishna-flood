@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  db:
+    image: timescale/timescaledb-postgis:latest-pg14
+    container_name: krishnaflow_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: krishnaflow
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    restart: always
+
+  # We can add other services later (e.g. redis, api) but Phase 1 needs DB up and running.
