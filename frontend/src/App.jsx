@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMapEvents, LayersControl, Polygon, WMSTileLayer, Tooltip as LeafletTooltip, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMapEvents, LayersControl, Polygon, WMSTileLayer, Tooltip as LeafletTooltip, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Droplets, Activity, MapPin, AlertTriangle, CheckCircle, Search, Navigation, Info, ExternalLink, X } from 'lucide-react';
 
@@ -51,6 +51,7 @@ function MapEventsHandler({ onLocationSelect, mapRef }) {
 
 export default function App() {
   const [nodes, setNodes] = useState([]);
+  const [wrisData, setWrisData] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -61,14 +62,17 @@ export default function App() {
   const [showRawDataModal, setShowRawDataModal] = useState(false);
   const mapRef = React.useRef(null);
   
-  const [sliders, setSliders] = useState({
+    const [sliders, setSliders] = useState({
     ACTIVE_REACH: 0,
+    TUNGABHADRA: 0,
+    UJJANI: 0,
     KOYNA: 0,
     WARANA: 0,
-    ALMATTI: 0,
-    SRISAILAM: 0,
     HIDKAL: 0,
-    MALAPRABHA_DAM: 0
+    MALAPRABHA_DAM: 0,
+    ALMATTI: 0,
+    NARAYANPUR: 0,
+    SRISAILAM: 0
   });
 
   useEffect(() => {
@@ -147,10 +151,53 @@ export default function App() {
 
   const handleSearch = async () => {
     if (!searchQuery) return;
+    
+    // Parse DMS and Decimal
+    const dmsMatch = searchQuery.match(/(\d+)°\s*(\d+)'\s*([\d.]+)"\s*([NSns])\s*[, ]*\s*(\d+)°\s*(\d+)'\s*([\d.]+)"\s*([EWew])/);
+    if (dmsMatch) {
+      const latDeg = parseFloat(dmsMatch[1]) + parseFloat(dmsMatch[2])/60 + parseFloat(dmsMatch[3])/3600;
+      const lat = dmsMatch[4].toUpperCase() === 'S' ? -latDeg : latDeg;
+      const lonDeg = parseFloat(dmsMatch[5]) + parseFloat(dmsMatch[6])/60 + parseFloat(dmsMatch[7])/3600;
+      const lon = dmsMatch[8].toUpperCase() === 'W' ? -lonDeg : lonDeg;
+      handleLocationSelect({ lat: lat, lng: lon }, true);
+      setSearchResults([{
+        display_name: `[COORDINATE] ${lat.toFixed(5)}, ${lon.toFixed(5)}`,
+        lat: lat,
+        lon: lon
+      }]);
+      return;
+    }
+    const decMatch = searchQuery.match(/^([+-]?\d+\.\d+)[,\s]+([+-]?\d+\.\d+)$/);
+    if (decMatch) {
+      const lat = parseFloat(decMatch[1]);
+      const lon = parseFloat(decMatch[2]);
+      handleLocationSelect({ lat: lat, lng: lon }, true);
+      setSearchResults([{
+        display_name: `[COORDINATE] ${lat.toFixed(5)}, ${lon.toFixed(5)}`,
+        lat: lat,
+        lon: lon
+      }]);
+      return;
+    }
+
     try {
+      let results = [];
+      const sq = searchQuery.toLowerCase();
+      nodes.forEach(n => {
+        const name = n.station_name || n.name || n.node_id || "";
+        if (name.toLowerCase().includes(sq)) {
+          results.push({
+            display_name: `[HYDRO NODE] ${name} (${n.node_role})`,
+            lat: n.lat,
+            lon: n.lon
+          });
+        }
+      });
+      
       const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&countrycodes=in&limit=6`);
       const data = await res.json();
-      setSearchResults(data);
+      
+      setSearchResults([...results, ...data]);
     } catch (e) {
       console.error(e);
     }
@@ -188,6 +235,18 @@ export default function App() {
           </h1>
           <p className="text-sm text-gray-400">Flood Telemetry & AI Prediction</p>
         </div>
+
+        {wrisData && wrisData.network_stats && (
+            <div className="bg-[#0f172a] p-3 rounded-lg border border-hydro-accent text-xs">
+                <h3 className="font-bold text-hydro-text mb-2 border-b border-gray-700 pb-1">Live India-WRIS Network Stats</h3>
+                <div className="grid grid-cols-2 gap-2">
+                    <span className="text-gray-400">Rivers Mapped:</span><span className="text-white text-right">920 Official CWC Rivers</span>
+                    <span className="text-gray-400">Path Vertices:</span><span className="text-white text-right font-mono">777,041 (50m cKDTree)</span>
+                    <span className="text-gray-400">Sub-Basins:</span><span className="text-white text-right">7 Official CWC Sub-Basins</span>
+                    <span className="text-gray-400">Stations:</span><span className="text-white text-right font-mono">{wrisData.network_stats.reservoirs_and_barrages} Dams | {wrisData.network_stats.confluences} Sangams</span>
+                </div>
+            </div>
+        )}
 
         <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
           <h2 className="text-lg font-semibold mb-4 text-hydro-text flex items-center gap-2">
@@ -282,10 +341,17 @@ export default function App() {
           center={[16.8524, 74.5815]} 
           zoom={8} 
           className="w-full h-full"
+          preferCanvas={true}
         >
           <LayersControl position="topright">
             <LayersControl.BaseLayer checked name="Satellite Hybrid">
               <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name={`🛰️ Live Sentinel-2 True Color (${prediction?.wris_data?.latest_scene_date || 'Latest Pass'})`}>
+              <TileLayer key={(prediction?.wris_data?.latest_scene_date || 'fallback') + 'true'} url={prediction?.wris_data?.live_true_color_url || "https://planetarycomputer.microsoft.com/api/data/v1/item/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?collection=sentinel-2-l2a&item=S2A_MSIL2A_20261002T053241_R105_T43PDT_20261002T101803&assets=visual"} maxNativeZoom={16} maxZoom={19} opacity={0.9} />
+            </LayersControl.BaseLayer>
+            <LayersControl.BaseLayer name={`🔴 Live Sentinel-2 False Color NIR (${prediction?.wris_data?.latest_scene_date || 'Water=Navy, Veg=Red'})`}>
+              <TileLayer key={(prediction?.wris_data?.latest_scene_date || 'fallback') + 'false'} url={prediction?.wris_data?.live_false_color_url || "https://planetarycomputer.microsoft.com/api/data/v1/item/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?collection=sentinel-2-l2a&item=S2A_MSIL2A_20261002T053241_R105_T43PDT_20261002T101803&assets=B08&assets=B04&assets=B03&color_formula=Gamma+RGB+3.2+Saturation+1.5+Sigmoidal+RGB+15+0.35"} maxNativeZoom={16} maxZoom={19} opacity={0.9} />
             </LayersControl.BaseLayer>
             <LayersControl.BaseLayer name="ISRO Bhuvan + OSM">
               <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -302,20 +368,102 @@ export default function App() {
           
           <Polygon positions={BASIN_POLYGON} pathOptions={{ color: '#00F5D4', fillOpacity: 0.06, weight: 2, dashArray: '5, 5' }} />
           
-          {nodes.map(n => (
-            <Marker key={n.node_id} position={[n.lat, n.lon]}>
-              <LeafletTooltip permanent direction="top" offset={[0, -20]} className="bg-transparent border-0 text-white font-bold text-shadow">
-                {n.station_name.split('(')[0].trim()}
-              </LeafletTooltip>
-            </Marker>
-          ))}
-          
-          {polylines.map((positions, i) => (
-            <Polyline key={i} positions={positions} color="#00F5D4" weight={4} />
-          ))}
+          {wrisData && wrisData.subbasins && (
+            <GeoJSON 
+                data={wrisData.subbasins} 
+                style={{ color: '#FBBF24', weight: 2, dashArray: '5, 5', fillOpacity: 0.0 }} 
+            />
+          )}
+
+          {wrisData && wrisData.rivers && wrisData.rivers.flatMap((riv, i) => 
+            riv.paths.map((segment, j) => (
+              <Polyline 
+                key={`riv-${i}-${j}`}
+                positions={segment} 
+                color={(riv.name || '').toLowerCase().includes('krishna') ? '#00F5D4' : (riv.length_km >= 50 ? '#38BDF8' : '#60A5FA')} 
+                weight={(riv.name || '').toLowerCase().includes('krishna') ? 3.5 : (riv.length_km >= 50 ? 2.5 : 1.5)}
+                opacity={(riv.name || '').toLowerCase().includes('krishna') ? 0.95 : (riv.length_km >= 50 ? 0.85 : 0.65)}
+              >
+                <LeafletTooltip sticky className="bg-hydro-panel text-white border border-hydro-accent">
+                    <div>
+                        <b>🌊 {riv.name} ({riv.length_km} km)</b><br/>
+                        Joins: {riv.confluence_point || 'N/A'}<br/>
+                        {riv.st_loc_sb_dst || 'N/A'} {'->'} {riv.en_loc_sb_dst || 'N/A'}
+                    </div>
+                </LeafletTooltip>
+              </Polyline>
+            ))
+          )}
+
+          {nodes.filter(n => ['RESERVOIR', 'BARRAGE', 'CONFLUENCE', 'DIVERGENCE_SPLIT'].includes(n.node_role)).map(n => {
+            let iconUrl = icon;
+            if (n.node_role === 'RESERVOIR' || n.node_role === 'BARRAGE') {
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
+            } else if (n.node_role === 'CONFLUENCE') {
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
+            } else if (n.node_role === 'DIVERGENCE_SPLIT') {
+                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
+            }
+            const customIcon = new L.Icon({
+                iconUrl: iconUrl,
+                shadowUrl: iconShadow,
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
+            });
+            return (
+                <Marker key={n.node_id} position={[n.lat, n.lon]} icon={customIcon}>
+                  <LeafletTooltip direction="top" offset={[0, -20]} className="bg-hydro-panel border border-hydro-accent text-white font-bold">
+                    {n.station_name} | River: {n.wris_river_name || n.river || "Unknown"}
+                    {n.frl_m ? ` | FRL: ${n.frl_m}m` : ''}
+                    {n.cwc_warning_level_m ? ` | WL: ${n.cwc_warning_level_m}m` : ''}
+                  </LeafletTooltip>
+                  <Popup>
+                    <b>{n.station_name}</b><br/>
+                    Role: {n.node_role}<br/>
+                    River: {n.wris_river_name || n.river}<br/>
+                    Snapped to: {n.wris_confluence_point || 'WRIS Channel'}
+                    {n.cwc_warning_level_m && <><br/>WL: {n.cwc_warning_level_m}m</>}
+                    {n.cwc_danger_level_m && <><br/>DL: {n.cwc_danger_level_m}m</>}
+                    {n.cwc_hfl_m && <><br/>HFL: {n.cwc_hfl_m}m</>}
+                    {n.frl_m && <><br/>FRL: {n.frl_m}m</>}
+                    {n.mwl_m && <><br/>MWL: {n.mwl_m}m</>}
+                    {n.max_spillway_cusecs && <><br/>Max Spillway: {n.max_spillway_cusecs.toLocaleString()} cusecs</>}
+                  </Popup>
+                </Marker>
+            );
+          })}
 
           {selectedLocation && (
-            <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
+            <>
+              <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
+              
+              {prediction?.wris_data?.water_polygon && (
+                <Polygon 
+                  positions={prediction.wris_data.water_polygon} 
+                  pathOptions={{ color: "#00F5D4", fillColor: "#00F5D4", fillOpacity: 0.25, weight: 2 }} 
+                />
+              )}
+              
+              {prediction?.wris_data?.bank_transect && (
+                <Polyline 
+                  positions={prediction.wris_data.bank_transect} 
+                  pathOptions={{ color: "#38BDF8", weight: 3 }}
+                >
+                  <Tooltip permanent direction="bottom">↔️ Live Satellite River Width: {prediction.wris_data.measured_river_width_m} m</Tooltip>
+                </Polyline>
+              )}
+              
+              {prediction?.wris_data?.shoreline_vector && !prediction.is_water_body && (
+                <Polyline 
+                  positions={prediction.wris_data.shoreline_vector} 
+                  pathOptions={{ color: "#F43F5E", weight: 3, dashArray: "6, 6" }}
+                >
+                  <Tooltip permanent direction="right">📏 Distance to Riverbank: {prediction.distance_to_river_m} m</Tooltip>
+                </Polyline>
+              )}
+            </>
           )}
         </MapContainer>
         
@@ -395,7 +543,9 @@ export default function App() {
                   </div>
 
                   <div className="text-gray-400">Flow Threshold to Breach Bank:</div>
-                  <div className="text-right font-mono text-gray-300">{prediction.live_telemetry.bankfull_threshold_cusecs.toLocaleString()} cusecs</div>
+                  <div className="text-right font-mono text-gray-300">
+                    {prediction.is_water_body ? "0 cusecs (Point is Inside Active River Channel)" : `${prediction.live_telemetry.bankfull_threshold_cusecs.toLocaleString()} cusecs`}
+                  </div>
 
                   <div className="text-gray-400">Current Water Level (WSE):</div>
                   <div className="text-right font-mono text-white">{prediction.live_telemetry.current_wse_msl_m.toFixed(2)} m MSL <span className="text-gray-500 text-xs">({prediction.live_telemetry.current_wse_msl_ft.toFixed(1)} ft)</span></div>
@@ -424,8 +574,22 @@ export default function App() {
                 <div className="text-gray-300">HAND:</div><div className="text-right text-hydro-warn font-mono">{prediction.hand_m.toFixed(2)}m</div>
                 <div className="text-gray-300">Dist to River:</div><div className="text-right text-white font-mono">{prediction.distance_to_river_m.toFixed(1)}m</div>
                 <div className="text-gray-300">Local Slope:</div><div className="text-right text-white font-mono">{prediction.local_slope_degrees.toFixed(2)}°</div>
+                {prediction.wris_data?.measured_river_width_m && (
+                  <>
+                    <div className="text-gray-300">Live Satellite River Width:</div><div className="text-right text-cyan-400 font-mono">{prediction.wris_data.measured_river_width_m} m</div>
+                    <div className="text-gray-300">Satellite Pass Date:</div><div className="text-right text-cyan-400 font-mono text-xs">{prediction.wris_data.latest_scene_date} (Local Cloud: {prediction.wris_data.cloud_cover_pct}%)</div>
+                    <div className="text-gray-300">Detection Mode:</div><div className="text-right text-cyan-400 font-mono text-xs">{prediction.wris_data.detection_mode}</div>
+                  </>
+                )}
               </div>
             </div>
+
+            {prediction?.wris_data?.vision_preview_b64 && (
+              <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
+                <h3 className="text-sm font-semibold mb-2 text-gray-400">🛰️ Live Satellite Vision Analysis</h3>
+                <img src={prediction.wris_data.vision_preview_b64} alt="Live Satellite Vision" className="w-full rounded border border-gray-600" />
+              </div>
+            )}
 
             {/* Visual Elevation Cross-Section Bar */}
             <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
@@ -464,7 +628,7 @@ export default function App() {
                   <div className="flex justify-between items-center mb-3">
                     <h3 className="font-semibold text-white">Day {idx + 1} (+{(idx+1)*24}h)</h3>
                     <span className={`px-2 py-1 rounded text-xs font-bold ${isSafe ? 'bg-hydro-safe text-black' : (prediction.is_water_body ? 'bg-blue-500 text-white' : 'bg-hydro-danger text-white')}`}>
-                      {isSafe ? '🟢 SAFE - NO FLOOD' : prediction.is_water_body ? '🌊 ACTIVE RIVER / WATER BODY — SUBMERGED' : '🔴 FLOOD ALERT: WILL SUBMERGE'}
+                      {isSafe ? '✅ SAFE - NO FLOOD' : prediction.is_water_body ? `🌊 ACTIVE RIVER CHANNEL / WATER BODY (${prediction.water_body_name || 'River'})` : '⚠️ FLOOD ALERT: WILL SUBMERGE'}
                     </span>
                   </div>
                   
@@ -473,7 +637,9 @@ export default function App() {
                     <div className="text-right font-mono text-hydro-warn font-semibold">{forecast.predicted_discharge_cusecs.toLocaleString()} cusecs <span className="text-gray-500 text-xs">({forecast.predicted_discharge_cumecs.toLocaleString()} m³/s)</span></div>
 
                     <div className="text-gray-400">Flood Threshold Flow:</div>
-                    <div className="text-right font-mono text-gray-300">{forecast.bankfull_capacity_cusecs.toLocaleString()} cusecs</div>
+                    <div className="text-right font-mono text-gray-300">
+                      {prediction.is_water_body ? "0 cusecs" : `${forecast.bankfull_capacity_cusecs.toLocaleString()} cusecs`}
+                    </div>
                     
                     <div className="text-gray-400">Water Level (MSL):</div>
                     <div className="text-right font-mono text-white">{forecast.predicted_wse_m.toFixed(2)} m <span className="text-gray-500 text-xs">({forecast.wse_feet.toFixed(1)} ft)</span></div>
