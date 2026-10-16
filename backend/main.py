@@ -244,10 +244,18 @@ def predict_coordinate(req: PredictRequest):
     else:
         q_base_cusecs = 15000.0
 
+    r_len = float(terrain.get('wris_data', {}).get('river_length_km', 250.0) or 250.0)
+    C_channel = 275.0 if r_len >= 250 else (190.0 if r_len >= 80 else 120.0)
+    dist_shore = float(terrain.get('dist_r', 50.0) or 50.0)
+    overbank_factor = 1.0 + 0.00085 * min(dist_shore, 2500.0)
+    C_manning = C_channel * overbank_factor
+    
     if is_water_body or hand_m <= 0.2:
         bankfull_threshold_cusecs = 0.0
     else:
-        bankfull_threshold_cusecs = round(q_base_cusecs * ((hand_m / 3.0) ** 1.35), 0)
+        h_eff = max(0.0, hand_m - 0.85)
+        bankfull_threshold_m3s = C_manning * (h_eff ** (5.0 / 3.0))
+        bankfull_threshold_cusecs = round(bankfull_threshold_m3s * 35.3147, 0)
         
     slope_runoff_m = 0.0
     
@@ -280,7 +288,12 @@ def predict_coordinate(req: PredictRequest):
             q_total_cusecs += override_cusecs
             
         # Physics
-        predicted_river_depth_m = round(3.0 * ((max(q_total_cusecs, 50.0) / q_base_cusecs) ** (1.0 / 1.35)), 2)
+        q_m3s = q_total_cusecs / 35.3147
+        if q_m3s <= 45.0:
+            predicted_river_depth_m = round(0.85 * ((max(q_m3s, 5.0) / 45.0) ** 0.38), 2)
+        else:
+            predicted_river_depth_m = round(0.85 + ((q_m3s / C_manning) ** (3.0 / 5.0)), 2)
+            
         if is_water_body:
             predicted_river_depth_m += 2.5
             
@@ -324,7 +337,12 @@ def predict_coordinate(req: PredictRequest):
     if override_cusecs > 0.0:
         q_t0_cusecs += override_cusecs
         
-    current_river_depth_m = round(3.0 * ((max(q_t0_cusecs, 50.0) / q_base_cusecs) ** (1.0 / 1.35)), 2)
+    q_t0_m3s = q_t0_cusecs / 35.3147
+    if q_t0_m3s <= 50.0:
+        current_river_depth_m = round(0.85 * ((max(q_t0_m3s, 5.0) / 50.0) ** 0.38), 2)
+    else:
+        current_river_depth_m = round(0.85 + ((q_t0_m3s / C_manning) ** (3.0 / 5.0)), 2)
+        
     if is_water_body:
         current_river_depth_m += 2.5
         
@@ -363,3 +381,13 @@ def predict_coordinate(req: PredictRequest):
         water_body_name=water_body_name if is_water_body else None,
         live_telemetry=telemetry
     )
+
+@app.get("/api/v1/benchmarks/100-cases")
+def get_benchmarks():
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    bench_path = os.path.join(base_dir, 'data', 'benchmark_100_results.json')
+    if not os.path.exists(bench_path):
+        return []
+    import json
+    with open(bench_path, 'r', encoding='utf-8') as f:
+        return json.load(f)

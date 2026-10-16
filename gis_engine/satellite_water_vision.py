@@ -90,7 +90,10 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
     size_m = 2400
     
     dist_to_river = haversine(lat, lon, nearest_river_lat, nearest_river_lon)
-    if dist_to_river <= (size_m/2.0 - 150):
+    if dist_to_river > 400.0:
+        center_lat = nearest_river_lat
+        center_lon = nearest_river_lon
+    elif dist_to_river <= (size_m/2.0 - 150):
         center_lat = (lat + nearest_river_lat) / 2.0
         center_lon = (lon + nearest_river_lon) / 2.0
     else:
@@ -102,11 +105,49 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
         raise Exception("No STAC Sentinel-2 features found")
         
     feat_primary = s2_feats[0]
+    for feat in s2_feats:
+        assets = feat.get('assets', {})
+        if 'green' not in assets: continue
+        try:
+            test_g, _, _ = read_band(assets['green']['href'], center_lon, center_lat, size_m, out_px)
+            if np.mean(test_g > 0) >= 0.65:
+                feat_primary = feat
+                break
+        except:
+            pass
     
     pc_item_id, pc_date = get_pc_item_id(center_lat, center_lon)
     if not pc_item_id:
-        pc_item_id = feat_primary.get('id', 'S2A_MSIL2A_20261002T053241_R105_T43PDT_20261002T101803')
+        pc_item_id = feat_primary.get('id', feat_primary.get('id', ''))
         pc_date = feat_primary['properties'].get('datetime', '2026-10-02')[:10]
+        
+    global _cached_mosaic_id
+    if '_cached_mosaic_id' not in globals():
+        _cached_mosaic_id = None
+    if not _cached_mosaic_id:
+        try:
+            mosaic_payload = {
+                "filter-lang": "cql2-json",
+                "filter": {
+                    "op": "and",
+                    "args": [
+                        {"op": "=", "args": [{"property": "collection"}, "sentinel-2-l2a"]},
+                        {"op": "<=", "args": [{"property": "eo:cloud_cover"}, 40]},
+                        {
+                            "op": "s_intersects",
+                            "args": [
+                                {"property": "geometry"},
+                                {"type": "Polygon", "coordinates": [[[73.0, 13.0], [81.5, 13.0], [81.5, 19.5], [73.0, 19.5], [73.0, 13.0]]]}
+                            ]
+                        }
+                    ]
+                }
+            }
+            r_mos = requests.post("https://planetarycomputer.microsoft.com/api/data/v1/mosaic/register", json=mosaic_payload, timeout=5.0)
+            if r_mos.status_code == 200:
+                _cached_mosaic_id = r_mos.json().get('searchid')
+        except:
+            pass
         
     assets = feat_primary.get('assets', {})
     if 'green' not in assets or 'nir' not in assets or 'scl' not in assets or 'red' not in assets:
@@ -130,7 +171,8 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
     
     # 8=Cloud Medium, 9=Cloud High, 10=Thin Cirrus, 3=Cloud Shadow, 6=Water
     clouds = np.isin(scl, [8, 9, 10])
-    s2_water = ((ndwi > 0.02) | (scl == 6)) & (~np.isin(scl, [3, 8, 9, 10]))
+    valid_mask = (green > 0) & (nir > 0)
+    s2_water = ((ndwi > 0.02) | (scl == 6)) & (~np.isin(scl, [3, 8, 9, 10])) & valid_mask
     
     live_water_mask = s2_water
     detection_mode = "Sentinel-2 Optical + NIR (Clear Sky)"
@@ -247,8 +289,11 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
                     shoreline_lat, shoreline_lon = px_to_ll(py_shore, px_shore)
                     exact_shoreline_dist_m = round(haversine(lat, lon, shoreline_lat, shoreline_lon), 2)
                 else:
-                    exact_shoreline_dist_m = round(dist_to_river, 2)
+                    exact_shoreline_dist_m = None
                     shoreline_lat, shoreline_lon = nearest_river_lat, nearest_river_lon
+        else:
+            exact_shoreline_dist_m = None
+            shoreline_lat, shoreline_lon = nearest_river_lat, nearest_river_lon
                     
     bankA_lat, bankA_lon = nearest_river_lat, nearest_river_lon
     bankB_lat, bankB_lon = nearest_river_lat, nearest_river_lon
@@ -337,10 +382,14 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
     success, encoded_img = cv2.imencode('.png', img_bgr)
     vision_preview_b64 = f"data:image/png;base64,{base64.b64encode(encoded_img).decode('utf-8')}" if success else None
 
-    # Guarantee PC Tile URLs
-    url_base = f"https://planetarycomputer.microsoft.com/api/data/v1/item/tiles/WebMercatorQuad/{{z}}/{{x}}/{{y}}@1x?collection=sentinel-2-l2a&item={pc_item_id}"
-    true_color_url = f"{url_base}&assets=visual"
-    false_color_url = f"{url_base}&assets=B08&assets=B04&assets=B03&color_formula=Gamma+RGB+3.2+Saturation+1.5+Sigmoidal+RGB+15+0.35"
+    # Guarantee PC Tile URLs (Mosaic instead of single item)
+    if _cached_mosaic_id:
+        url_base = f"https://planetarycomputer.microsoft.com/api/data/v1/mosaic/{_cached_mosaic_id}/tiles/WebMercatorQuad/{{z}}/{{x}}/{{y}}@1x?collection=sentinel-2-l2a"
+        true_color_url = f"{url_base}&assets=visual"
+        false_color_url = f"{url_base}&assets=B08&assets=B04&assets=B03&color_formula=Gamma+RGB+3.2+Saturation+1.5+Sigmoidal+RGB+15+0.35"
+    else:
+        true_color_url = None
+        false_color_url = None
     
     stac_data = {
         "satellite_sensor": "Sentinel-2 L2A / Sentinel-1 SAR",
@@ -359,7 +408,7 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
     
     return {
         "is_water_body_image": bool(is_water_body_image),
-        "exact_shoreline_dist_m": float(exact_shoreline_dist_m),
+        "exact_shoreline_dist_m": float(exact_shoreline_dist_m) if exact_shoreline_dist_m is not None else None,
         "shoreline_lat": float(shoreline_lat),
         "shoreline_lon": float(shoreline_lon),
         "measured_width_m": float(measured_width_m),

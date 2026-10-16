@@ -1,0 +1,921 @@
+objectid,rivname,ba_name,confluence_point,river_flo_state,length_km,st_pt_lat,st_pt_long,st_loc_ste,st_loc_dst,st_loc_sb_dst,st_loc_village,en_pt_lat,en_pt_long,en_loc_ste,en_loc_dst,en_loc_sb_dst,en_loc_village
+121855,Kurui,Krishna,Bor,"Karnataka,Maharashtra",8.60830098,17.15172061,75.65144639,KA,Vijayapura,Chadachan,Jigajeevani,17.20569884,75.62038243,MH,Sangli,Jat,Balgaon
+121775,Chikodi Halla,Krishna,Dudhganga,"Karnataka,Maharashtra",16.24124093,16.45828323,74.54224833,KA,Belagavi,Chikodi,Shirgaon,16.56507755,74.59944718,MH,Kolhapur,Shirol,June Danwad
+121780,Elaga,Krishna,Krishna River,"Andhra Pradesh,Telangana",10.59485636,16.73433863,79.94042603,TS,Suryapet,Mattampally,Raghunadhapalem,16.67204764,79.88849173,AP,Guntur,Machavaram,Tadutla
+121822,Sopkunta N,Krishna,Mogalivadaka Vagu,"Karnataka,Telangana",24.1508292,17.11013414,77.51678201,TS,Vikarabad,Kodangal,Tekalkode,17.20301608,77.37056162,KA,Kalaburagi,Sedam,Hayyal
+121769,Agsir Halla,Krishna,Ghatprabha,"Karnataka,Maharashtra",7.07556399,16.10728211,74.48130977,MH,Kolhapur,Gadhinglaj,Kalavi Katti,16.07506911,74.52738048,KA,Belagavi,Hukeri,Benakanholi
+121770,Antara Ganga Vagu,Krishna,Palleru,"Andhra Pradesh,Telangana",22.28766824,16.99752133,79.89849808,TS,Suryapet,Chilkur,Konda Puram,16.89460496,80.0247696,AP,Krishna,Jaggayyapeta,Annavaram
+121771,Bale Halla,Krishna,Hire Halla,"Karnataka,Maharashtra",9.20542083,16.86918571,75.19003085,MH,Sangli,Jat,Sindur,16.80597584,75.23384927,KA,Belagavi,Athni,Kohalli
+121772,Ballammachelva Kalva,Krishna,Krishna River,"Andhra Pradesh,Telangana",10.59417964,16.11872111,78.56744538,TS,Nagarkurnool,Amrabad,Reserved Forest,16.05663203,78.51176389,AP,Kurnool,Kothapalle,Reserved Forest
+121773,Bhavanasi,Krishna,Krishna River,"Andhra Pradesh,Telangana",73.29754953,15.87924089,78.78932411,AP,Kurnool,Atmakur,Pesurutlagudem,16.01629423,78.31172591,TS,Nagarkurnool,Kollapur,Malleswaram
+121774,Bor,Krishna,Bhima River,"Karnataka,Maharashtra",55.80908935,17.07075918,75.48193948,MH,Sangli,Jat,Sankh,17.41039464,75.68884171,KA,Vijayapura,Chadachan,Sankha Old
+121776,Chikutra,Krishna,Venganga,"Karnataka,Maharashtra",43.51436171,16.21976677,74.15204378,MH,Kolhapur,Bhudargad,Sheloli,16.45567894,74.32919125,MH,Kolhapur,Kagal,Chikhali Kasaba
+121781,Erra Vagu,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",37.11163776,15.71062566,77.24430747,AP,Kurnool,Adoni,Pandavagallu,15.83692968,77.026601,AP,Kurnool,Kowthalam,Myaliganur
+121788,Hebal Nala,Krishna,Bhima River,"Karnataka,Maharashtra",28.24963402,17.18919722,75.73502171,KA,Vijayapura,Indi,Hadalasang,17.37643261,75.78023917,MH,Solapur,Solapur South,Auj Mandrup
+121777,Chinna Hagari,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",112.85674565,14.41620612,76.37839643,KA,Chitradurga,Chitradurga,Bogalerahatti,14.94243394,77.0385105,AP,Anantapur,Bommanahal,Govindawada
+121778,Don,Krishna,Krishna River,"Karnataka,Maharashtra",205.42906481,16.98047983,75.22541227,MH,Sangli,Jat,Bilur,16.27442029,76.45272229,KA,Raichur,Lingsugur,Yalgundi
+121787,Hattargi Halla,Krishna,Ghatprabha,"Karnataka,Maharashtra",17.49663719,16.10065622,74.46325377,MH,Kolhapur,Gadhinglaj,Kalavi Katti,16.1378737,74.60144649,KA,Belagavi,Hukeri,Ghataprabha River
+121779,Dudhganga,Krishna,Krishna River,"Karnataka,Maharashtra",129.74250983,16.21449829,74.00125562,MH,Kolhapur,Radhanagari,Dubalewadi,16.58401631,74.63531588,MH,Kolhapur,Shirol,June Danwad
+121789,Hindupur Vagu,Krishna,Krishna River,"Karnataka,Telangana",12.98988225,16.48504996,77.33759356,TS,Narayanpet,Maganoor,Alampalle,16.39270622,77.33781794,KA,Raichur,Raichur,Shaktinagar CT
+121782,Gangadevipadu,Krishna,Wira,"Andhra Pradesh,Telangana",56.85738892,17.33060851,80.55839121,TS,Bhadradri Kothagudem,Julurpadu,Gundepudi,17.06149654,80.38049725,TS,Khammam,Madhira,Jalimudi
+121783,Gangammana Halla,Krishna,Chinna Hagari,"Andhra Pradesh,Karnataka",26.85811943,14.96835907,76.75876465,KA,Chitradurga,Molakalmuru,Melinakanive,14.90529429,76.91841222,AP,Anantapur,D.Hirehal,Nagalapuram
+121800,Katral Nala,Krishna,Bhima River,"Karnataka,Maharashtra",22.1521941,17.3762329,76.23199718,MH,Solapur,Akkalkot,Tolnur,17.28078574,76.09566499,KA,Vijayapura,Indi,Mannur
+121784,Garchi Vanka,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",67.19958909,15.49611959,77.35567981,AP,Kurnool,Aspari,Chokkanahalli,15.82964058,77.01767703,KA,Raichur,Sindhnur,Chintamandoddi
+121785,Godu Vagu,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",21.01605868,15.81559316,77.25366825,AP,Kurnool,Pedda Kadubur,Peekalabetta,15.95405338,77.28771913,KA,Raichur,Raichur,Kotigud D
+121786,Goll Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",19.85918054,16.48267746,79.51547479,AP,Guntur,Macherla,Kambhampadu,16.63219538,79.5233314,TS,Nalgonda,Dameracherla,Mudimanikyam
+121790,Hiranyakeshi,Krishna,Ghatprabha,"Karnataka,Maharashtra",129.05139094,15.95113488,74.02530794,MH,Sindhudurg,Sawantwadi,Nene,16.17777585,74.66954354,KA,Belagavi,Hukeri,Sultanpur
+121791,Hire Halla,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",34.11908926,16.22233357,77.20087824,KA,Raichur,Raichur,Kalmala,15.96166568,77.24492605,AP,Kurnool,Kosigi,Thumbiganur
+121792,Ippala Vagu,Krishna,Kattaleru,"Andhra Pradesh,Telangana",43.31479938,17.06060001,80.82394977,TS,Khammam,Vemsoor,Kandukuru,17.00959141,80.55394714,AP,Krishna,Gampalagudem,Kanumuru
+121793,Irla Vanka,Krishna,Katra Vanka,"Andhra Pradesh,Karnataka",19.8024825,15.22165018,77.27296999,AP,Kurnool,Chippagiri,Yerur,15.26258299,77.10915787,KA,Ballari,Ballari,Yerragudi
+121794,Kal Halla,Krishna,Bhima River,"Karnataka,Maharashtra",43.55251101,17.09149989,75.72855554,KA,Vijayapura,Indi,Koluragi,17.34980133,75.89736775,MH,Solapur,Akkalkot,Shegaon
+121795,Kanakavidu Vanka,Krishna,Tungabhadra River,"Andhra Pradesh,Telangana",14.17191919,15.86306371,77.52834535,AP,Kurnool,Nandavaram,Nandavaram,15.89417379,77.64100032,TS,Jogulamba Gadwal,Waddepally,Peddadhanwada
+121796,Kagna,Krishna,Bhima River,"Karnataka,Telangana",153.17043484,17.46431552,77.83604377,TS,Vikarabad,Mominpet,Kesaram,17.0438857,76.90620462,KA,Kalaburagi,Shahabad,Hongunta
+121797,Kappur Halla,Krishna,Hiranyakeshi,"Karnataka,Maharashtra",19.82794024,16.34751543,74.46834871,KA,Belagavi,Hukeri,Bad,16.22196821,74.50258936,MH,Kolhapur,Gadhinglaj,Aralgundi
+121798,Karakali,Krishna,Krishna River,"Andhra Pradesh,Telangana",5.77193298,16.08088193,78.93923664,AP,Prakasam,Yerragondapalem,Reserved Forest,16.09610144,78.90661661,TS,Nagarkurnool,Amrabad,Reserved Forest
+121799,Katariki Vanka,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",12.78853248,15.82739908,77.1354356,AP,Kurnool,Kowthalam,Sulakeri,15.88696046,77.057052,KA,Raichur,Manvi,Chikalparvi
+121801,Katra Vanka,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",53.95131413,14.98047494,77.31478376,AP,Anantapur,Vajrakarur,Gade Hothur,15.32154394,77.06270932,KA,Ballari,Ballari,Sindhavalam
+121803,Kiri Nala,Krishna,Bhima River,"Karnataka,Maharashtra",20.91634395,17.36589366,76.23251248,KA,Kalaburagi,Afzalpur,Mashal,17.24386255,76.12854522,KA,Vijayapura,Indi,Khedgi
+121804,Kollamu,Krishna,Krishna River,"Andhra Pradesh,Telangana",7.50333391,16.03149827,78.88450345,AP,Kurnool,Srisailam,Reserved Forest,16.06201035,78.82852286,TS,Nagarkurnool,Amrabad,Reserved Forest
+121805,Konad Halla,Krishna,Krishna River,"Karnataka,Telangana",19.68255527,16.28797827,77.27281037,KA,Raichur,Raichur,Jegarkal,16.37395893,77.39823131,TS,Narayanpet,Maganoor,Mudumal
+121802,Kattaleru,Krishna,Wira,"Andhra Pradesh,Telangana",87.50058661,17.31748895,80.71335531,TS,Bhadradri Kothagudem,Chandrugonda,Gumpena,16.81626595,80.37817834,AP,Krishna,Veerullapadu,Pallampalle
+121806,Madha Halla,Krishna,Dodda Halla,"Karnataka,Maharashtra",19.54445652,17.3587761,75.47355852,MH,Solapur,Mangalvedhe,Bavachi,17.38780406,75.63129707,KA,Vijayapura,Chadachan,Revathagaon
+121807,Mala Vagu,Krishna,Pedda Vagu,"Karnataka,Telangana",35.17167954,16.84260269,77.48321706,TS,Narayanpet,Damargidda,Udmalgidda,16.61554611,77.45345405,KA,Yadgir,Gurumitkal,Edlur
+121808,Markandeya,Krishna,Ghatprabha,"Karnataka,Maharashtra",106.53929633,15.74569117,74.34040491,KA,Belagavi,Khanapur,Betageri,16.17667715,74.80487199,KA,Belagavi,Gokak,Shingalapur
+121809,Mattam Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",13.49388159,16.66241537,79.33623762,TS,Nalgonda,Anumula,Yellapuram,16.58024016,79.38911217,AP,Guntur,Macherla,Reserved Forest
+121810,Monia Nala,Krishna,Amarja,"Karnataka,Maharashtra",21.92511773,17.65400455,76.37871781,MH,Solapur,Akkalkot,Bhurikavathe,17.5464206,76.51806498,KA,Kalaburagi,Aland,Shakhapur
+121812,Pakhal or Muneru,Krishna,Krishna River,"Andhra Pradesh,Telangana",212.5094601,18.08507115,79.95645062,TS,Warangal,Nallabelli,Kondapur,16.59413171,80.32312109,AP,Guntur,Amaravathi,Dharanikota
+121823,Suguru Vanka Or Pedda Vagu,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",37.88360347,15.65611759,77.42394,AP,Kurnool,Adoni,Chinnapendekal,15.94472183,77.3727447,KA,Raichur,Raichur,Tungabhadra
+121811,Mullamari,Krishna,Kagna,"Karnataka,Telangana",123.86791457,17.80995247,76.82192461,KA,Bidar,Basavakalyan,Kamlewadi,17.27113502,77.4512458,TS,Vikarabad,Basheerabad,Jeevangi
+121813,Nandihal Halla,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",37.92249282,16.13864467,76.89670813,KA,Raichur,Sirwar,Patakam Doddi,15.90939172,77.07544249,AP,Kurnool,Kowthalam,Marali
+121814,Narrapati Kalava,Krishna,Krishna River,"Andhra Pradesh,Telangana",5.19366066,16.14849557,78.96770848,AP,Prakasam,Yerragondapalem,Reserved Forest,16.1386395,78.92299394,TS,Nagarkurnool,Amrabad,Reserved Forest
+121815,Nekkanmu Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",24.22890836,16.04258941,79.00990771,AP,Prakasam,Dornala,Reserved Forest,16.11453287,78.91989566,TS,Nagarkurnool,Amrabad,Reserved Forest
+121821,Purmaklakaya Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",22.11890428,16.38920878,79.07449552,TS,Nagarkurnool,Amrabad,Ippalapalle,16.22691072,79.08932032,AP,Prakasam,Yerragondapalem,Reserved Forest
+121816,Nomagadda Vanka,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",42.53182204,14.44141643,77.09863273,AP,Anantapur,Kalyandurg,Garudapuram,14.60874651,76.94470359,AP,Anantapur,Brahmasamudram,Kannepalle
+121817,Padamata Vagu,Krishna,Kattaleru,"Andhra Pradesh,Telangana",42.69539226,17.29770629,80.63711635,TS,Bhadradri Kothagudem,Chandrugonda,Peddareddygudem,17.00618822,80.5445576,AP,Krishna,Gampalagudem,Kanumuru
+121818,Palanka Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",22.9059806,16.20071128,79.00231626,AP,Prakasam,Yerragondapalem,Reserved Forest,16.22204344,79.13553663,TS,Nagarkurnool,Amrabad,Reserved Forest
+121819,Panchaganga,Krishna,Krishna River,"Karnataka,Maharashtra",151.22766537,16.47476657,73.86454106,MH,Kolhapur,Bavda,Taliye Kh,16.68922115,74.60160344,MH,Kolhapur,Shirol,Kurundvad
+121820,Pullibugga Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",7.48868843,16.26632897,79.16183174,TS,Nagarkurnool,Amrabad,Reserved Forest,16.26599333,79.22519626,AP,Guntur,Veldurthi,Reserved Forest
+121824,Tamrapani,Krishna,Ghatprabha,"Karnataka,Maharashtra",37.10300529,15.91766574,74.24784575,MH,Kolhapur,Chandgad,Kurtanwadi,16.05933239,74.42884963,KA,Belagavi,Hukeri,Modage
+121825,Tungabhadra River,Krishna,Krishna River,"Andhra Pradesh,Karnataka,Telangana",552.24048392,14.01466108,75.67560355,KA,Shivamogga,Shivamogga,Hole Hatti,15.96392431,78.24851315,TS,Wanaparthy,Weepangandla,Kalloor
+121826,Tungapahad Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",36.13156382,16.86608588,79.46613054,TS,Nalgonda,Tripuraram,Kampa Sagar,16.67133822,79.59898251,AP,Guntur,Gurazala,Reserved Forest
+121829,Yatnal Halla,Krishna,Bor,"Karnataka,Maharashtra",34.26761013,16.8672803,75.62777557,KA,Vijayapura,Tikota,Lohagaon,17.12453624,75.57831215,MH,Sangli,Jat,Karajagi
+121827,Venganga,Krishna,Dudhganga,"Karnataka,Maharashtra",115.05856606,16.10151703,73.94440438,MH,Kolhapur,Bhudargad,Hanamante,16.55097685,74.43056869,KA,Belagavi,Nippani,Kunnur
+121828,Wira,Krishna,Pakhal or Muneru,"Andhra Pradesh,Telangana",99.47288397,17.3431944,80.24226281,TS,Khammam,Raghunadhapalem,Earlapudi,16.72000846,80.31855159,AP,Krishna,Kanchikacherla,Keesara
+121830,Edulla Vagu,Krishna,Kattaleru,"Andhra Pradesh,Telangana",35.76746189,17.13746652,80.78698803,TS,Khammam,Vemsoor,Vemsoor,17.03505241,80.5731799,AP,Krishna,Tiruvuru,Ganugapadu
+121831,Bhima River,Krishna,Krishna River,"Karnataka,Maharashtra,Telangana",864.35830929,19.07375259,73.53580196,MH,Pune,Khed,Bhorgiri,16.40823085,77.28306,KA,Yadgir,Wadagera,Sangam
+121833,Hire Halla,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",42.74409944,15.29458407,76.85443452,KA,Ballari,Kurugodu,Vaddahatti,15.50507665,76.97509353,AP,Kurnool,Holagunda,Honnur
+121834,Ghatprabha,Krishna,Krishna River,"Karnataka,Maharashtra",298.7853426,15.89668935,74.02060625,MH,Sindhudurg,Sawantwadi,Kegad,16.34899442,75.84233548,KA,Vijayapura,Nidagundi,Chimmalgi R C
+121832,Pedda Vagu,Krishna,Krishna River,"Karnataka,Telangana",81.79681839,16.87151698,77.33567136,KA,Yadgir,Gurumitkal,Chapetla,16.37237958,77.52232772,KA,Raichur,Raichur,Dongarampur
+121840,Pedda Vanka,Krishna,Hire Halla,"Andhra Pradesh,Karnataka",8.47236556,15.5712963,77.02861372,AP,Kurnool,Holagunda,Gajjehalli,15.62902027,76.99190305,KA,Ballari,Siruguppa,Raravi
+121844,Nalla Vagu,Krishna,Krishna River,"Karnataka,Telangana",31.22490832,16.17836887,77.58034949,TS,Jogulamba Gadwal,Ghattu,Aloor,16.34421525,77.58514139,TS,Narayanpet,Makthal,Pareval
+121835,Dodda Halla,Krishna,Bor,"Karnataka,Maharashtra",70.82108907,17.10613129,75.27119505,MH,Sangli,Jat,Nigadi Kh,17.40397618,75.68566436,KA,Vijayapura,Chadachan,Sankha Old
+121842,Gulganji Halla,Krishna,Darai Halla,"Karnataka,Maharashtra",35.25668038,17.01486936,75.23134164,MH,Sangli,Jat,Mallal,17.01594431,75.45092397,MH,Sangli,Jat,Daribadachi
+121836,Gonde Halla,Krishna,Chinna Hagari,"Andhra Pradesh,Karnataka",47.77638643,14.99863912,76.58744884,KA,Ballari,Sandur,Swamymalai Block F,14.87225887,76.89770723,AP,Anantapur,D.Hirehal,Kudulur
+121837,Hagari Or Vedavati,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",403.33021978,13.43399274,75.94533752,KA,Chikkamagaluru,Kadur,Sakrepatna,15.73545114,76.92551811,KA,Raichur,Sindhnur,Uppal
+121838,Pedda Vanka,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",38.5084733,14.99210322,77.27119207,AP,Anantapur,Uravakonda,Uravakonda CT,15.07632644,77.05382568,KA,Ballari,Ballari,Kuntanahal
+121839,Pedda Vanka,Krishna,Pedda Vanka,"Andhra Pradesh,Karnataka",14.99481316,15.50886522,77.11826631,AP,Kurnool,Holagunda,Yellarthy,15.58669115,77.023406,KA,Ballari,Siruguppa,Bandrahal
+121841,Benithora,Krishna,Kagna,"Karnataka,Maharashtra",153.53548975,17.86648522,76.41662097,MH,Osmanabad,Lohara,Bhosga,17.2087076,77.16156123,KA,Kalaburagi,Sedam,Sangavi M
+121843,Agrani_River,Krishna,Krishna River,"Karnataka,Maharashtra",105.75298305,17.25602814,74.68643506,MH,Sangli,Khanapur,Posewadi,16.66026845,74.96396828,KA,Belagavi,Kagwad,Banajawad
+121852,Komativani Vanka,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",27.51460431,15.01567477,77.23313717,AP,Anantapur,Vidapanakal,Velpumadugu,15.12128618,77.05150734,KA,Ballari,Ballari,Yalpi Kaggalu
+121845,Chandravanka,Krishna,Krishna River,"Andhra Pradesh,Telangana",45.51149688,16.29487504,79.46516856,AP,Guntur,Durgi,Reserved Forest,16.58087898,79.4193792,TS,Nalgonda,Peddavoora,Chintalapalem
+121847,Dandi Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",39.044665,16.40125811,79.57074755,AP,Guntur,Durgi,Obulesunipalle,16.66963318,79.64542047,TS,Nalgonda,Dameracherla,Wadapalli
+121853,Gottamgutta Hall,Krishna,Mullamari,"Karnataka,Telangana",18.41987028,17.5419963,77.5068229,KA,Kalaburagi,Chincholi,Dharmasagar,17.47590709,77.42091352,KA,Kalaburagi,Chincholi,Neemahosalli
+121846,Bori,Krishna,Bhima River,"Karnataka,Maharashtra",139.54755649,18.05793673,76.0796037,MH,Osmanabad,Tuljapur,Bori,17.17067282,76.30430658,KA,Kalaburagi,Afzalpur,Soan
+121854,Magalusi Sela,Krishna,Krishna River,"Andhra Pradesh,Telangana",7.23961692,16.05028376,78.91913964,AP,Kurnool,Srisailam,Reserved Forest,16.08484904,78.88926476,TS,Nagarkurnool,Amrabad,Reserved Forest
+121848,Ralla Vagu,Krishna,Krishna River,"Andhra Pradesh,Telangana",29.33229089,16.47270511,79.79821874,AP,Guntur,Piduguralla,Karalapadu,16.64928706,79.89424081,TS,Suryapet,Mellachervu,Chintriyala
+121849,Modeka,Krishna,Gottamgutta Hall,"Karnataka,Telangana",22.02848113,17.42488278,77.51419117,TS,Vikarabad,Peddemul,Ramachandrapur,17.5419963,77.5068229,KA,Kalaburagi,Chincholi,Dharmasagar
+121850,Maski Halla,Krishna,Tungabhadra River,"Andhra Pradesh,Karnataka",148.89655492,15.75428085,76.05589792,KA,Koppal,Kushtagi,Donnegudda,15.8471234,77.03219686,AP,Kurnool,Kowthalam,Nadichagi
+121851,Mogalivadaka Vagu,Krishna,Kagna,"Karnataka,Telangana",39.14763016,17.08888186,77.51517072,TS,Vikarabad,Kodangal,Gandlepalle,17.22046223,77.32954256,KA,Kalaburagi,Sedam,Telkur
+121856,Ardakhi Halla,Krishna,Agrani_River,"Karnataka,Maharashtra",27.00494039,16.97820429,75.19325757,MH,Sangli,Jat,Bilur,16.821008,75.05017836,KA,Belagavi,Athni,Shivanoor
+121857,Krishna River,Krishna,Bay of Bengal,"Andhra Pradesh,Telangana,Karnataka,Maharashtra",1416.92529712,17.98917786,73.63156421,MH,Satara,Wai,Jor,15.71109397,80.82946578,AP,Guntur,Repalle,Gangadipalem
+126487,Yemlapaya Vagu,Krishna,Krishna River,Telangana,7.1504533,16.12452811,78.6523491,TS,Nagarkurnool,Amrabad,Reserved Forest,16.06603635,78.65892414,TS,Nagarkurnool,Amrabad,Reserved Forest
+122108,Palleru,Krishna,Krishna River,"Andhra Pradesh,Telangana",179.93752763,17.79544899,79.33676059,TS,Jangoan,Ragunathpally,Kurchapalle,16.8225858,80.1015886,AP,Krishna,Jaggayyapeta,Mukteswarapuram
+122109,Chinna Vagu,Krishna,Chhuhi Nala,"Karnataka,Telangana",29.39235293,20.50945188,82.1772307,CG,Gariyaband,Bindranavagarh(Gariyaband),Reserved Forest,20.48016684,82.14832745,CG,Gariyaband,Bindranavagarh(Gariyaband),Joba
+122110,Suvarnamukhi,Krishna,Hagari Or Vedavati,"Andhra Pradesh,Karnataka",95.62412334,13.57397711,77.05045935,KA,Tumakuru,Koratagere,Chikkannanahalli,13.99242155,76.71363554,KA,Chitradurga,Hiriyur,Koodlahalli
+122111,Sar N,Krishna,Gottamgutta Hall,"Karnataka,Telangana",30.92059378,21.76709112,81.02687874,CG,Kabirdham,Sahaspur Lohara,Motimpur,21.66512959,81.14446173,CG,Rajnandgaon,Chhuikhadan,Gokana
+126288,Mahar Ka Ocha,Krishna,Indrayani,Maharashtra,6.14695357,18.73789552,73.84087191,MH,Pune,Khed,Nighoje,18.68806166,73.84355989,MH,Pune,Khed,Kuruli
+126289,Makadkhindi,Krishna,Warar Devi Nala,Maharashtra,2.02115942,17.23273059,74.89796878,MH,Solapur,Sangole,Pachegaon Bk,17.2222867,74.91265443,MH,Solapur,Sangole,Pachegaon Bk
+126371,Pedda Chela,Krishna,Chinna Chela,Telangana,7.56558191,16.3318098,79.13674096,TS,Nagarkurnool,Amrabad,Reserved Forest,16.39525959,79.14135879,TS,Nagarkurnool,Amrabad,Ippalapalle
+126063,Gadekarana Halla,Krishna,Bhima River,Karnataka,5.81340833,17.00223526,76.86738722,KA,Kalaburagi,Jevargi,Naribole,17.04464657,76.87953146,KA,Kalaburagi,Shahabad,Kadhalli
+126064,Gadge Odha,Krishna,Ghod,Maharashtra,7.08004227,18.58373992,74.62660954,MH,Ahmednagar,Shrigonda,Limpangaon,18.55017521,74.57733578,MH,Pune,Shirur,Tandali
+126565,Nag Dhaunn,Krishna,Waghzai,Maharashtra,8.12239347,17.78558319,74.60556462,MH,Satara,Man,Danavalewadi,17.72789083,74.63501871,MH,Satara,Man,Ranand
+125985,Biddanumoppana Halla,Krishna,Huvina Halla or Adda Halla,Karnataka,7.28610352,15.37625263,76.1833753,KA,Koppal,Koppal,Tankankal,15.35495587,76.24253467,KA,Koppal,Koppal,Ginigera
+125920,Alugu Eru,Krishna,Pakhal or Muneru,Telangana,18.05265209,17.63320079,80.14867559,TS,Mahabubabad,Bayyaram,Ramachandra Puram,17.54157073,80.09661036,TS,Mahabubabad,Kuravi,Rajole
+126190,Kanoj Halla,Krishna,Desai Halla,Karnataka,8.16367803,15.24825753,75.22777739,KA,Dharwad,Kundgol,Kundgol Rural,15.316859,75.22548849,KA,Dharwad,Hubballi,Halyal
+125924,Ambegol,Krishna,Chikutra,Maharashtra,9.00683683,16.29294292,74.34158794,MH,Kolhapur,Kagal,Hanbarwadi,16.32297157,74.27618816,MH,Kolhapur,Kagal,Alabad
+125929,Ankalayi Halla,Krishna,Bor,Maharashtra,13.06154879,17.15568492,75.48229072,MH,Sangli,Jat,Utagi,17.15988355,75.58410358,MH,Sangli,Jat,Belondgi
+125935,Arre Halla,Krishna,Bhima River,Karnataka,11.41992178,17.16526386,76.64068684,KA,Kalaburagi,Kalaburagi,Kawalga B,17.10447689,76.70380728,KA,Kalaburagi,Kalaburagi,Belgumpa K
+125936,Ashta Vagu,Krishna,Musi,Telangana,4.43379929,17.34566421,77.94299241,TS,Vikarabad,Vikarabad,Dhannaram,17.37866119,77.9359484,TS,Vikarabad,Vikarabad,Pendlimadgu
+125911,Agsan Halla,Krishna,Benni Hala,Karnataka,16.72972825,15.38117062,75.17761342,KA,Dharwad,Hubballi Urban,Bengeri,15.43196845,75.30018576,KA,Dharwad,Hubballi,Kirasur
+125947,Balusuchanda Kalva,Krishna,Krishna River,Andhra Pradesh,6.61692914,16.01783244,78.51812015,AP,Kurnool,Kothapalle,Reserved Forest,16.04553318,78.5588306,AP,Kurnool,Kothapalle,Reserved Forest
+125919,Alkuti,Krishna,Kukadi,Maharashtra,15.09458663,19.11365341,74.26615884,MH,Ahmednagar,Parner,Garkhindi,19.01628125,74.19433285,MH,Ahmednagar,Parner,Renwadi
+125910,Adda Halla,Krishna,Godchi Halla,Karnataka,15.22182265,16.09355568,75.24258781,KA,Belagavi,Ramdurg,Boodanur,15.97875552,75.2371027,KA,Belagavi,Ramdurg,Chilamur
+125912,Akal,Krishna,Nira,Maharashtra,26.22336768,17.86363568,74.65542753,MH,Solapur,Malshiras,Kothale,17.99732174,74.80287178,MH,Pune,Indapur,Kalamb
+125913,Akeri Halla,Krishna,Hire Halla,Karnataka,9.0098627,16.91125149,75.65473689,KA,Vijayapura,Tikota,Arakeri,16.92291091,75.73136233,KA,Vijayapura,Tikota,Arakeri
+125914,Akeru,Krishna,Pakhal or Muneru,Telangana,123.4004451,17.87119317,79.3885396,TS,Jangoan,Ghanpur (Station),Ghanpur Station CT,17.31985812,80.13647449,TS,Khammam,Khammam (Rural),Kamanchikal
+125915,Akkisagar Halla,Krishna,Betgeri Halla,Karnataka,17.11680547,16.02763717,75.03492824,KA,Belagavi,Savadatti,Sattigeri,16.14183487,74.97884895,KA,Belagavi,Gokak,Betageri
+125916,Aler,Krishna,Musi,Telangana,113.26219968,17.69885296,78.73943245,TS,Siddipet,Mulug,Damarakunta,17.34322583,79.45527087,TS,Nalgonda,Shaligouraram,Chittalur
+125917,Alhat,Krishna,Kukadi,Maharashtra,9.17253055,19.21506981,74.1098255,MH,Pune,Junnar,Alefata,19.15484137,74.06252223,MH,Pune,Junnar,Kandali
+125918,Ali Halla,Krishna,Hire Halla,Karnataka,17.30769278,15.46098426,75.62906177,KA,Gadag,Gadag,Betigeri Rural,15.58531055,75.63826041,KA,Gadag,Gadag,Kadadi
+125921,Amarawati Halla,Krishna,Nandihal Halla,Karnataka,33.51038377,16.1666792,76.8246763,KA,Raichur,Sirwar,Bullapur,15.99221225,76.99090448,KA,Raichur,Manvi,Naslapur
+125922,Amarja,Krishna,Bhima River,Karnataka,77.90898812,17.70498193,76.56067744,KA,Kalaburagi,Aland,Khajuri,17.16755215,76.51573839,KA,Kalaburagi,Afzalpur,D Ghangapur
+125923,Ambe Odha,Krishna,Karha,Maharashtra,9.27602734,18.39230661,73.99684895,MH,Pune,Purandhar,Chambali,18.33976033,74.04848942,MH,Pune,Purandhar,Sasvad
+125925,Ambi,Krishna,Mutha,Maharashtra,24.20655021,18.30959361,73.44753704,MH,Pune,Velhe,Ghol,18.3848676,73.62663364,MH,Pune,Mulshi,Chikhali Bk
+125926,Ameidda Halla,Krishna,Anebidda Halla,Karnataka,6.11998761,13.22312182,75.62853566,KA,Chikkamagaluru,Chikkamagaluru,Hawalli,13.26690596,75.6141005,KA,Chikkamagaluru,Chikkamagaluru,Hangaravalli
+125927,Anaikat Halla,Krishna,Maski Halla,Karnataka,29.86919798,16.13683441,76.77946247,KA,Raichur,Sirwar,Timmapur,15.94313655,76.83621113,KA,Raichur,Manvi,Tadkal
+125928,Anebidda Halla,Krishna,Bhadra,Karnataka,30.18639046,13.33505648,75.65396271,KA,Chikkamagaluru,Chikkamagaluru,Makodu,13.3784752,75.51890476,KA,Chikkamagaluru,Chikkamagaluru,Bidare
+125930,Anawar,Krishna,Krishna River,Karnataka,39.17177046,16.69151487,76.77059108,KA,Yadgir,Shahpur,Gogikona,16.54346951,76.96786758,KA,Yadgir,Wadagera,Hayyal B
+125931,Are Halla,Krishna,Javargi Halla,Karnataka,10.45843392,16.96031435,76.82262788,KA,Kalaburagi,Jevargi,Andola,17.02821659,76.80368162,KA,Kalaburagi,Jevargi,Raddewadgi
+125932,Arendur,Krishna,Kansi,Karnataka,10.68966978,14.2566982,74.81297346,KA,Uttara Kannada,Siddapur,Kilar,14.27497325,74.8791199,KA,Uttara Kannada,Siddapur,Arendur
+125933,Argara,Krishna,Kukadi,Maharashtra,12.8856015,19.14693671,74.19400563,MH,Pune,Junnar,Bangarwadi,19.08020809,74.14292189,MH,Pune,Junnar,Nimgaon Sawa
+125934,Arlikata Halla,Krishna,Ghatprabha,Karnataka,8.08444813,16.05465802,74.58110645,KA,Belagavi,Hukeri,Islampur,16.09968202,74.56589972,KA,Belagavi,Hukeri,Ghataprabha River
+125937,Asmai Odha,Krishna,Karha,Maharashtra,7.07929992,18.27658845,74.08102558,MH,Pune,Purandhar,Pangare,18.32233669,74.11304347,MH,Pune,Purandhar,Walunj
+125938,Athmori Odha,Krishna,Bhima River,Maharashtra,20.28281986,18.38080246,74.45818922,MH,Pune,Daund,Hinganigada,18.52410383,74.47197955,MH,Pune,Shirur,Sadalgaon
+125939,Ayyanakeri Halla,Krishna,Tungabhadra River,Karnataka,52.85738379,15.34703209,75.63497396,KA,Gadag,Gadag,Brahmandapur,15.13098216,75.90308154,KA,Ballari,Hadagalli,Tungabhadra Reservoir
+125940,Ayyanna Vagu,Krishna,Kottella Vagu,Andhra Pradesh,5.5632049,16.50169568,80.4151109,AP,Guntur,Amaravathi,Karlapudi,16.46600709,80.44383743,AP,Guntur,Thullur,Pedaparimi
+125941,Badachi Halla,Krishna,Hirehalla,Karnataka,35.06142258,16.86097167,75.18091932,KA,Belagavi,Athni,Balligeri,16.62184409,75.22267342,KA,Belagavi,Athni,Junjarwad
+125942,Badagan Halla,Krishna,Parvatakatti Halla,Karnataka,10.41510469,16.56260545,75.85478164,KA,Vijayapura,Basavana Bagevadi,Muttagi,16.49111566,75.87380364,KA,Vijayapura,Nidagundi,Golasangi
+125943,Bag Nala,Krishna,Siaala Nala,Maharashtra,13.20520152,17.57122782,75.21280428,MH,Solapur,Sangole,Shirbavi,17.53904206,75.30359527,MH,Solapur,Pandharpur,Shetphal
+125944,Bagarnal Halla,Krishna,Akkisagar Halla,Karnataka,11.99903253,16.13436612,75.07208371,KA,Belagavi,Savadatti,Mellikeri,16.14020737,74.98568972,KA,Belagavi,Gokak,Betageri
+125945,Bagha Odha,Krishna,Hanga,Maharashtra,3.36566466,19.01200091,74.50280396,MH,Ahmednagar,Parner,Hanga,18.98441217,74.49431154,MH,Ahmednagar,Parner,Hanga
+125946,Bakrena Halla,Krishna,Hire Halla,Karnataka,10.22383041,16.84976764,75.29485908,KA,Belagavi,Athni,Kakamari,16.79652631,75.23623825,KA,Belagavi,Athni,Kohalli
+125948,Bandal Vagu,Krishna,Munneru,Telangana,32.05844417,17.9612425,80.1572383,TS,Mahabubabad,Kothaguda,Karnegandi,17.96177233,79.96816617,TS,Mahabubabad,Kothaguda,Murraigudem
+125949,Bandi Hole,Krishna,Bhadra,Karnataka,17.45032954,13.43454282,75.41116809,KA,Chikkamagaluru,Narasimharajapura,Karekeshwara,13.4230795,75.49786871,KA,Chikkamagaluru,Narasimharajapura,Aduvalli
+125950,Bandla Vagu,Krishna,Pochamma Vagu,Telangana,13.74240897,17.50805803,77.79649234,TS,Vikarabad,Marpalle,Kotmarpalle,17.41525131,77.74844793,TS,Vikarabad,Bantwaram,Kothapalle
+125951,Bandlaoaya Vagu,Krishna,Peddapaya Vagu,Andhra Pradesh,5.62729159,16.0003622,78.60539295,AP,Kurnool,Srisailam,Reserved Forest,16.03850754,78.5741631,AP,Kurnool,Kothapalle,Reserved Forest
+125952,Bangari Halla,Krishna,Hari,Karnataka,16.19886137,15.86726724,74.7541662,KA,Belagavi,Bailahongala,Mattikoppa,15.75941984,74.78125086,KA,Belagavi,Bailahongala,Neginhal
+125953,Banja Halla,Krishna,Hagari Or Vedavati,Karnataka,24.75563219,15.03950341,76.89862071,KA,Ballari,Ballari,Mincheri Reserved Forest,15.11705935,77.05022017,KA,Ballari,Ballari,Yalpi Kaggalu
+125954,Banki Halla,Krishna,Sagri Nala,Karnataka,14.24276048,15.61755509,74.59348777,KA,Belagavi,Khanapur,Hadalaga,15.5981881,74.6839373,KA,Belagavi,Khanapur,Hulikottal
+125955,Banni Halla,Krishna,Krishna River,Karnataka,21.90202371,16.55701266,75.78612896,KA,Vijayapura,Kolhar,Talewad,16.41347417,75.70219915,KA,Vijayapura,Kolhar,Baluti R C
+125956,Banuchandra Vanka,Krishna,Nari Halla,Karnataka,24.27019063,15.22381989,76.49393803,KA,Ballari,Hosapete,Papinayakanahalli,15.24891202,76.6637842,KA,Ballari,Sandur,Daroji
+125957,Bapae Vagu,Krishna,Nimma Vagu,Telangana,9.68657562,17.29501484,80.42487459,TS,Khammam,Enkoor,Jannaram,17.24030786,80.38332338,TS,Khammam,Konijerla,Singaraipalem
+125958,Bara Halla,Krishna,Haul Halla,Karnataka,27.13821339,15.78556481,75.16020972,KA,Belagavi,Savadatti,Katamalli,15.8517386,75.34134701,KA,Belagavi,Ramdurg,Kallur
+125959,Barandar Halla,Krishna,Arlikata Halla,Karnataka,10.28013551,15.9996713,74.53698366,KA,Belagavi,Belagavi,Halabhavi,16.05465802,74.58110645,KA,Belagavi,Hukeri,Islampur
+125960,Baravcha Odha,Krishna,Bhima River,Maharashtra,7.32862127,18.60075122,74.47190934,MH,Pune,Shirur,Shirasgaon Kata,18.54098589,74.47817564,MH,Pune,Shirur,Sadalgaon
+125961,Barimeda,Krishna,Nendra,Andhra Pradesh,11.94558137,16.595225,79.78541041,AP,Guntur,Dachepalle,Dachepalle,16.68164017,79.8103879,AP,Guntur,Dachepalle,Reserved Forest
+125967,Bend,Krishna,Sina,Maharashtra,13.6299168,19.14288433,74.59849519,MH,Ahmednagar,Nagar,Nimgaon Ghana,19.1188974,74.71949586,MH,Ahmednagar,Nagar,Ahmednagar
+125968,Bend Odha,Krishna,Kontvan,Maharashtra,4.365606,18.78959907,74.28220952,MH,Pune,Shirur,Karegaon,18.82281953,74.27158918,MH,Pune,Shirur,Nimgaon Bhogi
+125962,Baswan Halla,Krishna,Anaikat Halla,Karnataka,35.19521771,16.16260237,76.71828288,KA,Raichur,Lingsugur,Anwari,15.97040575,76.80956305,KA,Raichur,Manvi,Badlapur
+125963,Bavi Halla,Krishna,Hire Halla,Karnataka,12.02788876,15.53479921,75.82047317,KA,Gadag,Ron,Naregal,15.44423346,75.85865459,KA,Koppal,Kukunoor,Yarihanchinal
+125964,Bayad Nala,Krishna,Amarja,Karnataka,15.19143408,17.51346091,76.4135141,KA,Kalaburagi,Aland,Ambewad,17.52557518,76.51413397,KA,Kalaburagi,Aland,Gulhalli
+125969,Benja Halla,Krishna,Ankalayi Halla,Maharashtra,9.10734576,17.10910268,75.5,MH,Sangli,Jat,Ankalagi,17.14443102,75.56677543,MH,Sangli,Jat,Belondgi
+125970,Benni Hala,Krishna,Malprabha,Karnataka,135.05649084,15.10941992,75.11940584,KA,Haveri,Shiggaon,Kamalanagar,15.82946474,75.60730215,KA,Gadag,Ron,Menasigi
+125971,Betgeri Halla,Krishna,Ghatprabha,Karnataka,14.90724332,16.14183487,74.97884895,KA,Belagavi,Gokak,Betageri,16.22342816,74.92759588,KA,Belagavi,Mudalgi,Hunshyal P G
+125972,Bhadra,Krishna,Tungabhadra River,Karnataka,201.18187919,13.24764272,75.16558326,KA,Chikkamagaluru,Mudigere,Samse,14.01466108,75.67560355,KA,Shivamogga,Shivamogga,Hole Hatti
+125965,Bellary N,Krishna,Markandeya,Karnataka,60.14835377,15.82232541,74.48871789,KA,Belagavi,Belagavi,Belagavi,16.06745801,74.67631825,KA,Belagavi,Gokak,Kundargi
+125966,Belli Halla,Krishna,Sogali Halla,Karnataka,18.8069941,16.56976289,76.09410932,KA,Vijayapura,Basavana Bagevadi,Kudari Salawadgi,16.45987362,76.20653223,KA,Vijayapura,Talikoti,Lingadalli
+125973,Bhagirathi,Krishna,Padal,Maharashtra,10.66944489,19.07960524,74.38172424,MH,Ahmednagar,Parner,Wiroli,19.01941117,74.32631922,MH,Ahmednagar,Parner,Wadzire
+125974,Bhai Roba,Krishna,Mula-Mutha,Maharashtra,16.06391526,18.41157972,73.89140412,MH,Pune,Haveli,Yewalewadi,18.54088477,73.90379263,MH,Pune,Pune City,Pune
+125975,Bhama,Krishna,Bhima River,Maharashtra,69.25523664,18.97090658,73.53181986,MH,Pune,Mawal,Malegaon Bk,18.73800967,73.944814,MH,Pune,Khed,Shelgaon
+125979,Bhingar,Krishna,Sina,Maharashtra,14.8248728,19.15106183,74.82566497,MH,Ahmednagar,Nagar,Pimpalgaon Ujjaini,19.06344828,74.73826074,MH,Ahmednagar,Nagar,Ahmednagar
+125976,Bhavi Halla,Krishna,Hire Halla,Karnataka,21.7367384,16.02811934,75.47496494,KA,Bagalkote,Badami,Haligeri,16.16121422,75.51199574,KA,Bagalkote,Bagalkot,Chickka Shellikeri
+125977,Bhimanapalli Vagu,Krishna,Pedda Vagu,Telangana,56.08929887,16.89178693,78.56263285,TS,Ranga Reddy,Amangal,Konapur,16.65544814,78.90935723,TS,Nalgonda,Devarakonda,Mynam Palle
+125978,Bhimawaram N,Krishna,Suraram,Telangana,21.63060196,17.1194796,78.03793056,TS,Ranga Reddy,Kondurg,Kondurg E,17.00360484,78.10536037,TS,Ranga Reddy,Farooqnagar,Kamsanpalle
+126115,Hatimbradava,Krishna,Parvatakatti Halla,Karnataka,13.09541764,16.47726714,75.96001178,KA,Vijayapura,Nidagundi,Halihal,16.3931106,75.8943763,KA,Vijayapura,Nidagundi,Benal R C
+125980,Bhogavati,Krishna,Panchaganga,Maharashtra,83.22563636,16.3263023,73.87958011,MH,Kolhapur,Radhanagari,Phejiwade,16.6614074,74.11984787,MH,Kolhapur,Karvir,Bahireshwar
+125984,Bidaragodu Halla,Krishna,Malathy  Hole,Karnataka,22.66181038,13.48700952,75.1139116,KA,Shivamogga,Tirthahalli,Balehalli,13.53341734,75.18846708,KA,Shivamogga,Tirthahalli,Malalur
+125981,Bhramani,Krishna,Tunga,Karnataka,38.7252447,13.47759888,75.3893704,KA,Chikkamagaluru,Koppa,Tanudi,13.70439847,75.3569614,KA,Shivamogga,Tirthahalli,Kudige
+125982,Bhutnal Kere,Krishna,Dodda Halla,Karnataka,8.50762743,16.88749904,75.64251897,KA,Vijayapura,Tikota,Itangihal,16.88982088,75.71257888,KA,Vijayapura,Vijayapura,Vijayapura
+125983,Bidar Halla,Krishna,Bellary N,Karnataka,17.00967146,15.9146202,74.70926861,KA,Belagavi,Bailahongala,Deshanur,15.99751157,74.66831905,KA,Belagavi,Gokak,Gujanal
+125986,Bilaora Nala,Krishna,Nandi,Maharashtra,22.69103225,18.45710251,75.00014866,MH,Ahmednagar,Karjat,Alsunde,18.36651719,74.8459771,MH,Ahmednagar,Karjat,Shimpore
+125987,Binnala Halla,Krishna,Hire Halla,Karnataka,12.73760622,15.52077348,75.83708157,KA,Gadag,Ron,Naregal,15.44886937,75.89581117,KA,Koppal,Kukunoor,Sidnekoppa
+125988,Bokkala Vagu,Krishna,Kalkanda /Ummala or Algu Vagu,Telangana,5.8613555,17.78264252,80.19103845,TS,Mahabubabad,Kothaguda,Kodiselamitta,17.74193831,80.16776071,TS,Mahabubabad,Kothaguda,Kodiselamitta
+125989,Bombara Halla,Krishna,Chikka Hagari,Karnataka,39.48580195,14.83855764,76.44067445,KA,Ballari,Kudligi,Adavi Sooravvanahalli,14.95810874,76.15896778,KA,Ballari,Hagaribommanahalli,Nellukudri
+125990,Bondi Nala,Krishna,Gondardi,Maharashtra,4.2957569,18.69751091,74.91531685,MH,Ahmednagar,Karjat,Kaudane,18.69675657,74.95352556,MH,Ahmednagar,Karjat,Chande Bk
+125991,Bopale Bet,Krishna,Kumbhargaon Nala,Maharashtra,22.27488967,18.43256271,75.03901262,MH,Ahmednagar,Karjat,Alsunde,18.27093321,74.94865977,MH,Solapur,Karmala,Ketur
+125992,Bor Odha,Krishna,Bhima River,Maharashtra,11.28094423,18.38669894,74.62729527,MH,Pune,Daund,Ravangaon,18.44952927,74.64160639,MH,Pune,Daund,Alegaon
+125993,Bottala,Krishna,Edibogula Vagu,Andhra Pradesh,11.96553545,16.30889326,79.34778624,AP,Guntur,Veldurthi,Srigiripadu,16.36965037,79.41024763,AP,Guntur,Veldurthi,Uppalapadu
+125994,Boyala Vanka,Krishna,Hagari Or Vedavati,Andhra Pradesh,24.9361338,15.03099649,76.88091917,AP,Anantapur,D.Hirehal,Hirdehal,14.95883244,77.03897916,AP,Anantapur,Bommanahal,Kalludevanahalli
+125995,Budala Halla,Krishna,Karala Halla,Karnataka,9.96240683,14.50117779,75.91262712,KA,Davangere,Davanagere,Chikkabudihalu,14.54154644,75.8726892,KA,Davangere,Davanagere,Kakkaragolla
+125996,Budhal Halla,Krishna,Hire Halla,Karnataka,14.32232366,15.20731337,75.73549738,KA,Gadag,Mundargi,Chikkawaddatti,15.11139502,75.78474784,KA,Gadag,Mundargi,Bagewadi
+125997,Buga,Krishna,Pakhal or Muneru,Telangana,47.81152847,17.62626537,80.35389636,TS,Bhadradri Kothagudem,Yellandu,Sudimalla,17.37387737,80.163617,TS,Khammam,Khammam (Rural),Theerdhala
+125998,Bugga Vagu,Krishna,Pilleru Vagu,Andhra Pradesh,15.82694179,16.44995888,79.81148824,AP,Guntur,Piduguralla,Julakallu,16.50612655,79.91984569,AP,Guntur,Piduguralla,Konanki
+126163,Kadgi Halla,Krishna,Hungud Halla,Karnataka,10.83152114,15.97595149,76.05861871,KA,Koppal,Kushtagi,Hulgera,16.0630685,76.08054366,KA,Bagalkote,Hungund,Hungund Rural
+125999,Bugga Vagu,Krishna,Bugga Vagu_Krishna,Telangana,20.48493157,16.24916058,78.69387256,TS,Nagarkurnool,Amrabad,Reserved Forest,16.14694657,78.76346798,TS,Nagarkurnool,Amrabad,Reserved Forest
+126000,Bugga Vagu_Krishna,Krishna,Krishna River,Telangana,23.38273371,16.15018632,78.67211868,TS,Nagarkurnool,Amrabad,Reserved Forest,16.14816137,78.84273411,TS,Nagarkurnool,Amrabad,Reserved Forest
+126001,Bugga Vagu_Musi,Krishna,Musi,Telangana,12.05758692,16.77239491,79.60428181,TS,Nalgonda,Dameracherla,Kondrapole,16.71257747,79.66928675,TS,Nalgonda,Dameracherla,Wadapalli
+126002,Bukler,Krishna,Aler,Telangana,26.8580284,17.52339135,79.06643358,TS,Yadadri Bhuvanagiri,Yadagirigutta,Mota Kondur,17.47760891,79.2463845,TS,Yadadri Bhuvanagiri,Gundala,Ambala
+126003,Byare Hole,Krishna,Tunga,Karnataka,14.17524405,13.75633009,75.14112212,KA,Shivamogga,Tirthahalli,Hosakodige,13.67773457,75.21697461,KA,Shivamogga,Tirthahalli,Surali Bale Bailu
+126004,Chail Halla,Krishna,Sasve Halla,Karnataka,23.72036746,15.61906168,75.8767602,KA,Gadag,Gajendragad,Halakeri,15.78457704,75.78947002,KA,Gadag,Ron,Tallihal
+126005,Chandan Odha,Krishna,Karha,Maharashtra,7.16605202,18.29197603,74.06168627,MH,Pune,Purandhar,Pimpale,18.32192005,74.11221683,MH,Pune,Purandhar,Walunj
+126006,Chandra Vagu,Krishna,Dindi,Telangana,39.87989909,16.28162705,78.606661,TS,Nagarkurnool,Balmoor,Kondanagula,16.51687403,78.78534644,TS,Nagarkurnool,Uppununthala,Penmilla
+126009,Chaul Halla,Krishna,Hushikatti Halla,Karnataka,17.38291985,15.46818848,75.00837052,KA,Dharwad,Hubballi Urban,Hubballi Dharwad,15.50268288,75.12063419,KA,Dharwad,Dharwad,Talwai
+126217,Keli,Krishna,Mehekri,Maharashtra,15.42456185,19.10471774,74.99963554,MH,Beed,Ashti,Deulgaon Ghat,19.02635319,74.90458348,MH,Ahmednagar,Nagar,Chichondi Patil
+126007,Chandrapura Halla,Krishna,Tungabhadra River,Karnataka,47.49201424,14.60536866,75.43631113,KA,Haveri,Byadgi,Shidenur,14.79550903,75.67992485,KA,Haveri,Ranibennur,Chikka Kuravatti
+126008,Chatram Halla,Krishna,Hire Halla,Karnataka,29.34751831,15.11976935,76.76422899,KA,Ballari,Ballari,Haraginadone,15.28651586,76.90002928,KA,Ballari,Kurugodu,Somasamudra
+126014,Chik Halla,Krishna,Hari,Karnataka,8.99768367,15.87580806,74.70804148,KA,Belagavi,Bailahongala,Hanamana Hatti,15.80808992,74.71217577,KA,Belagavi,Bailahongala,Tigadi
+126010,Chella Halla,Krishna,Malprabha,Karnataka,21.41833399,15.91293084,74.87774062,KA,Belagavi,Savadatti,Gundlur,15.78938279,74.95975078,KA,Belagavi,Savadatti,Malaprabha River
+126011,Chenna Halla,Krishna,Hire Halla,Karnataka,15.86048815,15.35588447,76.00068889,KA,Koppal,Kukunoor,Tadkal,15.29768766,76.10188768,KA,Koppal,Koppal,Hiresindogi
+126012,Chennampalli Vanka,Krishna,Hindri,Andhra Pradesh,19.33695826,15.61242771,77.33456954,AP,Kurnool,Adoni,Dibbanakal,15.5638949,77.48407324,AP,Kurnool,Devanakonda,Kunkanur
+126013,Chennavaram Vagu,Krishna,Jarri Vagu,Andhra Pradesh,36.12675802,16.13329859,79.22897973,AP,Prakasam,Yerragondapalem,Reserved Forest,16.33682933,79.26914331,AP,Guntur,Veldurthi,Reserved Forest
+126015,Chikka Hagari,Krishna,Tungabhadra River,Karnataka,136.85131148,14.32638206,76.16632604,KA,Chitradurga,Chitradurga,Eshwaranagara,15.18808839,76.23000515,KA,Ballari,Hagaribommanahalli,Tungabhadra Reservoir
+126016,Chikka Halla,Krishna,Bhima River,Karnataka,40.46866831,16.93761927,77.18355038,KA,Yadgir,Yadgir,Bagalmadu,16.98404058,76.94022025,KA,Kalaburagi,Jevargi,Rajwal
+126017,Chikka Tore,Krishna,Kare Tore,Karnataka,45.01735733,13.47794107,76.80886987,KA,Tumakuru,Gubbi,Unganala,13.72496527,76.68968664,KA,Tumakuru,Sira,Boranahalu
+126018,Chilakala Bagu,Krishna,Halia,Telangana,42.47115185,17.02207005,79.2599037,TS,Nalgonda,Nalgonda,Nalgonda,16.73494065,79.41511504,TS,Nalgonda,Nidmanoor,Nehatapur
+126019,China Vagu,Krishna,Kongal,Telangana,45.00950158,17.15014152,78.76392927,TS,Ranga Reddy,Manchal,Arutla,17.11924179,79.0288106,TS,Nalgonda,Munugode,Palivela
+126020,China Vagu,Krishna,Pedda Vagu,Telangana,29.57996309,16.92811835,77.94576837,TS,Vikarabad,Kulkacharla,Kothapalle,16.82571667,77.74304707,TS,Narayanpet,Maddur,Lingalched
+126021,Chinamageri,Krishna,Nedalgi Halla,Karnataka,25.57579724,16.85397011,76.49284484,KA,Kalaburagi,Yadrami,Yedrami,17.0269913,76.49626389,KA,Kalaburagi,Jevargi,Mayoor
+126022,Chinamgiri,Krishna,Chinamageri,Karnataka,31.56016277,16.69203099,76.63146319,KA,Yadgir,Shahpur,Gundapur,16.86690164,76.49681513,KA,Kalaburagi,Yadrami,Yedrami
+126023,Chinna Chela,Krishna,Dindi,Telangana,8.41982841,16.35576917,79.09648815,TS,Nagarkurnool,Amrabad,Ippalapalle,16.39754091,79.14325094,TS,Nagarkurnool,Amrabad,Ippalapalle
+126028,Chiral Halla,Krishna,Bhavi Halla,Karnataka,13.81723008,16.05161573,75.45613242,KA,Bagalkote,Badami,Hawalakhod,16.13661379,75.50905685,KA,Bagalkote,Badami,Karadigudd S A
+126029,Chitri,Krishna,Hiranyakeshi,Maharashtra,12.74330568,16.05224465,74.13698956,MH,Kolhapur,Ajra,Awandi,16.11916136,74.21787093,MH,Kolhapur,Ajra,Ajra
+126024,Chinna Musi R,Krishna,Musi,Telangana,70.26238547,17.11276312,78.42239895,TS,Ranga Reddy,Maheshwaram,Maheswaram,17.36889765,78.89798725,TS,Yadadri Bhuvanagiri,B Pochampally,Dharma Reddi Palle
+126025,Chinnaeru R,Krishna,Musi,Telangana,25.79203847,17.50582518,78.81540259,TS,Yadadri Bhuvanagiri,Bibinagar,Gudur,17.37976275,78.93036982,TS,Yadadri Bhuvanagiri,Valigonda,Poddutur
+126026,Chinnagundala Vagu,Krishna,Krishna River,Telangana,12.15037709,16.11119467,78.74190293,TS,Nagarkurnool,Amrabad,Reserved Forest,16.10695551,78.83987678,TS,Nagarkurnool,Amrabad,Reserved Forest
+126027,Chintala Vagu,Krishna,Krishna River,Andhra Pradesh,17.33254861,16.62348404,80.04788345,AP,Guntur,Bellamkonda,Reserved Forest,16.71569034,80.1412718,AP,Guntur,Atchampet,Chintapalle
+126036,Devalmalik,Krishna,Ghod,Maharashtra,7.26740147,18.77731407,74.33090131,MH,Pune,Shirur,Shirur Gramin,18.78440229,74.38888352,MH,Ahmednagar,Shrigonda,Hingani Dumala
+126030,Cholleru Vagu,Krishna,Bukler,Telangana,28.04580751,17.5725452,78.84627884,TS,Yadadri Bhuvanagiri,Thurkapally,Rusta Puram,17.52339135,79.06643358,TS,Yadadri Bhuvanagiri,Yadagirigutta,Mota Kondur
+126031,Dandavati R,Krishna,Vardha,Karnataka,72.67457088,14.28615146,75.18613435,KA,Shivamogga,Sorab,Hunavalli,14.57643667,75.09299557,KA,Shivamogga,Sorab,Bankasana
+126032,Dargah Halla,Krishna,Bhima River,Karnataka,13.08986552,17.12768002,76.8603003,KA,Kalaburagi,Kalaburagi,Kiranagi,17.07800058,76.78353934,KA,Kalaburagi,Kalaburagi,Ferozabad
+126033,Desai Halla,Krishna,Benni Hala,Karnataka,18.10529887,15.24867341,75.1833727,KA,Dharwad,Hubballi,Sherewad,15.34757813,75.27167127,KA,Dharwad,Hubballi,Bhandiwad
+126034,Desayi Halla,Krishna,Krishna River,Karnataka,14.3350424,16.49366124,75.83189092,KA,Vijayapura,Nidagundi,Golasangi,16.37993582,75.78239805,KA,Vijayapura,Nidagundi,Bisalakoppa R C
+126035,Dev Nala,Krishna,Bhima River,Maharashtra,22.89208289,18.6617355,74.65369608,MH,Ahmednagar,Shrigonda,Pargaon,18.50066539,74.71019945,MH,Pune,Daund,Pedgaon
+126037,Devamma Halla,Krishna,Hire Halla,Karnataka,27.25260086,15.17152488,76.88135882,KA,Ballari,Ballari,Bellary[R,15.33991195,76.98867785,KA,Ballari,Ballari,Handihal
+126038,Devapur Nala,Krishna,Krishna River,Karnataka,40.09817555,16.46341541,76.4559279,KA,Yadgir,Hunasagi,Malnoor,16.42549645,76.75799389,KA,Raichur,Devadurga,Lingadhalli
+126039,Devara Halla,Krishna,Dodda Halla,Karnataka,13.31383316,16.92271493,75.66024458,KA,Vijayapura,Tikota,Arakeri,16.99784507,75.74361229,KA,Vijayapura,Vijayapura,Tidagundi
+126049,Don Halla,Krishna,Saval Odha,Maharashtra,11.92852468,17.05223627,75.25088449,MH,Sangli,Jat,Jath,17.08632843,75.32589245,MH,Sangli,Jat,Kolgiri
+126040,Devaragutta Vanka,Krishna,Garchi Vanka,Andhra Pradesh,22.57028073,15.45906242,77.19365231,AP,Kurnool,Alur,Karadiguddam,15.61827543,77.14267999,AP,Kurnool,Adoni,Santhekudlur
+126041,Devate Halla,Krishna,Hire Halla,Karnataka,21.02308732,15.56398835,75.78568579,KA,Gadag,Ron,Naregal,15.65641206,75.66181314,KA,Gadag,Ron,Arahunasi
+126042,Dhakli,Krishna,Umbar,Maharashtra,19.38011714,19.03559168,74.53237389,MH,Ahmednagar,Nagar,Pimpalgaon Kauda,19.10590352,74.64680991,MH,Ahmednagar,Nagar,Hingangaon
+126043,Dhareka,Krishna,Kontvan,Maharashtra,2.34611287,18.81462112,74.22804507,MH,Pune,Shirur,Sone Sangavi,18.81008023,74.2471032,MH,Pune,Shirur,Sone Sangavi
+126044,Dharma,Krishna,Vardha,Karnataka,78.59931477,14.65630328,74.9001828,KA,Uttara Kannada,Sirsi,Dodnalli,14.85015293,75.30268986,KA,Haveri,Hangal,Kudal
+126050,Dra Vagu,Krishna,Krishna River,Telangana,17.53875462,16.81879221,79.92146039,TS,Suryapet,Mellachervu,Mella Cheruvu,16.69956869,79.87265591,TS,Suryapet,Mattampally,Gundla Palle
+126051,Dudhewar,Krishna,Pushpavati,Maharashtra,8.97312308,19.36776448,73.81686285,MH,Pune,Junnar,Khireshwar,19.3135933,73.85200512,MH,Pune,Junnar,Madh
+126045,Dhmni,Krishna,Panchaganga,Maharashtra,39.69642874,16.46575898,73.88906275,MH,Kolhapur,Radhanagari,Manbet,16.69326121,74.03363134,MH,Kolhapur,Panhala,Gothe
+126046,Dhor N,Krishna,Benithora,Karnataka,25.45186375,17.43820678,77.27779285,KA,Kalaburagi,Kalagi,Ganjgera,17.33927367,77.12801489,KA,Kalaburagi,Kalagi,Kalgi
+126047,Dog Nala,Krishna,Mullamari,Karnataka,12.234604,17.47758616,77.23811282,KA,Kalaburagi,Chincholi,Narnal,17.50434475,77.32567672,KA,Kalaburagi,Chincholi,Tajlapur
+126048,Dogi Halla,Krishna,Amarja,Karnataka,17.66627319,17.49255583,76.69947495,KA,Kalaburagi,Aland,Narona,17.48178273,76.56448559,KA,Kalaburagi,Aland,Korhalli
+126052,Shirahatti Halla,Krishna,Hire Halla,Karnataka,44.37607062,15.28775029,75.5786405,KA,Gadag,Gadag,Mulgund Rural,15.05938261,75.79104474,KA,Gadag,Mundargi,Mundawad
+126053,Dyaman Halla,Krishna,Anaikat Halla,Karnataka,17.80139813,16.12053533,76.82782168,KA,Raichur,Sirwar,Hire Hanagi,15.98262674,76.81136875,KA,Raichur,Maski,Markamdinni
+126057,Elumori Halla,Krishna,Erangaligi Halla,Karnataka,12.32659556,15.15806956,76.78330044,KA,Ballari,Ballari,Haraginadone,15.24275417,76.8362558,KA,Ballari,Ballari,Kolagallu
+126058,Erangaligi Halla,Krishna,Hire Halla,Karnataka,6.72616092,15.24275417,76.8362558,KA,Ballari,Ballari,Kolagallu,15.29458407,76.85443452,KA,Ballari,Kurugodu,Vaddahatti
+126054,Eddu Vagu,Krishna,Krishna River,Andhra Pradesh,65.44565044,16.35234409,79.86704141,AP,Guntur,Nekarikallu,Reserved Forest,16.58876823,80.25614496,AP,Guntur,Amaravathi,Pondugala
+126055,Edumangalam,Krishna,Goll Vagu,Andhra Pradesh,21.5938173,16.44738381,79.56135232,AP,Guntur,Durgi,Darivemula,16.58298615,79.52016822,AP,Guntur,Rentachintala,Pasarlapadu
+126056,Ekke Halla,Krishna,Hire Halla,Karnataka,12.96490751,15.41484902,75.69281468,KA,Gadag,Gadag,Hatalageri,15.51696243,75.71320955,KA,Gadag,Gadag,Neeralagi
+126059,Ermulli Vagu,Krishna,Musi,Telangana,26.48482706,17.56301447,78.60141945,TS,Medchal Malkajgiri,Shamirpet,Anthaipally,17.39973839,78.6958379,TS,Medchal Malkajgiri,Ghatkesar,Edulabad
+126060,Edibogula Vagu,Krishna,Chandravanka,Andhra Pradesh,37.52815754,16.22372326,79.33227799,AP,Prakasam,Pullalacheruvu,Reserved Forest,16.41167752,79.49967777,AP,Guntur,Durgi,Mutukuru
+126061,Gadanagudi Halla,Krishna,Krishna River,Karnataka,14.54169962,16.46189475,75.83735084,KA,Vijayapura,Nidagundi,Angadageri,16.34590158,75.85710975,KA,Bagalkote,Bagalkot,Chikkgulabal
+126062,Gadanyal Halla,Krishna,Tupari Halla,Karnataka,30.67199354,15.73454576,75.06171771,KA,Belagavi,Savadatti,Saundatti Rural,15.62485665,75.2778525,KA,Dharwad,Navalgund,Alagawadi
+126065,Gadhar N,Krishna,Kanvi Halla,Karnataka,35.39247716,15.95125191,74.77420399,KA,Belagavi,Bailahongala,Hoskoti,16.14765721,74.89653578,KA,Belagavi,Gokak,Maladinni
+126066,Gadldela Vagu,Krishna,Krishna River,Andhra Pradesh,20.58454607,16.51224133,79.60961947,AP,Guntur,Gurazala,Madugula,16.6603287,79.62742006,AP,Guntur,Gurazala,Reserved Forest
+126067,Gadyalk Halla,Krishna,Dodda Halla,Karnataka,6.57416781,17.15269223,75.71993833,KA,Vijayapura,Chadachan,Jigajeevani,17.19105455,75.68571228,KA,Vijayapura,Chadachan,Jigajeevani
+126068,Gajjibandla Vagu,Krishna,Nalla Vagu,Telangana,13.61657955,16.25122284,78.78471877,TS,Nagarkurnool,Amrabad,Reserved Forest,16.28901106,78.88171764,TS,Nagarkurnool,Amrabad,Reserved Forest
+126073,Ganneru,Krishna,Krishna River,Andhra Pradesh,14.54559924,16.55889332,79.87578166,AP,Guntur,Machavaram,Machavaram,16.63080711,79.93128942,AP,Guntur,Bellamkonda,Bodanam
+126069,Gandori,Krishna,Benithora,Karnataka,43.31780604,17.81133006,76.84255654,KA,Bidar,Basavakalyan,Kamlewadi,17.51025113,76.91490889,KA,Kalaburagi,Kamalapur,Mahagaon
+126070,Gangana Halla,Krishna,Bhima River,Karnataka,4.75527492,17.12598272,76.65416153,KA,Kalaburagi,Kalaburagi,Herur B,17.08981159,76.65334544,KA,Kalaburagi,Kalaburagi,Herur B
+126071,Gange Gauri Halla,Krishna,Kumadvati,Karnataka,10.18073954,14.09223078,75.44268212,KA,Shivamogga,Shivamogga,Vitagondana Koppa,14.10781562,75.36415404,KA,Shivamogga,Shivamogga,Choradi
+126072,Gange Halla,Krishna,Hagari Or Vedavati,Karnataka,28.36146216,13.37295391,75.80520924,KA,Chikkamagaluru,Chikkamagaluru,Churchugudde Kaval,13.43399274,75.94533752,KA,Chikkamagaluru,Kadur,Sakrepatna
+126074,Garaganji Halla,Krishna,Amarja,Karnataka,29.94226066,17.4231417,76.46148703,KA,Kalaburagi,Aland,Yelsangi,17.19295896,76.49928503,KA,Kalaburagi,Afzalpur,D Ghangapur
+126075,Garla,Krishna,Pedda Vagu,Telangana,21.27902569,17.10086729,79.33053278,TS,Nalgonda,Thipparthy,Suraram,16.96400416,79.43090072,TS,Nalgonda,Thipparthy,Cheruvu Palle
+126076,Gauri Halla,Krishna,Dodda Halla,Maharashtra,15.47053722,17.1700757,75.50206353,MH,Sangli,Jat,Utagi,17.25340686,75.59819347,MH,Sangli,Jat,Umadi
+126082,Godchi Halla,Krishna,Malprabha,Karnataka,8.77877218,16.00390672,75.20147241,KA,Belagavi,Ramdurg,Godachi,15.96465241,75.25894371,KA,Belagavi,Ramdurg,Chilamur
+126083,Godeda Halla,Krishna,Malprabha,Karnataka,11.11717004,16.06060233,76.03016687,KA,Bagalkote,Hungund,Hungund Rural,16.13655332,75.98730272,KA,Bagalkote,Hungund,Chickmalagavi
+126084,Godra Vagu,Krishna,Aler,Telangana,13.04609683,17.57091415,79.07016585,TS,Yadadri Bhuvanagiri,Yadagirigutta,Mota Kondur,17.53836191,79.17805107,TS,Yadadri Bhuvanagiri,Gundala,Suddala
+126077,Gauri Halla,Krishna,Hagari Or Vedavati,Karnataka,36.42155462,13.36509922,75.72505275,KA,Chikkamagaluru,Chikkamagaluru,Aralaguppe,13.43399274,75.94533752,KA,Chikkamagaluru,Kadur,Sakrepatna
+126078,Ghaded Halla,Krishna,Godeda Halla,Karnataka,7.52968035,16.076756,76.04032033,KA,Bagalkote,Hungund,Hungund Rural,16.11869967,75.99336731,KA,Bagalkote,Hungund,Chittaragi
+126079,Ghantakaranna Vagu,Krishna,Krishna River,Telangana,12.12503831,15.96594635,77.98383078,TS,Jogulamba Gadwal,Manopad,Manopad,16.03618189,78.0497417,TS,Wanaparthy,Pebbair,Yaparla
+126080,Ghar,Krishna,Nag Dhaunn,Maharashtra,9.76152171,17.79044706,74.68048493,MH,Satara,Man,Mohi,17.735005,74.63110984,MH,Satara,Man,Sokasan
+126085,Gollavani Kaluva,Krishna,Bay of Bengal,Andhra Pradesh,14.69908264,15.81311135,80.93420424,AP,Krishna,Nagayalanka,Reserved Forest,15.7488672,80.97885174,AP,Krishna,Nagayalanka,Reserved Forest
+126081,Ghod,Krishna,Bhima River,Maharashtra,188.37236568,19.08898806,73.53755773,MH,Pune,Ambegaon,Nigdale,18.50723457,74.54596356,MH,Pune,Shirur,Ganegaon Dumala
+126086,Gorebal,Krishna,Tungabhadra River,Karnataka,44.02190597,15.68524851,76.55225853,KA,Koppal,Kanakagiri,Sankanhal,15.68117413,76.88670532,KA,Raichur,Sindhnur,Kengal
+126087,Gosbal Halla,Krishna,Bagarnal Halla,Karnataka,7.09852969,16.1759726,75.02984295,KA,Belagavi,Gokak,Koujalgi,16.14013927,74.98834008,KA,Belagavi,Gokak,Betageri
+126088,Goti Halla,Krishna,Don,Karnataka,13.4578392,16.65107188,76.03347274,KA,Vijayapura,Basavana Bagevadi,Dindawar,16.73880534,76.08451242,KA,Vijayapura,Devara Hipparagi,Devoor
+126089,Gowardhangiri Vagu,Krishna,Krishna River,Telangana,19.39476273,16.18360034,78.12113511,TS,Wanaparthy,Pangal,Busireddipalle,16.06002538,78.02630462,TS,Jogulamba Gadwal,Manopad,Chandur
+126290,Mala Kalva,Krishna,Krishna River,Andhra Pradesh,5.6189885,15.7230861,80.86706597,AP,Krishna,Nagayalanka,Reserved Forest,15.71473958,80.83142007,AP,Guntur,Repalle,Gangadipalem
+126090,Gudipalli Vagu,Krishna,Shasiler Vagu,Telangana,95.91832682,16.97288283,78.68918812,TS,Ranga Reddy,Yacharam,Kothapalle,16.79916597,79.2595207,TS,Nalgonda,Anumula,Thimmapuru
+126107,Halli Halla,Krishna,Benithora,Karnataka,20.41343942,17.48376004,76.77233848,KA,Kalaburagi,Aland,Keriambalga,17.46991916,76.93968128,KA,Kalaburagi,Kamalapur,Kurikota
+126091,Gugi Halla,Krishna,Benni Hala,Karnataka,28.21716321,15.10659472,75.37817578,KA,Dharwad,Kundgol,Gudgeri,15.29447636,75.30085138,KA,Dharwad,Kundgol,Mullahalli
+126092,Gugri Halla,Krishna,Hire Halla,Karnataka,6.8772328,15.29701601,76.00088793,KA,Koppal,Koppal,Kawaloor,15.24833342,75.97604138,KA,Koppal,Koppal,Alwandi
+126093,Gulabshah Halla,Krishna,Hiranyakeshi,Karnataka,8.73284298,16.14791183,74.50813579,KA,Belagavi,Hukeri,Hanchinal,16.1966285,74.56133465,KA,Belagavi,Hukeri,Kurni
+126094,Gummanagundi Halla,Krishna,Bhadra,Karnataka,10.51951975,13.50772506,75.47022987,KA,Chikkamagaluru,Narasimharajapura,Vaggade,13.44400569,75.50974049,KA,Chikkamagaluru,Narasimharajapura,Aduvalli
+126095,Gundala Vagu,Krishna,Bugga,Andhra Pradesh,6.2604507,16.37355845,79.56133839,AP,Guntur,Durgi,Obulesunipalle,16.42078829,79.55207747,AP,Guntur,Durgi,Durgi
+126108,Handi Halla,Krishna,Bhadra,Karnataka,11.31546873,13.41365785,75.57803388,KA,Chikkamagaluru,Chikkamagaluru,Suguduvani,13.44794099,75.5102942,KA,Chikkamagaluru,Narasimharajapura,Aduvalli
+126096,Gundi Halla,Krishna,Hagari Or Vedavati,Karnataka,39.19420506,14.03617651,76.30381208,KA,Chitradurga,Holalkere,Mathigatta,13.8297076,76.42571161,KA,Chitradurga,Hosdurga,Vedavathi River
+126097,Gundigan Halla,Krishna,Benni Hala,Karnataka,18.98679637,15.46911782,75.43865706,KA,Dharwad,Annigeri,Annigeri Rural,15.604066,75.38977064,KA,Dharwad,Navalgund,Gudisagar
+126098,Gundla Vagu,Krishna,Krishna River,Telangana,13.57743314,16.78292519,79.95855866,TS,Suryapet,Mellachervu,Mella Cheruvu,16.72829574,80.03677121,TS,Suryapet,Mellachervu,Vellatur
+126228,Khokar,Krishna,Sina,Maharashtra,13.71659569,19.05068921,74.62510623,MH,Ahmednagar,Nagar,Pimpalgaon Wagha,19.08115019,74.72827086,MH,Ahmednagar,Nagar,Ahmednagar
+126099,Gunjawani,Krishna,Nira,Maharashtra,54.91489914,18.29589483,73.53050942,MH,Pune,Velhe,Ghisar,18.17231126,73.92323254,MH,Pune,Bhor,Ingavali
+126100,Gunnur Halla,Krishna,Malprabha,Karnataka,8.69003409,15.80013251,74.82473505,KA,Belagavi,Bailahongala,Bailwad,15.74813222,74.83121243,KA,Belagavi,Bailahongala,Malaprabha River
+126101,Gurikodalu Halla,Krishna,Bhadra,Karnataka,5.46803424,13.29056885,75.52523652,KA,Chikkamagaluru,Chikkamagaluru,Manaboor,13.32721392,75.49858798,KA,Chikkamagaluru,Chikkamagaluru,Huigere
+126102,Hakkandi Halla,Krishna,Tungabhadra River,Karnataka,9.79115225,15.08643709,76.00012654,KA,Ballari,Hadagalli,Hiremallinakeri,15.15110019,75.98565619,KA,Ballari,Hadagalli,Tungabhadra Reservoir
+126103,Hala Halla,Krishna,Vode Halla,Karnataka,15.05598617,15.69882262,76.65102613,KA,Raichur,Sindhnur,Gandhinagar,15.74409259,76.77932543,KA,Raichur,Sindhnur,Sindhnur
+126104,Halatar N,Krishna,Malprabha,Karnataka,22.39215632,15.50970887,74.41731414,KA,Belagavi,Khanapur,Warkhadpatye,15.62362302,74.49721352,KA,Belagavi,Khanapur,Rumewadi
+126105,Hale Halla,Krishna,Midchi Halla,Karnataka,12.67516104,16.08162732,75.38742848,KA,Belagavi,Ramdurg,Batakurki,16.17221699,75.4451695,KA,Bagalkote,Bagalkot,Khajjidoni
+126109,Handigan Halla,Krishna,Benni Hala,Karnataka,16.83183686,15.54038437,75.48619482,KA,Dharwad,Annigeri,Navalli,15.67227926,75.44133367,KA,Dharwad,Navalgund,Tadahal
+126110,Haran Halla,Krishna,Gadanyal Halla,Karnataka,19.67193121,15.6949559,75.09201752,KA,Belagavi,Savadatti,Saundatti Rural,15.64778517,75.24867256,KA,Dharwad,Navalgund,Javoor
+126116,Haul Halla,Krishna,Malprabha,Karnataka,17.62860607,15.8517386,75.34134701,KA,Belagavi,Ramdurg,Kallur,15.87406761,75.47673501,KA,Bagalkote,Badami,Beeranur
+126106,Halia,Krishna,Krishna River,Telangana,120.18752428,17.08270419,78.71031039,TS,Ranga Reddy,Manchal,Rangapur,16.62333734,79.46432056,TS,Nalgonda,Dameracherla,Chityala
+126114,Hateghar Nala,Krishna,Kudali,Maharashtra,7.35122411,17.86952606,73.78678557,MH,Satara,Jaoli,Dangreghar,17.86979099,73.84668978,MH,Satara,Jaoli,Karhar
+126111,Harasoge Halla,Krishna,Kare Tore,Karnataka,19.94188405,13.36641221,76.70158742,KA,Tumakuru,Chiknayakanhalli,Sondenahalli,13.49294178,76.72997221,KA,Tumakuru,Chiknayakanhalli,Purusenahalli
+126112,Hari,Krishna,Malprabha,Karnataka,40.2221629,15.76723952,74.54281368,KA,Belagavi,Belagavi,Dhamane S Belgaum,15.73123592,74.80588813,KA,Belagavi,Bailahongala,Malaprabha River
+126113,Harogoppa Halla,Krishna,Kusagura Halla,Karnataka,10.02782725,14.54237289,75.52100924,KA,Haveri,Ranibennur,Hediyal,14.51059638,75.59232526,KA,Haveri,Ranibennur,Nittur
+126117,Havalada Halla,Krishna,Tunga,Karnataka,16.78842426,13.61497335,75.45604157,KA,Chikkamagaluru,Narasimharajapura,Hathbur,13.72435684,75.4561586,KA,Chikkamagaluru,Narasimharajapura,Muthinakoppa
+126118,Hemmaki Halla,Krishna,Bhadra,Karnataka,18.88085278,13.15393686,75.41678596,KA,Chikkamagaluru,Mudigere,Balige,13.25546677,75.46062987,KA,Chikkamagaluru,Narasimharajapura,Magundi
+126121,Hire Halla,Krishna,Konad Halla,Karnataka,28.11830161,16.24540224,77.05162376,KA,Raichur,Devadurga,Ramdurg,16.28797827,77.27281037,KA,Raichur,Raichur,Jegarkal
+126164,Kadival Halla,Krishna,Malprabha,Karnataka,15.04240063,16.20642746,75.83005389,KA,Bagalkote,Bagalkot,Hallur,16.12147775,75.89549407,KA,Bagalkote,Hungund,Bevinal
+126119,Hindri,Krishna,Vakkara Vagu,Andhra Pradesh,132.08841846,15.34406705,77.52423161,AP,Kurnool,Tuggali,Ratana,15.82282361,78.03317928,AP,Kurnool,Kallur,Kurnool
+126120,Hira,Krishna,Hire Halla,Karnataka,11.54395563,16.36152711,76.1382316,KA,Vijayapura,Muddebihal,Kuntoji,16.33859347,76.23165654,KA,Vijayapura,Muddebihal,Wanakihal
+126122,Hirehalla,Krishna,Krishna River,Karnataka,37.31031086,16.82210996,75.31536899,KA,Belagavi,Athni,Kannal,16.61667188,75.22411639,KA,Bagalkote,Jamkhandi,Maigur
+126123,Hirekere Halla,Krishna,Nandihal Halla,Karnataka,19.34706875,15.98251117,76.92895945,KA,Raichur,Manvi,Amarawati,15.91750919,77.06894335,KA,Raichur,Manvi,Madlapur
+126124,Hiri Halla,Krishna,Kempa Halla,Karnataka,22.36116531,16.59303702,76.41359132,KA,Yadgir,Shorapur,Huvinhalli,16.76116354,76.46125498,KA,Kalaburagi,Yadrami,Biryalhissa
+126130,Hunise Halla,Krishna,Urumundina Halla,Karnataka,5.8210274,15.39491986,75.8385432,KA,Gadag,Mundargi,Halligudi,15.36816422,75.88052954,KA,Gadag,Mundargi,Hallikeri
+126166,Kajimada Halla,Krishna,Kal Halla,Karnataka,15.40332793,17.12280966,75.72103036,KA,Vijayapura,Indi,Savalsang,17.20807859,75.80815535,KA,Vijayapura,Indi,Gundawan
+126125,Hiri Halla,Krishna,Hire Halla,Karnataka,28.95626262,14.81555229,75.98713012,KA,Davangere,Harapanahalli,Harapanahalli,14.98879673,75.87814727,KA,Ballari,Hadagalli,Halathimalapura
+126126,Dodda Halla,Krishna,Bor,Maharashtra,33.65644888,17.1429849,75.3899137,MH,Sangli,Jat,Madgyal,17.26896544,75.62400468,MH,Sangli,Jat,Sonalagi
+126131,Hushikatti Halla,Krishna,Tupari Halla,Karnataka,22.40221746,15.49525106,75.02348729,KA,Dharwad,Dharwad,Kamalapur,15.58333114,75.15278286,KA,Dharwad,Navalgund,Morab
+126324,Murdi Odha,Krishna,Pimpri,Maharashtra,8.44008597,18.63970973,74.65297351,MH,Ahmednagar,Shrigonda,Shrigonda,18.59961015,74.59491221,MH,Ahmednagar,Shrigonda,Chormalewadi
+126127,Holigeri Halla,Krishna,Dodda Halla,Karnataka,38.65517083,15.28120213,75.56498272,KA,Gadag,Gadag,Mulgund Rural,15.41605643,75.31285694,KA,Dharwad,Hubballi,Ingalhalli
+126128,Hulagi Halla,Krishna,Bhadra,Karnataka,34.74208491,13.20945965,75.64391902,KA,Chikkamagaluru,Chikkamagaluru,Yelagudige,13.27295252,75.49380012,KA,Chikkamagaluru,Chikkamagaluru,Huigere
+126129,Hulkund Halla,Krishna,Yadawad Halla,Karnataka,14.38207998,16.10695184,75.08493336,KA,Belagavi,Savadatti,Mellikeri,16.16082347,75.17641738,KA,Belagavi,Ramdurg,Kunnal
+126132,Hutti,Krishna,Krishna River,Karnataka,55.80735682,16.0819956,76.43280427,KA,Raichur,Lingsugur,Kachapur,16.34072249,76.60828926,KA,Raichur,Lingsugur,Tanmankal
+126133,Huvin Halla,Krishna,Malprabha,Karnataka,22.38458275,15.78239855,74.59978339,KA,Belagavi,Belagavi,Kolikopp,15.6974205,74.69307934,KA,Belagavi,Kittur,Malaprabha River
+126165,Kagi Halla,Krishna,Haul Halla,Karnataka,14.36297561,15.75171199,75.28386458,KA,Belagavi,Savadatti,Kagadal,15.8517386,75.34134701,KA,Belagavi,Ramdurg,Kallur
+126134,Ichal Halla,Krishna,Saval Halla,Karnataka,28.19856348,15.34303398,75.59226732,KA,Gadag,Gadag,Harti,15.52274696,75.47866055,KA,Gadag,Gadag,Madaganur
+126135,Ichchala Halla,Krishna,Hire Halla,Karnataka,10.63300178,15.42111719,76.07801407,KA,Koppal,Kukunoor,Veerapur,15.34503903,76.11546613,KA,Koppal,Koppal,Dadegal
+126136,Ichhala Halla,Krishna,Shankarana Halla,Karnataka,11.07055318,15.44240624,76.2157121,KA,Koppal,Koppal,Taad Kanakapur,15.37746344,76.25346468,KA,Koppal,Koppal,Bhimanur
+126137,Ilkal N,Krishna,Hungud Halla,Karnataka,57.2020546,15.77470772,76.01402836,KA,Gadag,Gajendragad,Benachamatti,16.15191655,76.21238041,KA,Bagalkote,Hungund,Indawar Pu K
+126138,Indi Halla,Krishna,Bhima River,Karnataka,42.48859666,17.06030861,75.82121464,KA,Vijayapura,Indi,Nimbal K D,17.26061786,76.08679994,KA,Kalaburagi,Afzalpur,Mannur
+126141,Iruve Halla,Krishna,Benni Hala,Karnataka,26.52300148,15.53131436,75.56607414,KA,Gadag,Gadag,Hombal,15.71961577,75.5239486,KA,Gadag,Ron,Hadagali S Yavagal
+126153,Jarri Vagu,Krishna,Krishna River,Andhra Pradesh,26.11527856,16.21583656,79.30722081,AP,Prakasam,Pullalacheruvu,Reserved Forest,16.34249463,79.23001339,AP,Guntur,Veldurthi,Reserved Forest
+126139,Indrayani,Krishna,Bhima River,Maharashtra,110.80627752,18.7394416,73.36139789,MH,Pune,Mawal,Kurvande,18.67087044,73.99671724,MH,Pune,Haveli,Tulapur
+126140,Ippagundam,Krishna,Kollamu,Andhra Pradesh,9.73257348,16.0325264,78.94684938,AP,Prakasam,Dornala,Reserved Forest,16.03149827,78.88450345,AP,Kurnool,Srisailam,Reserved Forest
+126149,Jallmatti Halla,Krishna,Yadawad Halla,Karnataka,8.27864848,16.10268607,75.2393342,KA,Belagavi,Ramdurg,Kullur,16.13905392,75.17993282,KA,Belagavi,Ramdurg,Chippalkatti
+126142,Isara Halla,Krishna,Tungabhadra River,Karnataka,28.20564897,15.31072903,76.84277717,KA,Ballari,Kurugodu,Vaddahatti,15.49559125,76.78697972,KA,Ballari,Siruguppa,Nadivi
+126143,Jabapur Halla,Krishna,Hiranyakeshi,Karnataka,14.76949419,16.29803182,74.5964429,KA,Belagavi,Hukeri,Handigud,16.18536993,74.60801569,KA,Belagavi,Hukeri,Madamakkanal
+126150,Jambalni,Krishna,Ghumara Odha,Maharashtra,24.86502567,17.6545092,74.88805767,MH,Satara,Man,Hingani,17.74534677,75.06094624,MH,Solapur,Malshiras,Shendechinch
+126151,Jambhal,Krishna,Sima,Maharashtra,7.99499108,18.88390446,74.51067633,MH,Ahmednagar,Parner,Bhoyare Gangarda,18.84186338,74.46299735,MH,Ahmednagar,Shrigonda,Deodaithan
+126152,Janne Kaluva,Krishna,Kottapalem Nala,Andhra Pradesh,12.66818402,15.9802889,80.86137619,AP,Guntur,Repalle,Singupalem,15.89940259,80.80799451,AP,Guntur,Nizampatnam,Reserved Forest
+126144,Jagana Halla,Krishna,Chinna Hagari,Karnataka,46.04321059,14.23217837,76.21088618,KA,Chitradurga,Chitradurga,Megalahalli,14.41620612,76.37839643,KA,Chitradurga,Chitradurga,Bogalerahatti
+126145,Jagatkal Halla,Krishna,Dodda Halla,Karnataka,14.98607765,16.21570068,76.98741218,KA,Raichur,Devadurga,Jagir Jadaldinni,16.28225624,77.06907038,KA,Raichur,Devadurga,Durg
+126146,Jaipendra,Krishna,Krishna River,Telangana,4.01710371,16.12416339,78.89303402,TS,Nagarkurnool,Amrabad,Reserved Forest,16.0975952,78.91080658,TS,Nagarkurnool,Amrabad,Reserved Forest
+126147,Jali Halla,Krishna,Don,Karnataka,6.64472915,16.71271104,75.81862779,KA,Vijayapura,Vijayapura,Hegadihal,16.74539324,75.7754922,KA,Vijayapura,Vijayapura,Katakanahalli
+126148,Jali Halla,Krishna,Tungabhadra River,Karnataka,12.80197787,15.05180168,75.9804476,KA,Ballari,Hadagalli,Holagundi,15.05512077,75.90067835,KA,Ballari,Hadagalli,Nowli
+126154,Javali Halla,Krishna,Hire Halla,Karnataka,20.69191604,15.40670286,75.63324438,KA,Gadag,Gadag,Gadag Betigeri,15.55453388,75.66242388,KA,Gadag,Ron,Gujmagadi
+126155,Javargi Halla,Krishna,Bhima River,Karnataka,29.88768202,16.88200339,76.67294489,KA,Kalaburagi,Yadrami,Ijeri,17.04433901,76.82506011,KA,Kalaburagi,Kalaburagi,Somnathahalli
+126156,Jini Halla,Krishna,Don,Karnataka,19.35606962,16.58956429,76.06935155,KA,Vijayapura,Basavana Bagevadi,Kudari Salawadgi,16.68063885,76.18923216,KA,Vijayapura,Devara Hipparagi,Kondguli
+126157,Junyacha Odha,Krishna,Ghod,Maharashtra,8.3188868,18.69748417,74.40982386,MH,Pune,Shirur,Nimone,18.68664713,74.47844258,MH,Ahmednagar,Shrigonda,Wadgaon Shindodi
+126158,Kab Halla,Krishna,Tungabhadra River,Karnataka,17.45079859,15.29246556,76.0095855,KA,Koppal,Koppal,Kawaloor,15.19884355,76.11250737,KA,Ballari,Hagaribommanahalli,Tungabhadra Reservoir
+126159,Kabbana Halla,Krishna,Bhadra,Karnataka,25.92608085,13.50657797,75.49006575,KA,Chikkamagaluru,Narasimharajapura,Vaggade,13.65097771,75.5650237,KA,Chikkamagaluru,Narasimharajapura,Bhadra Reservoir
+126160,Kabbina Halla,Krishna,Hulagi Halla,Karnataka,7.53111441,13.29425263,75.55168001,KA,Chikkamagaluru,Chikkamagaluru,Basaravalli,13.24339917,75.53053586,KA,Chikkamagaluru,Chikkamagaluru,Saragodu
+126161,Kabbina Hole,Krishna,Vardha,Karnataka,19.22793796,14.40584084,74.87864624,KA,Uttara Kannada,Siddapur,Heggodmane,14.36903283,74.97488703,KA,Shivamogga,Sorab,Andavalli
+126162,Kachavalli Hole,Krishna,Tunga,Karnataka,20.48735753,13.27310215,75.23700082,KA,Chikkamagaluru,Mudigere,Kalakodu,13.38738597,75.23776282,KA,Chikkamagaluru,Sringeri,Kochavalli
+126167,Kakarveni R,Krishna,Kagna,Telangana,51.0999768,17.11685971,77.93145284,TS,Vikarabad,Pargi,Syedpalle,17.23018772,77.62285261,TS,Vikarabad,Yelal,Mazrasangam
+126168,Kakkaman Halla,Krishna,Maski Halla,Karnataka,26.22674775,15.9091889,76.70857026,KA,Raichur,Maski,Udbal Umli,15.89234299,76.91741053,KA,Raichur,Manvi,Muddamgaddi
+126169,Kakkara Halla,Krishna,Tungabhadra River,Karnataka,18.41628828,15.84458651,76.8619782,KA,Raichur,Sindhnur,Maldinni Khadehola,15.79118616,76.98006165,KA,Raichur,Sindhnur,Hedginhal
+126170,Kakke Halla,Krishna,Ghatprabha,Karnataka,19.46898309,16.10294003,75.68443409,KA,Bagalkote,Guledgudda,Hangaragi,16.20126558,75.71601988,KA,Bagalkote,Bagalkot,Salagundi
+126171,Kaklet Vagu,Krishna,Bugga Vagu_Krishna,Telangana,20.60201551,16.24114567,78.70172894,TS,Nagarkurnool,Amrabad,Reserved Forest,16.15319112,78.82019928,TS,Nagarkurnool,Amrabad,Reserved Forest
+126172,Kalakatti Halla,Krishna,Agrani_River,Karnataka,14.39321269,16.85863601,74.97637464,KA,Belagavi,Athni,Aralihatti,16.76467485,75.00215048,KA,Belagavi,Athni,Masarguppi
+126176,Kamakshiamma,Krishna,Nekkanmu Vagu,Andhra Pradesh,8.57642687,16.04663197,78.98619293,AP,Prakasam,Dornala,Reserved Forest,16.0977972,78.96910448,AP,Prakasam,Yerragondapalem,Reserved Forest
+126181,Kamta Halla,Krishna,Devapur Nala,Karnataka,17.37624724,16.52247874,76.39693957,KA,Vijayapura,Talikoti,Lakkundi,16.46184191,76.51394407,KA,Yadgir,Hunasagi,Hunsgi
+126185,Kanet Vagu,Krishna,Krishna River,Telangana,17.71175072,16.15819502,78.5478656,TS,Nagarkurnool,Kollapur,Reserved Forest,16.07117633,78.46575947,TS,Nagarkurnool,Amrabad,Reserved Forest
+126173,Kalhatti Hole,Krishna,Bhadra,Karnataka,47.05380996,13.52363686,75.84555377,KA,Chikkamagaluru,Kadur,Yemmedoddi,13.72992295,75.67365853,KA,Chikkamagaluru,Tarikere,Karkuchi
+126174,Kalli Halla,Krishna,Kanvi Halla,Karnataka,5.6375564,16.07855458,74.97141793,KA,Belagavi,Gokak,Chikkanandi,16.0897334,74.92948986,KA,Belagavi,Gokak,Mamadapur
+126175,Kalyala Halla,Krishna,Sanna Don,Karnataka,6.3092055,16.70677287,75.87626675,KA,Vijayapura,Basavana Bagevadi,Ukkali,16.69597946,75.92572042,KA,Vijayapura,Basavana Bagevadi,Masabinal
+126186,Kanher Odha,Krishna,Karha,Maharashtra,6.47648644,18.3930704,74.06758073,MH,Pune,Purandhar,Sonori,18.33858588,74.07197049,MH,Pune,Purandhar,Khalad
+126177,Kamalavati N,Krishna,Kagna,Karnataka,53.00056127,16.92601045,77.43523752,KA,Kalaburagi,Sedam,Kanagadda,17.2218332,77.26707129,KA,Kalaburagi,Sedam,Yadga
+126178,Kameri Tanda,Krishna,Krishna River,Maharashtra,19.06085283,17.02166843,74.24995072,MH,Sangli,Walwa,Waghwadi,17.02849525,74.38119291,MH,Sangli,Walwa,Walwa
+126179,Kamni Halla,Krishna,Ghatprabha,Karnataka,15.53915941,16.20222225,75.23068064,KA,Belagavi,Mudalgi,Yadwad,16.29407923,75.29970476,KA,Bagalkote,Mudhol,Zunjarakopp
+126180,Kampa Vagu,Krishna,Krishna River,Telangana,15.07318145,16.11326803,78.71174528,TS,Nagarkurnool,Amrabad,Reserved Forest,16.04039415,78.80226894,TS,Nagarkurnool,Amrabad,Reserved Forest
+126182,Kanak N,Krishna,Sindhnur N,Karnataka,58.01251053,15.80501256,76.34520809,KA,Koppal,Kushtagi,Idlapur,15.80737629,76.73639964,KA,Raichur,Sindhnur,Mullur
+126183,Kanal Halla,Krishna,Sogali Halla,Karnataka,7.56145945,16.47949902,76.04739203,KA,Vijayapura,Basavana Bagevadi,Kannal,16.50341414,76.1063003,KA,Vijayapura,Basavana Bagevadi,Byakod
+126184,Kandukura Vagu,Krishna,Aler,Telangana,37.86228038,17.67764061,78.77912349,TS,Yadadri Bhuvanagiri,Thurkapally,Kondapuram,17.60511151,79.07297066,TS,Yadadri Bhuvanagiri,Alair,Ikkurthy
+126187,Kani Gana Halla,Krishna,Nari Halla,Karnataka,44.34088789,14.957056,76.72501721,KA,Chitradurga,Molakalmuru,Malleharavu,15.2332314,76.66716672,KA,Ballari,Sandur,Daroji
+126188,Kani Halla,Krishna,Hagari Or Vedavati,Karnataka,33.55829225,13.99765971,76.23609367,KA,Chitradurga,Holalkere,Malaninganahalli,13.81250082,76.38449264,KA,Chitradurga,Hosdurga,Vedavathi River
+126189,Kannur Halla,Krishna,Dodda Halla,Karnataka,5.4307698,16.98185457,75.66998316,KA,Vijayapura,Vijayapura,Shirnal,16.99241983,75.71695891,KA,Vijayapura,Vijayapura,Narasimhanagar
+126191,Kanola,Krishna,Sina,Maharashtra,30.6869827,18.47187995,75.0046369,MH,Ahmednagar,Karjat,Alsunde,18.43714704,75.2493643,MH,Solapur,Karmala,Nilaj
+126192,Kansi,Krishna,Vardha,Karnataka,27.93735316,14.21935602,74.84686716,KA,Uttara Kannada,Siddapur,Musavalli,14.31564261,74.96966482,KA,Shivamogga,Sagar,Shuntikoppa
+126193,Kanti Halla,Krishna,Navali Halla,Karnataka,16.16269641,16.80618655,76.18489987,KA,Vijayapura,Sindgi,Chikka Kokatnur,16.93055825,76.15833523,KA,Vijayapura,Sindgi,Somapur
+126233,Kokri Odha,Krishna,Ghod,Maharashtra,13.98010981,18.69855742,74.61419895,MH,Ahmednagar,Shrigonda,Mahadeowadi,18.60715499,74.55247808,MH,Ahmednagar,Shrigonda,Vangdari
+126194,Kanvi Halla,Krishna,Ghatprabha,Karnataka,42.89565913,15.9202515,74.89510663,KA,Belagavi,Savadatti,Tadasalur,16.21073571,74.89960698,KA,Belagavi,Gokak,Beerangaddi
+126195,Kappala Vagu,Krishna,Eddu Vagu,Andhra Pradesh,7.75175989,16.57494604,80.1781584,AP,Guntur,Krosuru,Vutukuru,16.57758204,80.23290923,AP,Guntur,Amaravathi,Munugodu
+126196,Kappalappan Halla,Krishna,Hungud Halla,Karnataka,20.98362007,15.87240945,75.98652675,KA,Koppal,Kushtagi,Chandragiri,16.0302057,76.02736862,KA,Bagalkote,Hungund,Bannihatti
+126204,Karka,Krishna,Ramalinga Halla,Karnataka,21.52609055,16.41583073,74.79404851,KA,Belagavi,Raybag,Devanakatti,16.51314485,74.69111791,KA,Belagavi,Raybag,Nasalapur
+126197,Guptting Odha,Krishna,Nira,Maharashtra,31.50108705,17.78655886,74.70531076,MH,Satara,Man,Khutbav,17.9460306,74.85048144,MH,Solapur,Malshiras,Kadamwadi
+126201,Kari Halla,Krishna,Mullamari,Karnataka,28.16230274,17.64287382,77.29419923,KA,Bidar,Chitaguppa,Udbal,17.48869905,77.33424993,KA,Kalaburagi,Chincholi,Karakmukli
+126202,Kari Halla,Krishna,Savali Halla,Karnataka,13.77878844,16.447316,74.66360274,KA,Belagavi,Chikodi,Kerur,16.55860915,74.66554582,KA,Belagavi,Chikodi,Kallol
+126203,Karikan Halla,Krishna,Somavati Hole,Karnataka,5.46140413,13.13012174,75.27658026,KA,Chikkamagaluru,Mudigere,Samse,13.16388532,75.30336848,KA,Chikkamagaluru,Mudigere,Samse
+126212,Kattalli Halla,Krishna,Benithora,Karnataka,13.04605647,17.54339501,76.99026402,KA,Kalaburagi,Kamalapur,Kamalapur,17.44226567,76.99849596,KA,Kalaburagi,Kamalapur,Nagoora
+126198,Kare Tore,Krishna,Suvarnamukhi,Karnataka,81.94677789,13.35002127,76.77036071,KA,Tumakuru,Gubbi,Shivasandra,13.86113511,76.77525036,KA,Tumakuru,Sira,Narayanapura
+126199,Karevan Halla,Krishna,Matyana Halla,Karnataka,10.02356407,15.92471005,74.74378456,KA,Belagavi,Bailahongala,Mohare,15.95729528,74.6913457,KA,Belagavi,Gokak,Suladhal
+126200,Karha,Krishna,Nira,Maharashtra,110.35463527,18.36303963,73.88161467,MH,Pune,Haveli,Gogalwadi,18.06748513,74.65400442,MH,Pune,Baramati,Songaon
+126205,Syagali Halla,Krishna,Tungabhadra River,Karnataka,53.81152593,14.24783976,75.9906296,KA,Davangere,Channagiri,Maradi,14.51005451,75.7960011,KA,Haveri,Ranibennur,Kodiyal CT
+126206,Karna Halla,Krishna,Krishna River,Karnataka,12.9771491,16.42118562,75.14800404,KA,Bagalkote,Rabakavi Banahatti,Banhatti Rural,16.50662846,75.11928227,KA,Bagalkote,Rabakavi Banahatti,Asangi
+126207,Karur,Krishna,Yerala,Maharashtra,15.66754285,17.72137641,74.3865534,MH,Satara,Khatav,Katalgewadi,17.60524786,74.41718806,MH,Satara,Khatav,Wakeshwar
+126208,Kasari,Krishna,Panchaganga,Maharashtra,78.94032666,16.90673559,73.76712065,MH,Kolhapur,Shahuwadi,Gajapur,16.73398351,74.17913181,MH,Kolhapur,Karvir,Hanmantwadi
+126209,Katka Halla,Krishna,Hire N,Karnataka,15.4033384,15.7093115,76.19188451,KA,Koppal,Kushtagi,Kurbanhal,15.72221666,76.30842058,KA,Koppal,Kushtagi,Neerloti
+126210,Katora,Krishna,Krishna River,Maharashtra,12.12216625,17.08710957,74.20263697,MH,Sangli,Walwa,Kalamwadi,17.11503725,74.28160215,MH,Sangli,Walwa,Bahe
+126211,Katta Halla,Krishna,Kagna,Karnataka,12.83500748,17.14662851,76.87983086,KA,Kalaburagi,Shahabad,Tonsinhalli,17.05667907,76.91361038,KA,Kalaburagi,Shahabad,Hongunta
+126213,Katte Hole,Krishna,Hagari Or Vedavati,Karnataka,19.16926116,13.75871475,76.52789264,KA,Chitradurga,Hiriyur,Yelladakere,13.89371914,76.51534977,KA,Chitradurga,Hiriyur,Myakenahalli
+126214,Katte Hole,Krishna,Kalhatti Hole,Karnataka,38.3797288,13.78797291,75.93040656,KA,Chikkamagaluru,Ajjampura,Kenchapura,13.73554456,75.72385129,KA,Chikkamagaluru,Tarikere,Gopala
+126215,Kattikai Vagu,Krishna,Benithora,Karnataka,11.59906281,17.5943913,76.64452287,KA,Kalaburagi,Aland,Sukarwadi,17.58621295,76.73255335,KA,Kalaburagi,Aland,Bilgunda
+126216,Kaukuntla Vagu,Krishna,Pedda Vagu,Telangana,7.431209,16.53709012,77.85976413,TS,Mahabubnagar,Devarakadra,Koukuntla,16.48504629,77.89176832,TS,Mahabubnagar,Devarakadra,Perur
+126218,Kembali Halla,Krishna,Markandeya,Karnataka,12.20097578,15.80634546,74.4350135,KA,Belagavi,Belagavi,Hangarge,15.8817173,74.46046751,KA,Belagavi,Belagavi,Mannur
+126219,Kempa Halla,Krishna,Chinamageri,Karnataka,39.70531038,16.68143239,76.26915369,KA,Vijayapura,Devara Hipparagi,Tilgul,16.85397011,76.49284484,KA,Kalaburagi,Yadrami,Yedrami
+126220,Kencha Halla,Krishna,Hire Halla,Karnataka,12.98207037,15.35297695,76.89823772,KA,Ballari,Kurugodu,Byluru,15.41401947,76.96297695,KA,Ballari,Siruguppa,Hagalur
+126221,Kenchai Halla,Krishna,Bhima River,Karnataka,18.51910898,16.98216672,76.26982885,KA,Vijayapura,Sindgi,Mangalur,17.07754664,76.38772194,KA,Vijayapura,Sindgi,Shirasgi
+126222,Kerekundi Halla,Krishna,Chandrapura Halla,Karnataka,18.58553911,14.70241606,75.51109809,KA,Haveri,Byadgi,Motebennur,14.67887971,75.63627408,KA,Haveri,Ranibennur,Gangapur
+126223,Khaji Halla,Krishna,Bori,Karnataka,11.59077832,17.3120356,76.21889587,KA,Kalaburagi,Afzalpur,Mashal,17.25889145,76.29399622,KA,Kalaburagi,Afzalpur,Gour B
+126224,Khanar Odha,Krishna,Karha,Maharashtra,9.52609401,18.39005288,74.08068793,MH,Pune,Purandhar,Vanpuri,18.32281377,74.12014636,MH,Pune,Purandhar,Walunj
+126225,Khara,Krishna,Krishna River,Maharashtra,18.54728542,16.95593229,74.29123883,MH,Sangli,Walwa,Yelur,17.02276546,74.39697468,MH,Sangli,Palus,Nagthane
+126226,Kharpi,Krishna,Ghod,Maharashtra,5.33095943,18.81053549,74.43328431,MH,Ahmednagar,Shrigonda,Hingani Dumala,18.80997718,74.38964239,MH,Ahmednagar,Shrigonda,Hingani Dumala
+126227,Khichdi,Krishna,Man,Maharashtra,13.33069288,17.33987515,74.94648177,MH,Sangli,Atpadi,Shetphale,17.378553,75.04287334,MH,Solapur,Sangole,Nazare
+126229,Khosara Nala,Krishna,Lokhara Nala,Maharashtra,24.84376908,18.59125902,74.90293223,MH,Ahmednagar,Karjat,Supekarwadi,18.43721691,74.78170675,MH,Ahmednagar,Karjat,Bhambore
+126230,Kochahera Halla,Krishna,Hire Halla,Karnataka,10.24980352,16.21394604,77.17146745,KA,Raichur,Raichur,Kalmala,16.26655393,77.2361622,KA,Raichur,Raichur,J Venktapur
+126231,Kodi Halla,Krishna,Hagari Or Vedavati,Karnataka,36.14387263,13.93572284,76.23671309,KA,Chitradurga,Hosdurga,Doddagatta,13.7217081,76.27371564,KA,Chitradurga,Hosdurga,Ballalasamudra
+126232,Kododi Halla,Krishna,Benni Hala,Karnataka,19.80451226,15.1272368,75.28312264,KA,Dharwad,Kundgol,Nelagudda,15.26169202,75.28328089,KA,Dharwad,Kundgol,Kundgol Rural
+126234,Kollam Vagu,Krishna,Kagna,Telangana,14.84676079,17.46553814,77.68385855,TS,Vikarabad,Bantwaram,Turmamidi,17.36113256,77.75042254,TS,Vikarabad,Peddemul,Kotpalle
+126235,Kollar,Krishna,Suraram,Telangana,15.32671297,16.99495534,77.99518238,TS,Ranga Reddy,Kondurg,Gunjalapahad,16.97737417,78.12426018,TS,Mahabubnagar,Balanagar,Udithyal
+126236,Kon,Krishna,Don,Karnataka,12.11029491,16.50939079,76.38660376,KA,Vijayapura,Talikoti,Kodaganur,16.4314097,76.32767497,KA,Vijayapura,Talikoti,Harnal
+126237,Kona Halla,Krishna,Kagna,Karnataka,12.5808337,17.32599792,77.2358658,KA,Kalaburagi,Kalagi,Rajapur,17.22545199,77.22223386,KA,Kalaburagi,Sedam,Meenhabal
+126241,Konnuru Vagu_Pedda Vagu,Krishna,Pedda Vagu,Telangana,38.98978858,16.4219131,78.21035963,TS,Nagarkurnool,Bijinapally,Salkarpet,16.39738504,77.8924242,TS,Wanaparthy,Kothakota,Shankarampeta
+126242,Kontvan,Krishna,Ghod,Maharashtra,6.67209477,18.81008023,74.2471032,MH,Pune,Shirur,Sone Sangavi,18.84789724,74.27772738,MH,Pune,Shirur,Annapur
+126243,Kopila,Krishna,Eddu Vagu,Andhra Pradesh,5.78477465,16.5618,80.13325439,AP,Guntur,Atchampet,Velpuru,16.55009186,80.1826732,AP,Guntur,Krosuru,Vipparla
+126238,Kondaviti Vagu,Krishna,Krishna River,Andhra Pradesh,42.13717216,16.33418369,80.26934527,AP,Guntur,Medikonduru,Medikonduru,16.57849775,80.42446727,AP,Guntur,Amaravathi,Vykuntapuram
+126239,Kongal,Krishna,Halia,Telangana,32.00033191,17.11924179,79.0288106,TS,Nalgonda,Munugode,Palivela,16.96001134,79.2020826,TS,Nalgonda,Kanagal,Parvathagiri
+126240,Konkan Halla,Krishna,Tungabhadra River,Karnataka,13.09642856,15.40636601,76.74902719,KA,Ballari,Kurugodu,Emmiganur,15.49343141,76.7796667,KA,Koppal,Karatagi,Shalignoor
+126244,Kopperagundi Hole,Krishna,Bidaragodu Halla,Karnataka,5.06217975,13.50334337,75.16564066,KA,Shivamogga,Tirthahalli,Balehalli,13.53575021,75.14351887,KA,Shivamogga,Tirthahalli,Nantur
+126245,Korakan Hole,Krishna,Tunga,Karnataka,18.85704414,13.2600471,75.18939391,KA,Chikkamagaluru,Mudigere,Samse,13.34322578,75.1692658,KA,Chikkamagaluru,Sringeri,Gulaganjimane
+126246,Korkap,Krishna,Korakoppa Halla,Karnataka,3.74298402,16.03263713,75.05096104,KA,Belagavi,Savadatti,Sattigeri,16.02093523,75.0808809,KA,Belagavi,Savadatti,Sattigeri
+126247,Kotbagi Halla,Krishna,Malprabha,Karnataka,21.10944639,15.61734866,74.77404192,KA,Belagavi,Kittur,Bassapur,15.72755954,74.79881978,KA,Belagavi,Bailahongala,Malaprabha River
+126248,Kottapalem Nala,Krishna,Uppu Drain,Andhra Pradesh,19.67483665,15.86835507,80.77425915,AP,Guntur,Nizampatnam,Dindi,15.90419895,80.7809029,AP,Guntur,Nizampatnam,Adavuladeevi
+126249,Kottella Vagu,Krishna,Pedda Vagu,Andhra Pradesh,7.42305522,16.46600709,80.44383743,AP,Guntur,Thullur,Pedaparimi,16.46620963,80.50564449,AP,Guntur,Mangalagiri,Kuragallu
+126250,Koyna,Krishna,Krishna River,Maharashtra,155.47098691,17.95921267,73.66669226,MH,Satara,Mahabaleshwar,Kshetra Mahabaleshwar,17.29596123,74.17647342,MH,Satara,Karad,Karad
+126251,Kudi Halla,Krishna,Dodda Halla,Karnataka,15.52836802,15.42446159,75.03277647,KA,Dharwad,Hubballi Urban,Hubballi Dharwad,15.41971703,75.15353796,KA,Dharwad,Hubballi,Sulla
+126252,Kudi Halla,Krishna,Sige Halla,Karnataka,12.68716036,13.895321,75.36354151,KA,Shivamogga,Hosanagara,Dobylu,13.98861298,75.35497336,KA,Shivamogga,Shivamogga,Suduru
+126253,Kudluru Vanka,Krishna,Erra Vagu,Andhra Pradesh,16.01761877,15.77344887,77.21019418,AP,Kurnool,Kowthalam,Kamavaram,15.79649221,77.08485091,AP,Kurnool,Kowthalam,Dommaladinne
+126254,Kudregundi Halla,Krishna,Tunga,Karnataka,36.08479168,13.4665061,75.44711844,KA,Chikkamagaluru,Narasimharajapura,Haravari,13.70689485,75.42126997,KA,Chikkamagaluru,Narasimharajapura,Konakere
+126258,Kumbara Halla,Krishna,Rayana Halla,Karnataka,12.4698539,15.40410726,75.93741615,KA,Koppal,Kukunoor,Itagi,15.30392276,75.96789987,KA,Koppal,Koppal,Kawaloor
+126617,Rothal Odha,Krishna,Hanga,Maharashtra,7.10071337,18.97210178,74.44284972,MH,Ahmednagar,Parner,Wadner Haveli,18.96672837,74.494905,MH,Ahmednagar,Parner,Hanga
+126255,Kukadi,Krishna,Ghod,Maharashtra,111.65368939,19.30313159,73.69601648,MH,Pune,Junnar,Ajanawale,18.85498321,74.30647639,MH,Pune,Shirur,Mhase Bk
+126256,Kullur Halla,Krishna,Yadawad Halla,Karnataka,14.82066088,16.10072308,75.26698303,KA,Belagavi,Ramdurg,Beedaki,16.17970468,75.18151254,KA,Belagavi,Mudalgi,Yadwad
+126257,Kumadvati,Krishna,Tungabhadra River,Karnataka,163.19454745,13.81028616,75.27835189,KA,Shivamogga,Tirthahalli,Hullathi,14.49276484,75.69869085,KA,Haveri,Ranibennur,Holeanveri
+126274,Lotta Vagu,Krishna,Krishna River,Andhra Pradesh,7.83934883,16.01102856,78.45024082,AP,Kurnool,Kothapalle,Reserved Forest,16.07337779,78.43913209,AP,Kurnool,Kothapalle,Veerabhadradurgam
+126259,Kumbhargaon Nala,Krishna,Bhima River,Maharashtra,15.00882571,18.38413039,74.95244407,MH,Solapur,Karmala,Kumbhargaon,18.26157663,74.95165542,MH,Pune,Indapur,Chandgaon
+126260,Kundli,Krishna,Indrayani,Maharashtra,18.6202107,18.83633605,73.42206163,MH,Pune,Mawal,Udhewadi,18.76860508,73.54131268,MH,Pune,Mawal,Valakh
+126261,Kuntalapadugu Vagu,Krishna,Palanka Vagu,Andhra Pradesh,12.83823006,16.18411444,78.93725619,AP,Prakasam,Yerragondapalem,Reserved Forest,16.16605953,79.04371736,AP,Prakasam,Yerragondapalem,Reserved Forest
+126262,Kusagura Halla,Krishna,Kumadvati,Karnataka,26.39149148,14.56749902,75.45334787,KA,Haveri,Hirekerur,Hirebudihal,14.49029017,75.61416996,KA,Haveri,Ranibennur,Kuppelur
+126263,Kush Eru,Krishna,Pakhal or Muneru,Andhra Pradesh,24.04897086,16.97320074,80.26738818,AP,Krishna,Vatsavai,Vatsavai,16.79307128,80.29515685,AP,Krishna,Nandigama,Nandigama
+126264,Kushanava Hole,Krishna,Tunga,Karnataka,19.89646596,13.80320027,75.24791168,KA,Shivamogga,Tirthahalli,Kolige,13.69272005,75.25923671,KA,Shivamogga,Tirthahalli,Theerthahalli Rural
+126265,Kuve Halla,Krishna,Bhadra,Karnataka,11.5069147,13.16605325,75.50298605,KA,Chikkamagaluru,Mudigere,Niduvale,13.25742078,75.47133175,KA,Chikkamagaluru,Mudigere,Hadivoni
+126266,Kyadigi Vanka,Krishna,Tungabhadra River,Andhra Pradesh,22.28024548,15.79032227,77.23544441,AP,Kurnool,Pedda Kadubur,Bapaladoddi,15.93812418,77.13939447,AP,Kurnool,Kosigi,Kadidoddi
+126267,Landgyacha Odha,Krishna,Sima,Maharashtra,14.53872624,18.92474756,74.44266257,MH,Ahmednagar,Parner,Jategaon,18.82740802,74.407095,MH,Ahmednagar,Shrigonda,Gavhanewadi
+126268,Lanka Hole,Krishna,Bhadra,Karnataka,8.33500706,13.25559634,75.18419034,KA,Chikkamagaluru,Mudigere,Samse,13.2092674,75.22254645,KA,Chikkamagaluru,Mudigere,Kudremukh
+126269,Lendi Odha,Krishna,Karha,Maharashtra,6.59747531,18.33323464,74.17432801,MH,Pune,Purandhar,Kothale,18.30312672,74.21506562,MH,Pune,Purandhar,Nazarekade Pathar
+126270,Limb Odha,Krishna,Bhima River,Maharashtra,13.45693333,18.65451385,74.37938743,MH,Pune,Shirur,Nhavara,18.56547276,74.41789892,MH,Pune,Shirur,Wadgaon Rasai
+126271,Loddi Vagu,Krishna,Chandra Vagu,Telangana,23.6152849,16.2525776,78.68610687,TS,Nagarkurnool,Amrabad,Reserved Forest,16.35320805,78.63092197,TS,Nagarkurnool,Achampet,Choutapalle
+126272,Lokapur Halla,Krishna,Ghatprabha,Karnataka,24.82184138,16.04684086,75.35441065,KA,Belagavi,Ramdurg,Chetan Nagar,16.2165088,75.37293502,KA,Bagalkote,Mudhol,Hebbal
+126273,Lokhara Nala,Krishna,Bhima River,Maharashtra,39.48728487,18.68797967,74.88435743,MH,Ahmednagar,Karjat,Chakhalewadi,18.40803353,74.78133868,MH,Ahmednagar,Karjat,Bhambore
+126275,Lotu Vagu,Krishna,Akeru,Telangana,35.46975183,17.86817106,79.13939994,TS,Jangoan,Narmetta,Narmetta,17.87119317,79.3885396,TS,Jangoan,Ghanpur (Station),Ghanpur Station CT
+126276,Mand,Krishna,Krishna River,Maharashtra,30.02775059,17.12168006,73.98567699,MH,Satara,Karad,Bharewadi,17.16831618,74.19493223,MH,Satara,Karad,Malkhed
+126277,Mada Halla,Krishna,Dodda Halla,Karnataka,24.26301312,16.83025368,75.82913351,KA,Vijayapura,Vijayapura,Kaulagi,16.96898561,75.92853562,KA,Vijayapura,Indi,Shirkanahalli
+126284,Madi Halla,Krishna,Hire N,Karnataka,9.0230391,15.77258211,76.26164396,KA,Koppal,Kushtagi,Ganganhal,15.72835421,76.3150172,KA,Koppal,Kushtagi,Neerloti
+126278,Mada Vagu,Krishna,Kondaviti Vagu,Andhra Pradesh,40.70433552,16.3695925,80.19128619,AP,Guntur,Sattenapalle,Komerapudi,16.54121273,80.38510802,AP,Guntur,Amaravathi,Pedda Madduru
+126279,Maddelu Vagu,Krishna,Pedda Vagu,Telangana,26.9017188,16.78243096,77.94607287,TS,Mahabubnagar,Hanwada,Chinnadharpalle,16.71745798,77.77970826,TS,Mahabubnagar,Koilkonda,Mubarakpur
+126285,Madyala Vagu,Krishna,Ermulli Vagu,Telangana,7.61103971,17.53712266,78.56023361,TS,Medchal Malkajgiri,Malkajgiri,Hyderabad,17.51189182,78.62391838,TS,Medchal Malkajgiri,Keesara,Cheeryal
+126286,Magi Halla,Krishna,Dodda Halla,Karnataka,7.79694844,16.28736875,77.00045493,KA,Raichur,Devadurga,Shivangi,16.2848537,77.06070419,KA,Raichur,Devadurga,Durg
+126280,Maddera Halla,Krishna,Hagari Or Vedavati,Karnataka,41.79494144,13.76139775,76.5203994,KA,Chitradurga,Hosdurga,Laxmidevarahalli,13.93928006,76.63969725,KA,Chitradurga,Hiriyur,Patrehalli
+126281,Maddikere Halla,Krishna,Ilkal N,Karnataka,6.37871353,15.98177031,76.08265007,KA,Bagalkote,Ilkal,Herur,16.00532331,76.13524313,KA,Bagalkote,Ilkal,Kesarabhavi
+126282,Maddulasari Vagu,Krishna,Krishna River,Andhra Pradesh,18.45795476,16.11008716,79.16660913,AP,Prakasam,Yerragondapalem,Reserved Forest,16.21644102,79.19242884,AP,Prakasam,Yerragondapalem,Reserved Forest
+126283,Madi Halla,Krishna,Dodda Halla,Karnataka,6.00293566,16.2756579,77.00121786,KA,Raichur,Devadurga,Nagoli,16.28179592,77.04666602,KA,Raichur,Devadurga,Govindpalli
+126287,Mahadev Nala,Krishna,Bhima River,Maharashtra,5.94455031,18.30259843,74.90204099,MH,Solapur,Karmala,Bhagatwadi,18.25950759,74.9072602,MH,Pune,Indapur,Palasdeo
+126291,Malathy  Hole,Krishna,Tunga,Karnataka,44.98382218,13.46077041,75.16365704,KA,Chikkamagaluru,Sringeri,K Masige,13.66160297,75.2103536,KA,Shivamogga,Tirthahalli,Hunasavalli
+126294,Mallappaharani Vagu,Krishna,Krishna River,Telangana,56.98418164,16.39546982,78.19109007,TS,Wanaparthy,Gopalpeta,Chakalpalle,16.01783177,78.25108589,TS,Nagarkurnool,Kollapur,Manchalakatta
+126292,Malla Halla,Krishna,Sindhnur N,Karnataka,41.39904529,15.79343317,76.45989698,KA,Raichur,Sindhnur,Virapur,15.77732157,76.76404202,KA,Raichur,Sindhnur,Sindhnur
+126293,Malla Vagu,Krishna,Hindri,Andhra Pradesh,29.29049066,15.64113256,77.34210256,AP,Kurnool,Adoni,Bychigeri,15.67165785,77.55773787,AP,Kurnool,Gonegandla,Ganjihalli
+126295,Mallapur Halla,Krishna,Ghatprabha,Karnataka,19.74885224,16.17350314,75.08207869,KA,Belagavi,Gokak,Koujalgi,16.31521821,75.14955523,KA,Belagavi,Mudalgi,Yaragudri
+126296,Malli Halla,Krishna,Dodda Halla,Karnataka,22.83656672,17.04386756,75.84293487,KA,Vijayapura,Indi,Kyatanakeri,17.04921251,76.01084507,KA,Vijayapura,Indi,Bannihatti
+126297,Mallikarjuna Halla,Krishna,Malprabha,Karnataka,9.22027753,15.81812677,74.84188424,KA,Belagavi,Bailahongala,Bail Hongal,15.74719913,74.85301027,KA,Belagavi,Bailahongala,Malaprabha River
+126298,Malprabha,Krishna,Krishna River,Karnataka,325.27122625,15.70130958,74.21169519,KA,Belagavi,Khanapur,Kanakumbi,16.20991851,76.06953676,KA,Vijayapura,Muddebihal,Kunchaganur
+126299,Malvakadi,Krishna,Mula-Mutha,Maharashtra,17.1826884,18.41039999,73.90276121,MH,Pune,Haveli,Wadachiwadi,18.50791644,73.99659247,MH,Pune,Haveli,Manjari Bk
+126300,Mami Dimotta,Krishna,Krishna River,Telangana,17.46447721,16.82810218,79.89814927,TS,Suryapet,Mellachervu,Mella Cheruvu,16.70619862,79.84818512,TS,Suryapet,Mattampally,Gundla Palle
+126301,Mamidreva,Krishna,Krishna River,Telangana,12.69117367,16.22880889,78.8311604,TS,Nagarkurnool,Amrabad,Reserved Forest,16.18698724,78.90787355,TS,Nagarkurnool,Amrabad,Reserved Forest
+126302,Manchinilla Vanka,Krishna,Chinna Hagari,Andhra Pradesh,27.8438317,15.05979573,76.77486306,AP,Anantapur,D.Hirehal,Malapanagudi,14.92190336,76.94923637,AP,Anantapur,D.Hirehal,Nagalapuram
+126303,Mand,Krishna,Krishna River,Maharashtra,27.09850817,17.44434937,73.93754682,MH,Satara,Patan,Keloli,17.40071971,74.10873738,MH,Satara,Karad,Vadoli Bhikeshwar
+126304,Mandewal Halla,Krishna,Hippargi Halla,Karnataka,10.37096939,16.96889187,76.54002422,KA,Kalaburagi,Jevargi,Indiragandhinagar,17.02302315,76.58975294,KA,Kalaburagi,Jevargi,Nelogi
+126305,Mandka,Krishna,Mendka,Maharashtra,12.18034096,19.0245016,74.59512134,MH,Ahmednagar,Nagar,Kamargaon,19.0151165,74.69613725,MH,Ahmednagar,Nagar,Sonewadi
+126306,Mangaleru Drain,Krishna,Gaddigondi Kaluva,Andhra Pradesh,18.63852667,15.8831381,80.91196687,AP,Krishna,Nagayalanka,Parrachivara,15.8278791,80.9903642,AP,Krishna,Nagayalanka,Reserved Forest
+126618,Thagnai,Krishna,Gondardi,Maharashtra,9.75034048,18.64503943,74.93952101,MH,Ahmednagar,Karjat,Khurangewadi,18.7013453,74.99888313,MH,Ahmednagar,Karjat,Gurav Pimpri
+126307,Mangetri N,Krishna,Malprabha,Karnataka,31.70288821,15.75641076,74.39160377,KA,Belagavi,Belagavi,Badas Inam,15.70521776,74.42200327,KA,Belagavi,Khanapur,Olamani
+126308,Manikarnika,Krishna,Hanga,Maharashtra,11.84910111,19.04408585,74.39245468,MH,Ahmednagar,Parner,Parner,18.9984367,74.47144809,MH,Ahmednagar,Parner,Hanga
+126318,Minu  Hole,Krishna,Malathy  Hole,Karnataka,22.2792877,13.54885575,75.0555349,KA,Shivamogga,Tirthahalli,Talluru,13.61267416,75.1657052,KA,Shivamogga,Tirthahalli,Herabailu
+126309,Manne Vagu,Krishna,Pedda Vagu,Telangana,44.74831956,16.72504696,77.61962453,TS,Narayanpet,Narayanpet,Boinpalle,16.47999301,77.80257626,TS,Mahabubnagar,Chinnachintakunta,Appampalle
+126310,Marali Halla,Krishna,Tungabhadra River,Karnataka,37.03435704,15.48677256,76.31167122,KA,Koppal,Koppal,Arsinkera,15.44094745,76.61055818,KA,Ballari,Kampli,Belugoduhal
+126319,Mobhol Vodha,Krishna,Venganga,Maharashtra,16.39850932,16.26609975,74.04813916,MH,Kolhapur,Radhanagari,Gawathanwadi,16.34295142,74.14307933,MH,Kolhapur,Bhudargad,Darwad
+126311,Maruru Halla,Krishna,Chikka Hagari,Karnataka,45.01584138,14.66400285,76.37600855,KA,Ballari,Kotturu,Nimbalageri,14.83459033,76.15864137,KA,Davangere,Harapanahalli,Gajapura
+126312,Masi Vagu,Krishna,Ummala Vagu,Telangana,22.98731687,17.76001895,80.27603455,TS,Bhadradri Kothagudem,Yellandu,Komararam,17.6538989,80.21270773,TS,Mahabubabad,Bayyaram,Kambalapalle
+126313,Matyana Halla,Krishna,Bidar Halla,Karnataka,9.98074296,15.94058211,74.74071689,KA,Belagavi,Bailahongala,Mohare,15.95718808,74.66989543,KA,Belagavi,Belagavi,Hudali
+126320,Moti,Krishna,Krishna River,Telangana,8.50623478,16.23379337,78.89291131,TS,Nagarkurnool,Amrabad,Reserved Forest,16.20148476,78.93908518,TS,Nagarkurnool,Amrabad,Reserved Forest
+126314,Mavin Hole,Krishna,Vardha,Karnataka,45.86146051,14.22747416,75.19282139,KA,Shivamogga,Sagar,Laviggere,14.34320185,74.9793789,KA,Shivamogga,Sorab,Andavalli
+126321,Moti,Krishna,Ghod,Maharashtra,6.88993132,18.79842373,74.32454355,MH,Pune,Shirur,Saradwadi,18.83707537,74.36790724,MH,Pune,Shirur,Shirur
+126331,Nagena Halla,Krishna,Hire Halla,Karnataka,19.76033655,15.55337787,75.78088954,KA,Gadag,Ron,Naregal,15.64187468,75.65445415,KA,Gadag,Ron,Savadi
+126315,Mehekri,Krishna,Sina,Maharashtra,87.17032004,19.15282601,74.87808496,MH,Ahmednagar,Nagar,Agadgaon,18.70697553,75.09629023,MH,Beed,Ashti,Hingni
+126316,Mekavati Vagu,Krishna,Jarri Vagu,Andhra Pradesh,4.74037752,16.36748656,79.29891695,AP,Guntur,Veldurthi,Kandlakunta,16.33710978,79.27598807,AP,Guntur,Veldurthi,Reserved Forest
+126317,Midchi Halla,Krishna,Ghatprabha,Karnataka,28.11860889,16.03945884,75.37380454,KA,Belagavi,Ramdurg,Shirasapur,16.22705849,75.48965911,KA,Bagalkote,Bagalkot,Kaladgi
+126322,Mula,Krishna,Mula-Mutha,Maharashtra,78.56999905,18.59583957,73.34438541,MH,Pune,Mulshi,Saltar,18.53212455,73.86064827,MH,Pune,Pune City,Pune
+126323,Munimadugula Eru,Krishna,Bhavanasi,Andhra Pradesh,64.9449863,15.97864529,78.91256894,AP,Prakasam,Dornala,Reserved Forest,15.85612801,78.48838545,AP,Kurnool,Pamulapadu,Pamulapadu
+126325,Mutha,Krishna,Mula-Mutha,Maharashtra,60.68823056,18.41382216,73.42847355,MH,Pune,Mulshi,Tamhini Bk,18.53212455,73.86064827,MH,Pune,Pune City,Pune
+126326,Muttigi Halla,Krishna,Chikka Hagari,Karnataka,23.29281796,14.75628775,75.99801118,KA,Davangere,Harapanahalli,Adavihalli,14.82868526,76.15602614,KA,Davangere,Harapanahalli,Gajapura
+126327,Mutula Vagu,Krishna,Nalla Vagu,Telangana,7.65994509,16.26784973,78.75285223,TS,Nagarkurnool,Amrabad,Reserved Forest,16.3070239,78.80410791,TS,Nagarkurnool,Amrabad,Reserved Forest
+126328,Nadala Halla,Krishna,Anaikat Halla,Karnataka,21.3591924,16.12098239,76.74215853,KA,Raichur,Maski,Kachapur,15.97088936,76.80895487,KA,Raichur,Manvi,Badlapur
+126382,Pyata Vagu,Krishna,Krishna River,Telangana,15.35330452,16.03564823,77.9115208,TS,Jogulamba Gadwal,Itikyala,Vallur,16.05887382,78.02824248,TS,Jogulamba Gadwal,Manopad,Chandur
+126329,Nagara Halla,Krishna,Vardha,Karnataka,40.34715143,14.50718216,75.22374249,KA,Shivamogga,Sorab,Hiremagadi,14.6387435,75.20111903,KA,Haveri,Hangal,Lakmapur Inam
+126330,Nagarahunshi Halla,Krishna,Chinna Hagari,Karnataka,31.34748453,14.88482661,76.49628382,KA,Ballari,Sandur,Genatikatte,14.75431733,76.64955553,KA,Chitradurga,Molakalmuru,Rangaiahnadurga
+126332,Nagihiri N,Krishna,Sina,Maharashtra,17.99427365,18.73856525,74.85546769,MH,Ahmednagar,Karjat,Khandavi,18.80660457,74.97716986,MH,Beed,Ashti,Pimpri Ghumri
+126333,Naguleru,Krishna,Naguleru Vagu,Andhra Pradesh,15.94404882,16.35874358,79.59132233,AP,Guntur,Durgi,Hill,16.33250727,79.70524223,AP,Guntur,Bollapalle,Garikapadu
+126334,Naguleru Vagu,Krishna,Krishna River,Andhra Pradesh,64.63969335,16.24420202,79.64055757,AP,Guntur,Bollapalle,Reserved Forest,16.68991055,79.70904198,AP,Guntur,Dachepalle,Ramapuram
+126335,Nagur Halla,Krishna,Kattalli Halla,Karnataka,19.35655124,17.58909084,77.0523712,KA,Kalaburagi,Kamalapur,Dinshikurnur,17.45149072,76.99684855,KA,Kalaburagi,Kamalapur,Nagoora
+126336,Nakkala Vagu,Krishna,Chilakala Bagu,Telangana,20.9509033,16.911946,79.38191317,TS,Nalgonda,Nidmanoor,Gunti Palle,16.75394367,79.4088267,TS,Nalgonda,Nidmanoor,Vallabhapur
+126337,Nakkanti Vagu,Krishna,Nekkanmu Vagu,Andhra Pradesh,10.67993045,16.09357566,79.08327568,AP,Prakasam,Yerragondapalem,Reserved Forest,16.10561156,79.00908466,AP,Prakasam,Yerragondapalem,Reserved Forest
+126338,Nalini Hole,Krishna,Tunga,Karnataka,13.52097406,13.41611189,75.14648913,KA,Chikkamagaluru,Sringeri,Rushyashringapura Markal,13.38979747,75.21624642,KA,Chikkamagaluru,Sringeri,Yadadalu
+126339,Nallur Hole,Krishna,Vardha,Karnataka,19.08772465,14.4401502,74.92575976,KA,Shivamogga,Sorab,Chandraguthi State Forest,14.523609,74.97380678,KA,Uttara Kannada,Sirsi,Bhasi
+126340,Nandana Halla,Krishna,Kagna,Karnataka,27.30266364,17.28939377,76.91400249,KA,Kalaburagi,Kalaburagi,Zhapur,17.10784702,76.95632978,KA,Kalaburagi,Shahabad,Gola K
+126341,Naoli,Krishna,Navali Halla,Karnataka,6.83203683,16.89436116,76.10219774,KA,Vijayapura,Devara Hipparagi,Harnal,16.92267612,76.15319608,KA,Vijayapura,Sindgi,Somapur
+126342,Nar Odha,Krishna,Ghod,Maharashtra,9.26099176,18.8682817,74.16387941,MH,Pune,Shirur,Munjalwadi,18.90459677,74.23172172,MH,Pune,Shirur,Nimgaon Dude
+126343,Hari Halla,Krishna,Dodda Halla,Karnataka,7.18807007,17.14549175,75.71056038,KA,Vijayapura,Chadachan,Jigajeevani,17.185703,75.68009022,KA,Vijayapura,Chadachan,Jigajeevani
+126345,Nartimula Vagu,Krishna,Nalla Vagu,Telangana,53.78193096,16.3310323,78.72174264,TS,Nagarkurnool,Amrabad,Reserved Forest,16.2709802,78.98553685,TS,Nagarkurnool,Amrabad,Reserved Forest
+126344,Nari Halla,Krishna,Tungabhadra River,Karnataka,71.45006623,15.06092086,76.45542735,KA,Ballari,Hosapete,Garga,15.45151461,76.66953472,KA,Ballari,Kampli,Muddapura No 2
+126350,Nendra,Krishna,Krishna River,Andhra Pradesh,9.5237918,16.62445782,79.77609647,AP,Guntur,Dachepalle,Dachepalle,16.69165817,79.81695898,AP,Guntur,Dachepalle,Reserved Forest
+126383,Ragi Halla,Krishna,Tunga,Karnataka,8.38463108,13.5466706,75.22025973,KA,Shivamogga,Tirthahalli,Kesalur,13.58381558,75.25580398,KA,Chikkamagaluru,Koppa,Halmathur
+126346,Navali Halla,Krishna,Bhima River,Karnataka,58.28213044,16.75859151,76.16883477,KA,Vijayapura,Devara Hipparagi,Korwar,17.1835601,76.20665734,KA,Vijayapura,Sindgi,Kadani
+126347,Nawandgi Halla,Krishna,Gandori,Karnataka,23.32298285,17.67945743,76.97428492,KA,Bidar,Basavakalyan,Hiranagaon,17.52279031,76.92395965,KA,Kalaburagi,Kamalapur,Mahagaon
+126348,Nedalgi Halla,Krishna,Bhima River,Karnataka,9.10547244,17.0269913,76.49626389,KA,Kalaburagi,Jevargi,Mayoor,17.08974575,76.52058385,KA,Kalaburagi,Afzalpur,Umerga
+126349,Nekki Hole,Krishna,Bhadra,Karnataka,10.07416987,13.27521045,75.22741674,KA,Chikkamagaluru,Mudigere,Kalakodu,13.21267155,75.23352831,KA,Chikkamagaluru,Mudigere,Kudremukh
+126351,Nettallamarru Vanka,Krishna,Katra Vanka,Andhra Pradesh,23.73303789,15.01824478,77.23323204,AP,Anantapur,Vidapanakal,Velpumadugu,15.18880412,77.19537089,AP,Kurnool,Halaharvi,Sreedarahal
+126352,Nidigonda,Krishna,Yesvantapuram Vagu,Telangana,41.9602803,17.84810239,79.12850611,TS,Jangoan,Narmetta,Veldanda,17.60876481,79.31358957,TS,Jangoan,Devaruppula,Peddamadur
+126353,Nira,Krishna,Bhima River,Maharashtra,230.56911899,18.0838877,73.60150527,MH,Pune,Bhor,Shirgaon,17.97132943,75.13554298,MH,Solapur,Malshiras,Sangam
+126354,Nirgudi Nala,Krishna,Gondardi,Maharashtra,9.52203045,18.68347559,74.89158054,MH,Ahmednagar,Karjat,Chakhalewadi,18.69234071,74.95193664,MH,Ahmednagar,Karjat,Chande Bk
+126355,Nirukanda Hole,Krishna,Kachavalli Hole,Karnataka,5.95161034,13.27386555,75.21391764,KA,Chikkamagaluru,Sringeri,Balagere,13.31787608,75.231767,KA,Chikkamagaluru,Sringeri,Balagere
+126356,Nuja Kalava,Krishna,Kaklet Vagu,Telangana,4.42093592,16.19904849,78.74085929,TS,Nagarkurnool,Amrabad,Reserved Forest,16.18716489,78.77884445,TS,Nagarkurnool,Amrabad,Reserved Forest
+126391,Rayana Halla,Krishna,Hire Halla,Karnataka,13.70918072,15.39753378,75.99312402,KA,Koppal,Kukunoor,Tadkal,15.29067778,75.95716968,KA,Koppal,Koppal,Kawaloor
+126357,Odriyana Halla,Krishna,Bhadra,Karnataka,34.11026081,13.53728038,75.76157567,KA,Chikkamagaluru,Tarikere,Thigada,13.72002965,75.66799662,KA,Shivamogga,Bhadravati,Nellisara
+126359,Orumundra Halla,Krishna,Erangaligi Halla,Karnataka,13.50268558,15.16234125,76.77307276,KA,Ballari,Ballari,Haraginadone,15.24275417,76.8362558,KA,Ballari,Ballari,Kolagallu
+126360,Pahika Odha,Krishna,Moti,Maharashtra,3.46645599,18.7991459,74.29322449,MH,Pune,Shirur,Karegaon,18.79842373,74.32454355,MH,Pune,Shirur,Saradwadi
+126370,Ped,Krishna,Katora,Maharashtra,17.01895911,17.00728749,74.17252994,MH,Sangli,Shirala,Red,17.10103597,74.26924173,MH,Sangli,Walwa,Bahe
+126358,Pedda Vagu,Krishna,Krishna River,Telangana,124.31958844,17.0393553,77.90293269,TS,Vikarabad,Kulkacharla,Lingampalle,16.17714591,77.93153592,TS,Jogulamba Gadwal,Gadwal,Gurramgadda
+126365,Pandwara,Krishna,Sina,Maharashtra,21.92657337,18.38789559,75.16285482,MH,Solapur,Karmala,Deolali,18.37128349,75.34833971,MH,Osmanabad,Paranda,Donja
+126361,Dhone Vagu,Krishna,Hindri,Andhra Pradesh,41.64260422,15.33161333,77.77528527,AP,Kurnool,Dhone,Devarabanda,15.62781132,77.89323823,AP,Kurnool,Kodumur,Laddagiri
+126362,Palati Halla,Krishna,Malprabha,Karnataka,15.48333191,16.10963256,75.75537686,KA,Bagalkote,Bagalkot,Neelanagar,16.11149388,75.87682622,KA,Bagalkote,Hungund,Kamatgi CT
+126363,Palmakul Vagu,Krishna,Yemlapaya Vagu,Telangana,16.38497597,16.17544107,78.53868561,TS,Nagarkurnool,Kollapur,Reserved Forest,16.12452811,78.6523491,TS,Nagarkurnool,Amrabad,Reserved Forest
+126364,Pandiperapula Vagu,Krishna,Kalkanda /Ummala or Algu Vagu,Telangana,25.30341985,17.92640108,80.162698,TS,Mahabubabad,Kothaguda,Peddayellapur,17.76003223,80.15169197,TS,Mahabubabad,Kothaguda,Kodiselamitta
+126366,Pandyala Vagu,Krishna,Akeru,Telangana,28.09772934,17.99788747,79.23712553,TS,Hanumakonda,Bheemadevarpalli,Kammaripet,17.88274529,79.43044659,TS,Jangoan,Ghanpur (Station),Nashkal
+126367,Parvatakatti Halla,Krishna,Krishna River,Karnataka,20.02741936,16.49111566,75.87380364,KA,Vijayapura,Nidagundi,Golasangi,16.34021204,75.87402819,KA,Bagalkote,Bagalkot,Alur
+126368,Pata Kaluva,Krishna,Uppu Drain,Andhra Pradesh,16.64460307,16.32693186,80.66758512,AP,Guntur,Duggirala,Emani,16.20823165,80.70343938,AP,Guntur,Vemuru,Jampani
+126369,Pauna,Krishna,Mula,Maharashtra,71.86240766,18.67245302,73.41456297,MH,Pune,Mawal,Atvan,18.57311241,73.83197842,MH,Pune,Haveli,Pimpri Chinchwad
+126372,Pedda,Krishna,Chandravanka,Andhra Pradesh,27.22360403,16.39404424,79.26850102,AP,Guntur,Veldurthi,Reserved Forest,16.4556109,79.4558232,AP,Guntur,Macherla,Macherla R
+126373,Pedda Paya,Krishna,Dindi,Telangana,11.54884577,16.42259421,79.00290757,TS,Nagarkurnool,Achampet,Akkavaram,16.44547631,79.06595914,TS,Nalgonda,Chandampeta,Yalmalamanda
+126374,Pedda Vagu,Krishna,Pedda Vanka,Andhra Pradesh,28.24770658,15.5292747,77.60979862,AP,Kurnool,Devanakonda,Gundlakonda,15.51335456,77.8335524,AP,Kurnool,Krishnagiri,Kambalapadu
+126375,Peddapaya Vagu,Krishna,Krishna River,Andhra Pradesh,8.69364732,16.02477971,78.62978372,AP,Kurnool,Srisailam,Reserved Forest,16.04829954,78.5653395,AP,Kurnool,Kothapalle,Reserved Forest
+126376,Perada Odha,Krishna,Ghod,Maharashtra,7.04503283,18.86056669,74.20124868,MH,Pune,Shirur,Malthan,18.8600121,74.25738365,MH,Pune,Shirur,Amdabad
+126392,Reddi Vagu,Krishna,Musi,Telangana,4.89078022,17.34827503,77.95813049,TS,Vikarabad,Vikarabad,Pulusumamidi,17.38910524,77.95236076,TS,Vikarabad,Nawabpet,Chinchelpet
+126377,Pilleru Vagu,Krishna,Krishna River,Andhra Pradesh,41.50821712,16.36187252,79.83370953,AP,Guntur,Nekarikallu,Reserved Forest,16.6340515,79.95020395,AP,Guntur,Bellamkonda,Bodanam
+126378,Piria Kalva Vagu,Krishna,Pedda Vagu,Telangana,24.03873795,17.23961116,77.91866073,TS,Vikarabad,Pudur,Thirmalapur,17.25958311,77.79768069,TS,Vikarabad,Dharur,Tharigopul
+126379,Pokri Chala,Krishna,Krishna River,Andhra Pradesh,7.52871269,16.47622819,79.26878275,AP,Guntur,Veldurthi,Reserved Forest,16.45887787,79.23368139,AP,Guntur,Veldurthi,Reserved Forest
+126380,Pondhara,Krishna,Bhima River,Maharashtra,24.9514366,18.41993228,75.06228188,MH,Ahmednagar,Karjat,Dombalwadi,18.26368296,75.04274328,MH,Solapur,Karmala,Sogaon
+126381,Pradhan Nala,Krishna,Kanola,Maharashtra,9.39328407,18.39547902,75.18501574,MH,Solapur,Karmala,Karmala,18.43840062,75.24343473,MH,Solapur,Karmala,Nilaj
+126384,Ramalinga Halla,Krishna,Krishna River,Karnataka,21.23472281,16.39876274,74.67008492,KA,Belagavi,Chikodi,Itnal,16.55413095,74.6894067,KA,Belagavi,Chikodi,Ankali
+126385,Ramappa Vanka,Krishna,Nari Halla,Karnataka,34.22979274,15.17187043,76.72168015,KA,Ballari,Ballari,Kudathini,15.43220866,76.68236746,KA,Ballari,Kampli,Muddapura No 2
+126386,Ramatirtam,Krishna,Krishna River,Telangana,8.02096805,16.46708433,79.14570117,TS,Nalgonda,Chandampeta,Rekula Valyam,16.45062577,79.2122616,TS,Nalgonda,Chandampeta,Water Body
+126393,Repalle Main Drain,Krishna,Bay of Bengal,Andhra Pradesh,25.1541839,16.01896292,80.79526473,AP,Guntur,Nagaram,Pamidimarru,15.88337996,80.69290091,AP,Guntur,Nizampatnam,Reserved Forest
+126400,Samala Vanka,Krishna,Garchi Vanka,Andhra Pradesh,15.67535525,15.50544565,77.20605116,AP,Kurnool,Alur,Kurukunda,15.617733,77.14919064,AP,Kurnool,Adoni,Santhekudlur
+126387,Ramghat,Krishna,Belvan,Maharashtra,40.16075696,17.24500833,74.7665686,MH,Sangli,Khanapur,Karanje,17.2911757,75.03682722,MH,Solapur,Sangole,Hatid
+126388,Ramjibuvacha Odha,Krishna,Ghod,Maharashtra,4.82963979,18.787373,74.34760322,MH,Pune,Shirur,Shirur Gramin,18.78955569,74.38891994,MH,Ahmednagar,Shrigonda,Hingani Dumala
+126389,Rangasamudra Halla,Krishna,Malprabha,Karnataka,39.75716328,15.75512041,75.97507188,KA,Gadag,Gajendragad,Vadegol,15.98162847,75.84910195,KA,Bagalkote,Ilkal,Siddanakolla
+126390,Ravur Halla,Krishna,Kagna,Karnataka,11.75649067,17.06062716,77.03805157,KA,Kalaburagi,Chittapur,Ravoor,17.11163167,76.95809115,KA,Kalaburagi,Shahabad,Shahabad
+126394,Roti Nala,Krishna,Bhima River,Maharashtra,29.00411807,18.37158183,74.58924621,MH,Pune,Daund,Maladpatas,18.2739822,74.80035618,MH,Pune,Indapur,Dalaj No 1
+126395,Rotti Halla,Krishna,Chikka Hagari,Karnataka,42.9237412,14.84355447,76.47525729,KA,Ballari,Kudligi,Harudi,15.01212629,76.19706005,KA,Ballari,Hagaribommanahalli,Malvi
+126396,Rudragnaga,Krishna,Nira,Maharashtra,29.67213236,18.28856872,74.00248219,MH,Pune,Purandhar,Panvadi,18.1218332,74.09643798,MH,Satara,Khandala,Bhade
+126397,Sagri Nala,Krishna,Malprabha,Karnataka,49.77167448,15.55951186,74.52778904,KA,Belagavi,Khanapur,Mouje Nandgad CT,15.69165408,74.69253217,KA,Belagavi,Kittur,Malaprabha River
+126398,Saindi Halla,Krishna,Ghatprabha,Karnataka,5.35529089,16.11630288,74.51761755,KA,Belagavi,Hukeri,Dadabanahatti,16.09657439,74.55191079,KA,Belagavi,Hukeri,Ghataprabha River
+126399,Sali Vagu,Krishna,Munneru,Telangana,8.08952626,18.00673251,79.99079915,TS,Mahabubabad,Kothaguda,Konapur,18.04653076,79.94616302,TS,Warangal,Nallabelli,Govindapur
+126401,Sanna Don,Krishna,Don,Karnataka,26.74412172,16.60446504,75.96813291,KA,Vijayapura,Basavana Bagevadi,Basavana Bagevadi,16.73919761,75.94836008,KA,Vijayapura,Basavana Bagevadi,Donur
+126402,Sarala Halla,Krishna,Handigan Halla,Karnataka,27.04888793,15.39123619,75.62047433,KA,Gadag,Gadag,Pandurangapur,15.54038437,75.48619482,KA,Dharwad,Annigeri,Navalli
+126403,Sarwand Halla,Krishna,Chandrapura Halla,Karnataka,7.03974454,14.58534631,75.50701397,KA,Haveri,Ranibennur,Ukkund,14.62060612,75.54657405,KA,Haveri,Ranibennur,Asundi
+126404,Sasve Halla,Krishna,Malprabha,Karnataka,39.97986019,15.70297748,75.98543519,KA,Gadag,Gajendragad,Goudageri,15.8574111,75.72252883,KA,Bagalkote,Badami,Dhanakashirur
+126405,Satnal,Krishna,Sattanal,Karnataka,4.50354504,16.92500729,76.01176907,KA,Vijayapura,Devara Hipparagi,Chikkarugi,16.95875841,76.02624755,KA,Vijayapura,Devara Hipparagi,Chikkarugi
+126406,Sattanal,Krishna,Bhima River,Karnataka,61.93152731,16.79711412,76.01562214,KA,Vijayapura,Devara Hipparagi,Padaganur,17.192055,76.17908494,KA,Vijayapura,Indi,Miragi
+126407,Satvai Odha,Krishna,Karha,Maharashtra,8.03800031,18.26374824,74.10270433,MH,Pune,Purandhar,Shindewadi,18.31646454,74.13113934,MH,Pune,Purandhar,Nilanj
+126408,Saula Halla,Krishna,Don,Karnataka,12.19783665,16.71263764,75.82941594,KA,Vijayapura,Vijayapura,Hegadihal,16.70479986,75.76425842,KA,Vijayapura,Basavana Bagevadi,Managuli
+126409,Saulal Halla,Krishna,Arlikata Halla,Karnataka,8.015171,16.00134005,74.56551258,KA,Belagavi,Hukeri,Chikkaladinni,16.05465802,74.58110645,KA,Belagavi,Hukeri,Islampur
+126410,Saval Halla,Krishna,Handigan Halla,Karnataka,33.95962956,15.35309023,75.57249225,KA,Gadag,Gadag,Harti,15.54038437,75.48619482,KA,Dharwad,Annigeri,Navalli
+126411,Saval Odha,Krishna,Bor,Maharashtra,26.04216257,17.08632843,75.32589245,MH,Sangli,Jat,Kolgiri,17.07075918,75.48193948,MH,Sangli,Jat,Sankh
+126412,Savali Halla,Krishna,Krishna River,Karnataka,18.9290822,16.42730898,74.62034484,KA,Belagavi,Chikodi,Umrani,16.5614587,74.675882,KA,Belagavi,Chikodi,Ankali
+126423,Sinthal Odha,Krishna,Roti Nala,Maharashtra,14.22150137,18.32432624,74.4953098,MH,Pune,Baramati,Kharade Wadi,18.37158183,74.58924621,MH,Pune,Daund,Maladpatas
+126413,Sawaswati Halla,Krishna,Malprabha,Karnataka,17.20600474,15.92413327,75.60422274,KA,Bagalkote,Badami,Muttalageri,15.88427056,75.7183197,KA,Bagalkote,Badami,Hirenasabi
+126414,Shamirpet Vagu,Krishna,Chinnaeru R,Telangana,69.01889258,17.59162736,78.40090832,TS,Medchal Malkajgiri,Qutballapur,Dundigal CT,17.50582518,78.81540259,TS,Yadadri Bhuvanagiri,Bibinagar,Gudur
+126415,Shankarana Halla,Krishna,Tungabhadra River,Karnataka,30.40329436,15.45782213,76.24128409,KA,Koppal,Koppal,Yelamgera,15.32996743,76.38172653,KA,Ballari,Hosapete,Narasapura
+126416,Shasiler Vagu,Krishna,Halia,Telangana,63.17061401,16.97030094,78.85689866,TS,Nalgonda,Marriguda,Indurthi,16.79222402,79.31218264,TS,Nalgonda,Anumula,Ibrahim Peta
+126417,Shaval Halla,Krishna,Kappalappan Halla,Karnataka,10.08113811,15.90973439,75.9647753,KA,Bagalkote,Ilkal,Dammur,15.97132522,76.01062297,KA,Koppal,Kushtagi,Turkanur
+126418,Shirsai Odha,Krishna,Roti Nala,Maharashtra,15.79237878,18.31555803,74.52264037,MH,Pune,Baramati,Sabalewadi,18.34560349,74.63725539,MH,Pune,Daund,Nandadevi
+126419,Siaala Nala,Krishna,Man,Maharashtra,11.82503648,17.57821903,75.24407497,MH,Solapur,Pandharpur,Khardi,17.52711571,75.31984332,MH,Solapur,Mangalvedhe,Mahamadabad
+126420,Sige Halla,Krishna,Kumadvati,Karnataka,20.63478925,13.88695915,75.37282474,KA,Shivamogga,Tirthahalli,Karakuchi,14.00033082,75.35025092,KA,Shivamogga,Shivamogga,Suduru
+126421,Simi Halla,Krishna,Sanna Don,Karnataka,12.40870379,16.60800181,75.97185043,KA,Vijayapura,Basavana Bagevadi,Basavana Bagevadi,16.65119867,75.90395711,KA,Vijayapura,Basavana Bagevadi,Deginal
+126422,Sindhnur N,Krishna,Tungabhadra River,Karnataka,58.991918,15.96231456,76.56909738,KA,Raichur,Maski,Medikinhal,15.76265206,76.94418675,KA,Ballari,Siruguppa,Honnarahalli
+126424,Sirdepalli Vagu,Krishna,Halia,Telangana,13.55674739,17.01727616,78.9832486,TS,Nalgonda,Chandur,Nermata,16.9964091,79.09029806,TS,Nalgonda,Chandur,Udtalapally
+126425,Sogali Halla,Krishna,Don,Karnataka,41.64265046,16.59469584,76.01741918,KA,Vijayapura,Basavana Bagevadi,Basavana Bagevadi,16.44828791,76.31170758,KA,Vijayapura,Talikoti,Talikoti Rural
+126426,Solsahi N,Krishna,Koyna,Maharashtra,22.20664925,17.91439965,73.66425677,MH,Satara,Mahabaleshwar,Mahabaleshwar,17.75808837,73.74688011,MH,Satara,Mahabaleshwar,Tapola
+126427,Somavati Hole,Krishna,Bhadra,Karnataka,16.56141429,13.13512055,75.2858207,KA,Chikkamagaluru,Mudigere,Samse,13.21840799,75.33657729,KA,Chikkamagaluru,Mudigere,Kalasa
+126428,Souta Vagu,Krishna,Manne Vagu,Telangana,18.25412693,16.72269386,77.58545364,TS,Narayanpet,Narayanpet,Ammireddipalle,16.6128102,77.65101337,TS,Narayanpet,Dhanwada,Dhanwada
+126429,Sowla Halla,Krishna,Sogali Halla,Karnataka,17.56887922,16.38678276,76.09545908,KA,Vijayapura,Muddebihal,Basarkod,16.45939702,76.20832323,KA,Vijayapura,Talikoti,Lingadalli
+126430,Sukira,Krishna,Krishna River,Maharashtra,8.81033048,17.52992648,74.22113771,MH,Satara,Koregaon,Pimpri,17.524272,74.14918211,MH,Satara,Koregaon,Kiroli
+126431,Sulekere Halla Or Haridra,Krishna,Sulekere Halla,Karnataka,26.47592029,14.17360818,75.94623621,KA,Davangere,Channagiri,Hallimallapura,14.31606154,75.84892792,KA,Davangere,Channagiri,Kariganur
+126523,Yere Halla,Krishna,Hungud Halla,Karnataka,10.44210044,15.97869571,75.96036848,KA,Bagalkote,Ilkal,Ilal,16.03007766,76.02714629,KA,Bagalkote,Hungund,Bannihatti
+126432,Sulekere Halla,Krishna,Syagali Halla,Karnataka,64.70051041,14.08972368,75.82617041,KA,Davangere,Channagiri,N Basavanahalli,14.38881885,75.830904,KA,Davangere,Davanagere,Siriganahalli
+126433,Taduve Halla,Krishna,Somavahini Halla,Karnataka,22.85390569,13.43460706,75.75420957,KA,Chikkamagaluru,Chikkamagaluru,Bisagnimutt,13.45115188,75.64605044,KA,Chikkamagaluru,Chikkamagaluru,Kesave
+126434,Taktamandka,Krishna,Mendka,Maharashtra,8.88595781,18.99675975,74.6740546,MH,Ahmednagar,Nagar,Akolner,19.00456402,74.75075778,MH,Ahmednagar,Nagar,Arangaon
+126435,Tangan Halla,Krishna,Hire Halla,Karnataka,13.48430421,15.87302255,74.73794461,KA,Belagavi,Bailahongala,Mattikoppa,15.93234909,74.83166811,KA,Belagavi,Bailahongala,Mekalmaradi
+126436,Tanna Halla,Krishna,Hire Halla,Karnataka,14.16839834,15.19412653,76.83150187,KA,Ballari,Ballari,Kolagallu,15.28660125,76.88812536,KA,Ballari,Kurugodu,Somasamudra
+126437,Tarana Halla,Krishna,Bellary N,Karnataka,12.43960389,15.95825425,74.76385992,KA,Belagavi,Bailahongala,Hoskoti,16.03012472,74.70018438,KA,Belagavi,Gokak,Akkatangerahal
+126438,Tarli,Krishna,Krishna River,Maharashtra,47.61936122,17.62481752,73.81345238,MH,Satara,Satara,Kelavali,17.40842424,74.10623436,MH,Satara,Karad,Vadoli Bhikeshwar
+126439,Teljal,Krishna,Mula-Mutha,Maharashtra,7.91890709,18.60200947,73.96750349,MH,Pune,Haveli,Lahagaon,18.54591934,73.96114384,MH,Pune,Haveli,Pimpri Chinchwad
+126440,Tettevai Vagu,Krishna,Palleru,Telangana,60.27177555,17.50081304,79.45373949,TS,Suryapet,Thirumalagiri,Thonda,17.2828535,79.81754214,TS,Khammam,Tirumalayapalem,Solipuram
+126441,Timbarguddi Halla,Krishna,Betgeri Halla,Karnataka,12.16859882,16.06164778,74.99601673,KA,Belagavi,Savadatti,Kodliwad,16.14183487,74.97884895,KA,Belagavi,Gokak,Betageri
+126442,Tolana Halla,Krishna,Sanna Don,Karnataka,8.70164917,16.70690306,75.84582581,KA,Vijayapura,Basavana Bagevadi,Ukkali,16.67049575,75.91015877,KA,Vijayapura,Basavana Bagevadi,Deginal
+126443,Tolla,Krishna,Tungapahad Vagu,Telangana,4.93414735,16.70993552,79.6200061,TS,Nalgonda,Dameracherla,Wadapalli,16.67968201,79.59380336,TS,Nalgonda,Dameracherla,Kothapalli
+126444,Tore Halla,Krishna,Kare Tore,Karnataka,49.74502368,13.35729469,76.55254396,KA,Tumakuru,Chiknayakanhalli,Sasalu,13.61098304,76.65590314,KA,Tumakuru,Chiknayakanhalli,Boranakanive
+126524,Hire Halla,Krishna,Malprabha,Karnataka,9.57571602,15.949431,75.10634352,KA,Belagavi,Ramdurg,Toranagatti,15.87950688,75.13935755,KA,Belagavi,Savadatti,Jakabal
+126445,Tulshi,Krishna,Bhogavati,Maharashtra,40.36417677,16.45838258,73.95747851,MH,Kolhapur,Radhanagari,Padasali,16.64613805,74.13923234,MH,Kolhapur,Karvir,Beed
+126446,Tumbu Halla,Krishna,Malprabha,Karnataka,12.1041657,16.20725419,75.87795152,KA,Bagalkote,Bagalkot,Bevoor,16.1260488,75.90392252,KA,Bagalkote,Hungund,Basawanal
+126447,Tummala Drain,Krishna,Janne Kaluva,Andhra Pradesh,3.80887674,15.91083982,80.8412549,AP,Guntur,Repalle,Potumeraka,15.91475964,80.80594379,AP,Guntur,Repalle,Potumeraka
+126448,Tunga,Krishna,Tungabhadra River,Karnataka,189.48087087,13.35796473,75.09144401,KA,Chikkamagaluru,Sringeri,Muduba,14.01466108,75.67560355,KA,Shivamogga,Shivamogga,Hole Hatti
+126449,Tupari Halla,Krishna,Tupari Halla,Karnataka,80.74847782,15.62892411,74.81454496,KA,Belagavi,Kittur,Awaradi,15.62485665,75.2778525,KA,Dharwad,Navalgund,Alagawadi
+126450,Turada Hole,Krishna,Tunga,Karnataka,13.67683219,13.24956317,75.17525403,KA,Chikkamagaluru,Mudigere,Samse,13.33191244,75.15478126,KA,Chikkamagaluru,Sringeri,Gulaganjimane
+126525,Golumuttapaya,Krishna,Bay of Bengal,Andhra Pradesh,9.93608159,15.87189302,80.89203792,AP,Krishna,Nagayalanka,T Kothapalem,15.80822406,80.94275608,AP,Krishna,Nagayalanka,Reserved Forest
+126526,Sina,Krishna,Bhima River,Maharashtra,333.32744461,19.24628243,74.84281373,MH,Ahmednagar,Nagar,Khospuri,17.37901268,75.89572816,MH,Solapur,Akkalkot,Dharsang
+126451,Turna Halla,Krishna,Hire Halla,Karnataka,18.34618709,15.422265,75.73768609,KA,Gadag,Gadag,Lakkundi,15.32301541,75.80314343,KA,Gadag,Mundargi,Alur
+126452,Uddara Halla,Krishna,Ghatprabha,Karnataka,9.80831125,16.37107362,75.35337533,KA,Bagalkote,Mudhol,Mantur,16.29321279,75.35277468,KA,Bagalkote,Mudhol,Yadahalli
+126453,Umbar,Krishna,Bend,Maharashtra,16.97362168,19.07989032,74.58788803,MH,Ahmednagar,Parner,Daithane Gunjal,19.11928043,74.71412146,MH,Ahmednagar,Nagar,Ahmednagar
+126454,Uppara Halla,Krishna,Chinna Hagari,Karnataka,23.97122164,14.66273424,76.38608346,KA,Ballari,Kotturu,Nimbalageri,14.56524846,76.53986904,KA,Chitradurga,Challakere,Torekolammanahalli
+126463,Vakkara Vagu,Krishna,Tungabhadra River,Andhra Pradesh,35.90913542,15.70833078,77.8053847,AP,Kurnool,Kodumur,Pyalakurthy,15.82145521,78.06691556,AP,Kurnool,Kurnool,Kurnool
+126455,Uppu Drain,Krishna,Bay of Bengal,Andhra Pradesh,53.56172096,16.20823165,80.70343938,AP,Guntur,Vemuru,Jampani,15.87237006,80.76824215,AP,Guntur,Nizampatnam,Dindi
+126456,Uppu Halla,Krishna,Don,Karnataka,9.80245272,16.81662531,75.33832389,KA,Belagavi,Athni,Telsang,16.85868596,75.40532732,KA,Vijayapura,Tikota,Honawad
+126457,Uppu Kalva,Krishna,Bay of Bengal,Andhra Pradesh,22.2065762,15.94590005,80.92510951,AP,Krishna,Nagayalanka,T Kothapalem,15.90133216,81.06217029,AP,Krishna,Koduru,Ramakrishnapuram
+126458,Urmaodi,Krishna,Krishna River,Maharashtra,54.65307349,17.73795089,73.79359493,MH,Satara,Jaoli,Kolghar,17.47635901,74.09502011,MH,Satara,Satara,Koparde
+126459,Urumundina Halla,Krishna,Tungabhadra River,Karnataka,41.78357908,15.41391588,75.83767115,KA,Gadag,Mundargi,Halligudi,15.14801826,76.0121655,KA,Koppal,Koppal,Tungabhadra Reservoir
+126460,Vadagatte Halla,Krishna,Tungabhadra River,Karnataka,24.84610194,14.98203804,76.00621764,KA,Ballari,Hadagalli,Sogi,15.14887471,76.04998554,KA,Ballari,Hagaribommanahalli,Tungabhadra Reservoir
+126461,Vadakina Halla,Krishna,Bhavi Halla,Karnataka,11.36667266,16.02842539,75.53988418,KA,Bagalkote,Badami,Kerur,16.10036754,75.5175366,KA,Bagalkote,Badami,Kalabandakeri
+126462,Vadlavanchela Vagu,Krishna,Krishna River,Telangana,5.06089696,16.25170546,79.15717424,TS,Nagarkurnool,Amrabad,Reserved Forest,16.20964676,79.16595574,TS,Nagarkurnool,Amrabad,Reserved Forest
+126464,Vandevacha Odha,Krishna,Bend Odha,Maharashtra,3.79864846,18.78444442,74.24845138,MH,Pune,Shirur,Ranjangaon Ganpati,18.80557734,74.27048016,MH,Pune,Shirur,Dhok Sangavi
+126465,Vardha,Krishna,Tungabhadra River,Karnataka,249.38052417,14.19787901,75.10584273,KA,Shivamogga,Sagar,Marur,14.93003593,75.68338218,KA,Ballari,Hadagalli,Hirabannimatti
+126668,Dhonde Hiracha Odha,Krishna,Ghod,Maharashtra,13.53628695,18.76364302,74.31505561,MH,Pune,Shirur,Babhulsar Kh,18.75095159,74.42612804,MH,Ahmednagar,Shrigonda,Danewadi
+126466,Vare Halla,Krishna,Somavahini Halla,Karnataka,13.50395099,13.38834891,75.71050442,KA,Chikkamagaluru,Chikkamagaluru,Pandaravalli,13.44583635,75.64538607,KA,Chikkamagaluru,Chikkamagaluru,Kesave
+126468,Varti Halla,Krishna,Benni Hala,Karnataka,15.76436545,15.75251789,75.36918363,KA,Gadag,Nargund,Peth,15.68743068,75.47485521,KA,Dharwad,Navalgund,Kongawad
+126471,Vel,Krishna,Bhima River,Maharashtra,67.18750073,18.99370845,73.8289742,MH,Pune,Khed,Bursewadi,18.62077393,74.17011511,MH,Pune,Shirur,Vitthalwadi
+126467,Varna,Krishna,Krishna River,Maharashtra,159.60094274,17.31196639,73.68819469,MH,Satara,Patan,Valvane,16.84609436,74.53500462,MH,Sangli,Miraj,Sangli Miraj Kupwad
+126469,Veda,Krishna,Hagari Or Vedavati,Karnataka,81.23311437,13.10738663,76.04499126,KA,Hassan,Hassan,Seegegudda Kaval,13.59202519,76.12679874,KA,Chikkamagaluru,Kadur,Seethapura
+126470,Vedulapaya,Krishna,Bugga,Andhra Pradesh,12.29749095,16.31493816,79.5073672,AP,Guntur,Durgi,Reserved Forest,16.40018326,79.54468622,AP,Guntur,Durgi,Durgi
+126472,Vemuleru,Krishna,Krishna River,Telangana,72.76991041,17.18615934,79.66686752,TS,Suryapet,Chivemla,Vattikhammam Pahad,16.72954648,79.78782211,TS,Suryapet,Mattampally,Mattapalle
+126473,Vena,Krishna,Krishna River,Maharashtra,58.83837084,17.94727301,73.67218008,MH,Satara,Mahabaleshwar,Kshetra Mahabaleshwar,17.69230152,74.05257751,MH,Satara,Satara,Kshetra Mahuli
+126474,Vetti Vagu,Krishna,Pakhal or Muneru,Telangana,26.72933682,17.75250109,80.09924094,TS,Mahabubabad,Gudur,Neelavancha,17.58450566,80.07984524,TS,Mahabubabad,Bayyaram,Uppalapadu
+126475,Virabhadra Halla,Krishna,Godchi Halla,Karnataka,14.21039493,16.046251,75.09829928,KA,Belagavi,Ramdurg,K Chandargi,16.00390672,75.20147241,KA,Belagavi,Ramdurg,Godachi
+126476,Virupaksha Halla,Krishna,Yadawad Halla,Karnataka,8.68052433,16.09545847,75.2370017,KA,Belagavi,Ramdurg,Boodanur,16.11204338,75.17382844,KA,Belagavi,Ramdurg,Hirekoppa K S
+126477,Vithoba Odha,Krishna,Shirsai Odha,Maharashtra,5.05170754,18.27308361,74.5720123,MH,Pune,Baramati,Gadikhel,18.31318919,74.5809928,MH,Pune,Baramati,Shirsuphal
+126480,Yadgir Nala,Krishna,Bhima River,Karnataka,34.31187687,16.94902708,77.10044746,KA,Kalaburagi,Chittapur,Sanknoor,16.73788808,77.12030693,KA,Yadgir,Yadgir,Yadgir
+126478,Vode Halla,Krishna,Sindhnur N,Karnataka,36.54743951,15.69788814,76.53110093,KA,Koppal,Kanakagiri,Uddihal,15.73893456,76.81017697,KA,Raichur,Sindhnur,Kaggal D
+126479,Yadawad Halla,Krishna,Ghatprabha,Karnataka,38.95284757,16.0668901,75.09016928,KA,Belagavi,Savadatti,Itnal,16.32888652,75.18420543,KA,Bagalkote,Mudhol,Nagaral
+126481,Yalaboti Vagu,Krishna,Naguleru Vagu,Andhra Pradesh,8.57070169,16.2647244,79.70534217,AP,Guntur,Bollapalle,Reserved Forest,16.32880312,79.70165893,AP,Guntur,Bollapalle,Garikapadu
+126482,Yalagandi Halla,Krishna,Don,Karnataka,10.95874302,16.80106646,75.98896083,KA,Vijayapura,Devara Hipparagi,Padaganur,16.73646063,76.05021924,KA,Vijayapura,Basavana Bagevadi,Basaveshwar Nagar
+126483,Yalgaldinni Halla,Krishna,Krishna River,Karnataka,30.14731853,16.11697977,76.44566523,KA,Raichur,Lingsugur,Mavinbhavi,16.30122993,76.52018839,KA,Raichur,Lingsugur,Guntagola
+126484,Yaminan Hala,Krishna,Benni Hala,Karnataka,22.42282007,15.49170273,75.1505274,KA,Dharwad,Dharwad,Hebballi,15.49501384,75.32444836,KA,Dharwad,Navalgund,Karlawad
+126485,Yelimineti Vagu,Krishna,Chinna Musi R,Telangana,43.61392068,17.02829358,78.4255103,TS,Ranga Reddy,Kandukur,Nednur,17.2293586,78.64716153,TS,Ranga Reddy,Ibrahimpatnam,Ramdaspalle
+126486,Yelvi Halla,Krishna,Benni Hala,Karnataka,21.28897546,15.7467444,75.28969408,KA,Belagavi,Savadatti,Kagadal,15.66053557,75.40752438,KA,Gadag,Nargund,Muganur
+126488,Yerala,Krishna,Krishna River,Maharashtra,140.06920396,17.8747358,74.27290856,MH,Satara,Khatav,Manjarwadi,16.93159083,74.51019733,MH,Sangli,Miraj,Mouje Digraj
+126489,Yerragattu Vagu,Krishna,Krishna River,Telangana,52.74246659,16.22071535,78.62118382,TS,Nagarkurnool,Amrabad,Reserved Forest,16.07472606,78.40487289,TS,Nagarkurnool,Kollapur,Asadpur
+126490,Yesvantapuram Vagu,Krishna,Aler,Telangana,58.44363992,17.82981305,79.09691718,TS,Jangoan,Bachannapet,Kesireddipalle,17.47926892,79.37320641,TS,Yadadri Bhuvanagiri,Mothkur,Janakipuram
+126491,Yevle Odha,Krishna,Ghod,Maharashtra,4.08973935,18.87943415,74.21832979,MH,Pune,Shirur,Ravadewadi,18.87204337,74.25103467,MH,Pune,Shirur,Takali Haji
+126492,Pedda Vagu,Krishna,Kottapalem Nala,Andhra Pradesh,6.22327214,15.81888202,80.8314804,AP,Guntur,Repalle,Gangadipalem,15.85640443,80.80313321,AP,Guntur,Repalle,Gangadipalem
+126493,Pedda Vagu,Krishna,Krishna River,Andhra Pradesh,47.78607675,16.3022758,80.33007857,AP,Guntur,Edlapadu,Reserved Forest,16.50735925,80.60333059,AP,Krishna,Vijayawada (Urban),Vijayawada
+126494,Pedda Vagu,Krishna,Tungapahad Vagu,Telangana,44.34345414,17.15260884,79.27343555,TS,Nalgonda,Kattangur,Dugnevally,16.86608588,79.46613054,TS,Nalgonda,Tripuraram,Kampa Sagar
+126495,Pedda Vagu,Krishna,Aler,Telangana,22.30358685,17.84240027,79.0017614,TS,Siddipet,Cherial,Musthiyala,17.67989799,79.039654,TS,Yadadri Bhuvanagiri,Alair,Kolanupaka
+126496,Pedda Vagu,Krishna,Kagna,Telangana,32.69096321,17.16561084,77.92111532,TS,Vikarabad,Pargi,Kadlapur,17.28970912,77.71753488,TS,Vikarabad,Peddemul,Madananthapur
+126497,Pedda Vagu,Krishna,Kagna,Telangana,25.57348614,17.43909791,77.66573614,TS,Vikarabad,Bantwaram,Turmamidi,17.25399503,77.65076236,TS,Vikarabad,Tandur,Bonkoor
+126498,Pedda Vagu,Krishna,Krishna River,Telangana,5.43216778,16.25745072,79.17996675,TS,Nagarkurnool,Amrabad,Reserved Forest,16.21908182,79.19931453,TS,Nagarkurnool,Amrabad,Reserved Forest
+126501,Pedda Vagu,Krishna,Pedda Vagu,Telangana,34.72377487,17.05067379,77.55338906,TS,Vikarabad,Doulathabad,Matoor,16.88995889,77.73935125,TS,Narayanpet,Kosgi,Mudireddipalle
+126502,Hire Halla,Krishna,Dodda Halla,Karnataka,4.16188606,15.47139137,75.19737873,KA,Dharwad,Hubballi,Byahatti,15.44828273,75.21803743,KA,Dharwad,Hubballi,Byahatti
+126499,Pedda Vagu,Krishna,Krishna River,Telangana,90.25599263,16.74354841,78.50924757,TS,Nagarkurnool,Veldanda,Veldanda,16.55315154,79.22455032,TS,Nalgonda,Chandampeta,Water Body
+126500,Pedda Vagu,Krishna,Pedda Vagu,Telangana,67.72020252,16.81240306,78.041281,TS,Mahabubnagar,Nawabpet,Teegalapalle,16.36079429,77.84996531,TS,Wanaparthy,Kothakota,Ramanpadu
+126510,Korakoppa Halla,Krishna,Hire Halla,Karnataka,13.40420277,16.05542676,75.07177985,KA,Belagavi,Savadatti,Itnal,15.949431,75.10634352,KA,Belagavi,Ramdurg,Toranagatti
+126503,Hire Halla,Krishna,Malprabha,Karnataka,45.25671763,15.51696243,75.71320955,KA,Gadag,Gadag,Neeralagi,15.83603181,75.70014162,KA,Bagalkote,Badami,Khyad
+126504,Hire Halla,Krishna,Chandirana Halla,Karnataka,12.02001755,15.78038791,75.33095874,KA,Gadag,Nargund,Chikkanargund,15.69675942,75.38376147,KA,Gadag,Nargund,Arban
+126505,Hire Halla,Krishna,Ilkal N,Karnataka,24.44839843,15.93384949,76.24387875,KA,Bagalkote,Ilkal,Kandgal,16.09734084,76.20060861,KA,Bagalkote,Ilkal,Karadi
+126506,Hire Halla,Krishna,Krishna River,Karnataka,26.59100357,15.95551763,76.2471921,KA,Bagalkote,Ilkal,Kandgal,16.15781013,76.28668997,KA,Vijayapura,Muddebihal,Ingalagi
+126516,Hire Halla,Krishna,Krishna River,Karnataka,10.49980175,16.4749809,75.20160422,KA,Bagalkote,Rabakavi Banahatti,Bandigani,16.53188961,75.16165715,KA,Bagalkote,Rabakavi Banahatti,Kulhalli
+126507,Hire Halla,Krishna,Kanvi Halla,Karnataka,23.26784319,15.93234909,74.83166811,KA,Belagavi,Bailahongala,Mekalmaradi,16.06907407,74.92949701,KA,Belagavi,Gokak,Chikkanandi
+126508,Hungud Halla,Krishna,Krishna River,Karnataka,31.25013228,16.03007766,76.02714629,KA,Bagalkote,Hungund,Bannihatti,16.1682162,76.23324088,KA,Vijayapura,Muddebihal,Rakkasagi
+126509,Hire Halla,Krishna,Malprabha,Karnataka,45.74299587,16.00750374,75.48864662,KA,Bagalkote,Badami,Haligeri,16.04470006,75.84824338,KA,Bagalkote,Guledgudda,Allur S P
+126511,Hire Halla,Krishna,Ghatprabha,Karnataka,19.56040442,16.10105104,75.58370434,KA,Bagalkote,Badami,Hoolageri,16.21389831,75.50448385,KA,Bagalkote,Bagalkot,Govindkopp
+126512,Hire Halla,Krishna,Ghatprabha,Karnataka,20.07493105,16.15132361,75.06644038,KA,Belagavi,Gokak,Mannikeri,16.2950221,75.00752977,KA,Belagavi,Mudalgi,Kamaladinni
+126513,Hire Halla,Krishna,Don,Karnataka,31.04648917,16.35046976,76.14483828,KA,Vijayapura,Muddebihal,Kuntoji,16.34084455,76.38076348,KA,Yadgir,Hunasagi,Bardevanhal
+126517,Hire Halla,Krishna,Parvatakatti Halla,Karnataka,14.72722798,16.58930667,75.8002656,KA,Vijayapura,Basavana Bagevadi,Managuli,16.49111566,75.87380364,KA,Vijayapura,Nidagundi,Golasangi
+126619,Patphog,Krishna,Kadvi,Maharashtra,14.6345468,17.03923304,73.83275219,MH,Kolhapur,Shahuwadi,Golivane,16.95121152,73.88556262,MH,Kolhapur,Shahuwadi,Warul
+126514,Hire Halla,Krishna,Ghatprabha,Karnataka,58.65077762,16.35101607,74.51132671,KA,Belagavi,Chikodi,Hattarwat,16.23617174,74.94923581,KA,Belagavi,Mudalgi,Waderatti
+126515,Hire Halla,Krishna,Krishna River,Karnataka,31.18254232,16.43911063,74.8797082,KA,Belagavi,Raybag,Byakud,16.57470502,75.05384758,KA,Belagavi,Athni,Shegunshi
+126522,Chandirana Halla,Krishna,Benni Hala,Karnataka,7.6783193,15.69675942,75.38376147,KA,Gadag,Nargund,Arban,15.67380109,75.44201983,KA,Gadag,Nargund,Kurlageri
+126518,Hire Halla,Krishna,Dodda Halla,Karnataka,18.97499654,16.59513209,75.72405317,KA,Vijayapura,Kolhar,Mulawad,16.47214407,75.67240121,KA,Vijayapura,Kolhar,Garasangi K D
+126519,Hire Halla,Krishna,Krishna River,Karnataka,43.31436005,16.62557796,76.01406897,KA,Vijayapura,Basavana Bagevadi,Ingaleshwar,16.30011682,75.98167685,KA,Vijayapura,Nidagundi,Balabatti
+126520,Hire Halla,Krishna,Krishna River,Karnataka,26.91837175,16.68235646,75.58930573,KA,Vijayapura,Babaleshwar,Babaleshwar,16.50622719,75.45604934,KA,Vijayapura,Babaleshwar,Babalad
+126521,Hire Halla,Krishna,Hirehalla,Karnataka,22.42703257,16.8681956,75.31508521,KA,Belagavi,Athni,Kakamari,16.74520161,75.21716377,KA,Belagavi,Athni,Khotanatti
+126527,Sima,Krishna,Ghod,Maharashtra,18.50636864,18.89608854,74.45994724,MH,Ahmednagar,Parner,Palwe Bk,18.82183582,74.39858589,MH,Ahmednagar,Shrigonda,Gavhanewadi
+126528,Hire Halla,Krishna,Chinamgiri,Karnataka,2.73478679,16.70890595,76.61243088,KA,Yadgir,Shorapur,Sevanagar,16.71702003,76.5895164,KA,Yadgir,Shorapur,Malla
+126529,Hire Halla,Krishna,Chinamgiri,Karnataka,19.96197901,16.78320654,76.66209236,KA,Kalaburagi,Yadrami,Amberkhed,16.81993935,76.52278244,KA,Kalaburagi,Yadrami,Sumbad
+126530,Hire Halla,Krishna,Dodda Halla,Karnataka,24.7370642,16.93736023,75.6958885,KA,Vijayapura,Tikota,Arakeri,16.977527,75.86071635,KA,Vijayapura,Indi,Atharga
+126541,Hire Halla,Krishna,Urumundina Halla,Karnataka,27.27901935,15.40903595,75.9107597,KA,Koppal,Kukunoor,Male Koppa,15.20285999,75.98534618,KA,Koppal,Koppal,Bhairapur
+126531,Hire Halla,Krishna,Hagari Or Vedavati,Karnataka,76.60125245,13.27869849,76.36194068,KA,Tumakuru,Tiptur,Konehalli,13.74190483,76.30460714,KA,Chitradurga,Hosdurga,Kannagondi
+126532,Hire Halla,Krishna,Hagari Or Vedavati,Karnataka,2.37805275,15.62902027,76.99190305,KA,Ballari,Siruguppa,Raravi,15.6326659,76.97229882,KA,Ballari,Siruguppa,Raravi
+126669,Balnd,Krishna,Man,Maharashtra,11.66018926,17.6012817,75.29105878,MH,Solapur,Pandharpur,Kasegaon,17.54735183,75.37079031,MH,Solapur,Mangalvedhe,Marapur
+126533,Hire Halla,Krishna,Soppina Halla,Karnataka,53.63858786,13.91974265,76.03892598,KA,Chitradurga,Holalkere,Thuppadahalli,14.11810477,75.96604051,KA,Davangere,Channagiri,Nuggehalli
+126534,Hire Halla,Krishna,Syagali Halla,Karnataka,33.43490658,14.22067183,76.19936984,KA,Chitradurga,Holalkere,Tanigehalli,14.24794977,75.99052621,KA,Davangere,Channagiri,Maradi
+126535,Hire Halla,Krishna,Tungabhadra River,Karnataka,35.67472916,14.22402185,75.44967691,KA,Shivamogga,Shikarpur,Gungarakatte,14.15751641,75.67818714,KA,Davangere,Nyamathi,Kuruva
+126536,Hire Halla,Krishna,Kumadvati,Karnataka,15.82279814,14.59989127,75.58585092,KA,Haveri,Ranibennur,Yerekuppi,14.50664566,75.65255152,KA,Haveri,Ranibennur,Lingadalli
+126537,Hire Halla,Krishna,Tungabhadra River,Karnataka,22.28061239,14.79620973,75.83208916,KA,Ballari,Hadagalli,Hyarada,14.86492298,75.70468429,KA,Haveri,Haveri,Shyakar
+126538,Hire Halla,Krishna,Tungabhadra River,Karnataka,35.35938767,14.80190716,75.87574089,KA,Davangere,Harapanahalli,Hulikatti,15.04728854,75.87972147,KA,Gadag,Mundargi,Shingatalur
+126539,Hire Halla,Krishna,Tungabhadra River,Karnataka,20.71393337,15.15075658,75.78866177,KA,Gadag,Mundargi,Kelur,15.03713866,75.83645644,KA,Gadag,Mundargi,Hammigi
+126540,Hire Halla,Krishna,Ayyanakeri Halla,Karnataka,14.05306942,15.36055855,75.74097086,KA,Gadag,Mundargi,Churchihal,15.28913209,75.81644937,KA,Gadag,Mundargi,Meundi
+126620,Job,Krishna,Ghatprabha,Karnataka,15.36293686,16.44717706,75.26114063,KA,Bagalkote,Jamkhandi,Siddapur,16.33351577,75.24253786,KA,Bagalkote,Mudhol,Soragavi
+126542,Kattangur Vagu,Krishna,Musi,Telangana,79.8525056,17.24058567,79.10231587,TS,Nalgonda,Chityal,Peddakaparthy,16.94813978,79.61448927,TS,Suryapet,Nereducherla,Yellaram
+126543,Dodda Halla,Krishna,Bor,Karnataka,32.55548657,17.09332566,75.72245412,KA,Vijayapura,Indi,Savalsang,17.30991692,75.66448411,KA,Vijayapura,Chadachan,Chadchan
+126670,Gaddigondi Kaluva,Krishna,Bay of Bengal,Andhra Pradesh,5.78795375,15.80859445,80.94188471,AP,Krishna,Nagayalanka,Reserved Forest,15.81118175,80.97142094,AP,Krishna,Nagayalanka,Reserved Forest
+126544,Dodda Halla,Krishna,Veda,Karnataka,20.34928196,13.21234927,76.11674515,KA,Hassan,Belur,Idahalla Kaval,13.32372609,76.04287517,KA,Hassan,Arsikere,Boochenahalli Kaval
+126545,Dodda Halla,Krishna,Suvarnamukhi,Karnataka,48.17622385,13.4898115,76.91838442,KA,Tumakuru,Gubbi,Kallugudi,13.78844563,76.89224293,KA,Tumakuru,Sira,Kotta
+126551,Dodda Halla,Krishna,Benni Hala,Karnataka,20.19543723,15.41971703,75.15353796,KA,Dharwad,Hubballi,Sulla,15.4487201,75.3070509,KA,Dharwad,Hubballi,Hebsur
+126671,Gaddigondi Kaluva,Krishna,Bay of Bengal,Andhra Pradesh,4.97532927,15.83328371,80.96956349,AP,Krishna,Nagayalanka,Reserved Forest,15.81027182,80.99824644,AP,Krishna,Nagayalanka,Reserved Forest
+126546,Dodda Halla,Krishna,Hagari Or Vedavati,Karnataka,37.65550777,13.82769376,76.00393495,KA,Chikkamagaluru,Ajjampura,Masanekerekaval,13.66830846,76.20872914,KA,Chikkamagaluru,Kadur,Yaradakere G
+126547,Dodda Halla,Krishna,Chinamageri,Karnataka,42.28199172,16.79379809,76.18370634,KA,Vijayapura,Sindgi,Chikka Kokatnur,16.85397011,76.49284484,KA,Kalaburagi,Yadrami,Yedrami
+126548,Dodda Halla,Krishna,Hire Halla,Karnataka,20.89724377,16.80894321,75.63839801,KA,Vijayapura,Tikota,Toravi Part,16.91556242,75.76151906,KA,Vijayapura,Tikota,Baratagi
+126549,Dodda Halla,Krishna,Sattanal,Karnataka,61.94243955,17.07984986,75.72583397,KA,Vijayapura,Vijayapura,Kannur,17.05791375,76.08555754,KA,Vijayapura,Indi,Sangogi
+126550,Dodda Halla,Krishna,Benni Hala,Karnataka,44.85335673,15.26175942,75.55589122,KA,Gadag,Gadag,Basapur,15.42642132,75.30212456,KA,Dharwad,Hubballi,Kirasur
+126672,Nadimi Eru,Krishna,Bay of Bengal,Andhra Pradesh,11.51200422,15.8361918,80.86786524,AP,Guntur,Repalle,Gangadipalem,15.74429261,80.90786155,AP,Krishna,Nagayalanka,Reserved Forest
+126552,Dodda Halla,Krishna,Malprabha,Karnataka,20.52805763,15.63410042,74.82128884,KA,Belagavi,Kittur,Awaradi,15.74713739,74.85533964,KA,Belagavi,Bailahongala,Malaprabha River
+126553,Dodda Halla,Krishna,Kanvi Halla,Karnataka,12.14617849,15.95998588,74.99202391,KA,Belagavi,Savadatti,Budigoppa,16.04139236,74.94806053,KA,Belagavi,Gokak,Herenandi
+126554,Dodda Halla,Krishna,Hire Halla,Karnataka,10.67592999,16.01246557,75.65884551,KA,Bagalkote,Badami,Halakurki,16.03662331,75.73232484,KA,Bagalkote,Guledgudda,Thogunashi
+126558,Dodda Halla,Krishna,Krishna River,Karnataka,24.64484254,16.59532078,75.71499435,KA,Vijayapura,Kolhar,Mulawad,16.42412496,75.67482173,KA,Bagalkote,Bilgi,Hosa Korti
+126555,Dodda Halla,Krishna,Krishna River,Karnataka,44.10588672,16.2109983,76.95833105,KA,Raichur,Devadurga,Kyadigera,16.42750082,77.19422387,KA,Yadgir,Wadagera,Kodal
+126556,Dodda Halla,Krishna,Ghatprabha,Karnataka,14.76906527,16.30581418,74.61365243,KA,Belagavi,Hukeri,Yadgud,16.22298299,74.68926605,KA,Belagavi,Hukeri,Kotabagi
+126557,Dodda Halla,Krishna,Ghatprabha,Karnataka,34.41333384,16.41219666,74.80535204,KA,Belagavi,Raybag,Mavinhonda,16.273386,74.96711852,KA,Belagavi,Mudalgi,Masaguppi
+126673,Ambika,Krishna,Sina,Maharashtra,9.20162767,19.05160314,74.65822203,MH,Ahmednagar,Nagar,Nimgaon Wagha,19.06465979,74.73487112,MH,Ahmednagar,Nagar,Ahmednagar
+126559,Dodda Halla,Krishna,Vardha,Karnataka,60.73486344,14.54368354,75.3951838,KA,Haveri,Hirekerur,Bhogavi,14.86483306,75.46566638,KA,Haveri,Haveri,Karjagi
+126563,Samba Dhaunn,Krishna,Nag Dhaunn,Maharashtra,20.40758732,17.82214254,74.47841347,MH,Satara,Man,Khandyachiwadi,17.78558319,74.60556462,MH,Satara,Man,Danavalewadi
+126560,Dodda Halla,Krishna,Vardha,Karnataka,29.60664866,14.71014625,75.53165152,KA,Haveri,Byadgi,Motebennur,14.92194868,75.51060419,KA,Haveri,Haveri,Melmuri
+126561,Dodda Halla,Krishna,Tungabhadra River,Karnataka,51.33314405,15.22718456,75.49712069,KA,Gadag,Laxmeshwar,Yalavatti,14.96928994,75.7657106,KA,Ballari,Hadagalli,Angoor
+126562,Man,Krishna,Bhima River,Maharashtra,177.60405497,17.79932823,74.38497359,MH,Satara,Man,Khokade,17.61061583,75.5014032,MH,Solapur,Mangalvedhe,Uchethan
+126564,Waghzai,Krishna,Man,Maharashtra,7.90866381,17.72789083,74.63501871,MH,Satara,Man,Ranand,17.68103884,74.66899812,MH,Satara,Man,Jashi
+126566,Dindi,Krishna,Krishna River,Telangana,185.7727799,16.96952446,77.97401245,TS,Vikarabad,Kulkacharla,Veerapur,16.35566054,79.21039098,TS,Nagarkurnool,Amrabad,Reserved Forest
+126567,Suraram,Krishna,Dindi,Telangana,27.29034776,17.00360484,78.10536037,TS,Ranga Reddy,Farooqnagar,Kamsanpalle,16.84197352,78.20806246,TS,Mahabubnagar,Jadcherla,Earlapalle
+126568,Pedda Vanka,Krishna,Chinna Hagari,Karnataka,28.60980694,14.69119219,76.40699793,KA,Ballari,Kudligi,Bellikatti,14.6865145,76.60390739,KA,Ballari,Kudligi,Kumathi
+126569,Pedda Vanka,Krishna,Dhone Vagu,Andhra Pradesh,38.63594057,15.35162302,77.63314438,AP,Kurnool,Tuggali,Pendikallu,15.52216117,77.87487313,AP,Kurnool,Veldurthi,Cherukulapadu
+126570,Pedda Vanka,Krishna,Hindri,Andhra Pradesh,31.36713723,15.4398946,77.9009565,AP,Kurnool,Dhone,Kamaganikuntla,15.67611315,77.94495054,AP,Kurnool,Kallur,Nayakallu
+126571,Pedda Vanka,Krishna,Kanakavidu Vanka,Andhra Pradesh,28.05712748,15.70004751,77.57437659,AP,Kurnool,Gonegandla,Gonegandla,15.89350514,77.63060367,AP,Kurnool,C.Belagal,Malasomapuram
+126572,Munneru,Krishna,Pakhal or Muneru,Telangana,35.07506643,18.09407605,79.98744215,TS,Mulugu,Mulug,Potlapur,17.88755442,79.88665539,TS,Warangal,Khanapur,Thungabandam
+126574,Hire N,Krishna,Maski Halla,Karnataka,30.34703253,15.67408168,76.16355786,KA,Koppal,Yelbarga,Hosur,15.88382203,76.28707375,KA,Koppal,Kushtagi,Banhatti
+126573,Hire N,Krishna,Tungabhadra River,Karnataka,91.88456578,15.64793757,76.15183573,KA,Koppal,Yelbarga,Mandalmari,15.47626968,76.69121668,KA,Ballari,Kampli,Ittigi
+126621,Chanderi,Krishna,Nani,Maharashtra,18.69161281,17.55332043,74.31301798,MH,Satara,Khatav,Jaigaon,17.41521492,74.345684,MH,Sangli,Kadegaon,Hingangaon Bk
+126575,Hire,Krishna,Hire Halla,Karnataka,33.37640874,15.65532607,76.13032064,KA,Koppal,Yelbarga,Vajra Bandi,15.43322105,76.12786725,KA,Koppal,Koppal,Mudlapur
+126576,Hire Halla,Krishna,Hire,Karnataka,36.64955866,15.73273134,76.04783483,KA,Koppal,Yelbarga,Bandi,15.52364565,76.06490625,KA,Koppal,Kukunoor,Balgera
+126584,Ambil,Krishna,Dev Nala,Maharashtra,26.92494202,18.772489,74.76047934,MH,Ahmednagar,Shrigonda,Bhangaon,18.57297974,74.71516564,MH,Ahmednagar,Shrigonda,Shrigonda
+126622,Ravalda Halla,Krishna,Nargel,Maharashtra,18.69501942,17.18368293,75.41013431,MH,Sangli,Jat,Lakdewadi,17.29650066,75.51044202,MH,Solapur,Mangalvedhe,Salagar Bk
+126577,Hire Halla,Krishna,Tungabhadra River,Karnataka,79.74648903,15.50552955,75.78431915,KA,Gadag,Gadag,Kotumachagi,15.22297128,76.16982859,KA,Ballari,Hagaribommanahalli,Tungabhadra Reservoir
+126585,Arpura,Krishna,Korda,Maharashtra,36.22019975,17.15133273,75.24525775,MH,Sangli,Jat,Waifal,17.42420637,75.2365149,MH,Solapur,Sangole,Wadegaon
+126578,Garani Halla,Krishna,Hagari Or Vedavati,Karnataka,70.81391025,14.27868157,76.41958362,KA,Chitradurga,Chitradurga,Gonur,14.40567155,76.83732783,KA,Chitradurga,Challakere,Moduru Kaval
+126586,Chand,Krishna,Yerala,Maharashtra,17.49498565,17.51248167,74.57460636,MH,Satara,Khatav,Khatval,17.4145336,74.49500984,MH,Satara,Khatav,Chitali
+126623,Vasumbha,Krishna,Walumba,Maharashtra,23.11240518,19.01808904,74.5254079,MH,Ahmednagar,Nagar,Pimpalgaon Kauda,18.95681728,74.70082167,MH,Ahmednagar,Nagar,Baburdibend
+126579,Garani Halla,Krishna,Hagari Or Vedavati,Karnataka,49.60412277,14.38563974,76.53105683,KA,Chitradurga,Challakere,Varavoo Kaval,14.49503356,76.81623022,KA,Chitradurga,Challakere,Basapura
+126580,Tisangi,Krishna,Bhima River,Maharashtra,21.34871001,17.58272802,75.17097392,MH,Solapur,Sangole,Haldahivadi,17.69356217,75.30981723,MH,Solapur,Pandharpur,Pandharpur
+126591,Nalla Vagu,Krishna,Krishna River,Telangana,42.78219221,16.31313886,78.72551518,TS,Nagarkurnool,Amrabad,Reserved Forest,16.24215995,79.02686695,TS,Nagarkurnool,Amrabad,Reserved Forest
+126581,Chinna Vagu,Krishna,Dindi,Telangana,58.96314485,17.01160682,78.46035141,TS,Ranga Reddy,Kandukur,Dasarlapalle,16.65849033,78.32560861,TS,Mahabubnagar,Midjil,Gudiganpalle
+126582,Sonhira,Krishna,Yerala,Maharashtra,21.78236011,17.24480024,74.29277525,MH,Sangli,Kadegaon,Nerli,17.1853,74.43191933,MH,Sangli,Kadegaon,Ramapur
+126583,Ambil,Krishna,Dev Nala,Maharashtra,28.04652745,18.73475763,74.83913217,MH,Ahmednagar,Shrigonda,Kosegavhan,18.56131681,74.71722951,MH,Ahmednagar,Shrigonda,Bhingan Dumala
+126587,Nandi,Krishna,Bhima River,Maharashtra,44.0349892,18.62582886,74.9409679,MH,Ahmednagar,Karjat,Rehekuri,18.32372042,74.83242655,MH,Solapur,Karmala,Ramwadi
+126588,Kalkanda /Ummala or Algu Vagu,Krishna,Alugu Eru,Telangana,50.02230601,17.84836508,80.06336632,TS,Mahabubabad,Gudur,Veerampet,17.5731745,80.15839908,TS,Mahabubabad,Bayyaram,Kothapeta
+126606,Nalla Nalla,Krishna,Dandi Vagu,Andhra Pradesh,13.62439163,16.42009069,79.575243,AP,Guntur,Durgi,Obulesunipalle,16.51456019,79.6435898,AP,Guntur,Gurazala,Cherlagudi Padu
+126589,Ummala Vagu,Krishna,Kalkanda /Ummala or Algu Vagu,Telangana,31.53449322,17.85974389,80.21880512,TS,Mahabubabad,Kothaguda,Gangaram,17.64768993,80.19645036,TS,Mahabubabad,Bayyaram,Kambalapalle
+126590,Somavahini Halla,Krishna,Bhadra,Karnataka,44.53178875,13.33140429,75.62274461,KA,Chikkamagaluru,Chikkamagaluru,Avathi,13.53484466,75.55582009,KA,Chikkamagaluru,Narasimharajapura,Sarya
+126615,Eddlavagu,Krishna,Pedda Vagu,Telangana,10.6004898,16.51543963,79.08313337,TS,Nalgonda,Chandampeta,Kacharaj Palle,16.54928608,79.16540314,TS,Nalgonda,Chandampeta,Water Body
+126592,Hanga,Krishna,Ghod,Maharashtra,64.41795386,18.9984367,74.47144809,MH,Ahmednagar,Parner,Hanga,18.62444708,74.50409611,MH,Ahmednagar,Shrigonda,Hangewadi
+126593,Minch Halla,Krishna,Kagna,Karnataka,65.99111621,17.44400924,76.68238087,KA,Kalaburagi,Aland,Kadganchi,17.20077938,77.05541349,KA,Kalaburagi,Chittapur,Bhagodi
+126594,Mina,Krishna,Ghod,Maharashtra,64.61316946,19.22737236,73.65015924,MH,Pune,Junnar,Hatvij,18.98581592,74.09105625,MH,Pune,Ambegaon,Pargaon Tarf Awasari Bk
+126595,Chandravanka,Krishna,Edibogula Vagu,Andhra Pradesh,16.89124186,16.30675666,79.44893575,AP,Guntur,Durgi,Reserved Forest,16.40763772,79.47656426,AP,Guntur,Durgi,Polepalle
+126596,Basapur Halla,Krishna,Bettur Halla,Karnataka,11.98152803,14.3898866,75.99055145,KA,Davangere,Davanagere,Chattobanahalli,14.46088983,75.94019164,KA,Davangere,Davanagere,Davanagere
+126674,Nar Nala,Krishna,Ghod,Maharashtra,7.87900159,18.86466557,74.15024954,MH,Pune,Shirur,Kanhur Mesai,18.91281087,74.19524836,MH,Pune,Shirur,Kawathe
+126597,Karala Halla,Krishna,Tungabhadra River,Karnataka,41.34836197,14.50558638,76.0437975,KA,Davangere,Davanagere,Alur,14.62502001,75.81030336,KA,Haveri,Ranibennur,Airani
+126598,Chandni,Krishna,Sina,Maharashtra,60.15292103,18.46597143,75.75307149,MH,Osmanabad,Bhum,Dindori,18.20259507,75.43692091,MH,Solapur,Madha,Shingewadi
+126599,Morna,Krishna,Varna,Maharashtra,29.73906024,17.09622736,74.04698239,MH,Sangli,Shirala,Dhamavade,16.90735033,74.12285779,MH,Sangli,Shirala,Mangle
+126600,Morna,Krishna,Koyna,Maharashtra,29.1615316,17.2907278,73.74774243,MH,Satara,Patan,Atoli,17.33845102,73.95740627,MH,Satara,Patan,Nade
+126601,Khanapuram Vagu,Krishna,Nalini Cheruvu,Telangana,35.45159855,16.38534144,78.24553312,TS,Wanaparthy,Gopalpeta,Thalpunur,16.16801207,78.27411096,TS,Nagarkurnool,Kollapur,Singavatnam
+126602,Nalini Cheruvu,Krishna,Mallappaharani Vagu,Telangana,21.49568632,16.16801207,78.27411096,TS,Nagarkurnool,Kollapur,Singavatnam,16.04943442,78.22236072,TS,Nagarkurnool,Kollapur,Manchalakatta
+126603,Korda,Krishna,Man,Maharashtra,56.90949516,17.10704869,75.26363991,MH,Sangli,Jat,Nigadi Kh,17.43363795,75.23425205,MH,Solapur,Sangole,Wadegaon
+126604,Belvan,Krishna,Man,Maharashtra,29.64577983,17.16797987,74.98641234,MH,Sangli,Kavathemahankal,Nimaj,17.37393604,75.06052289,MH,Solapur,Sangole,Ankadhal
+126605,Warar Devi Nala,Krishna,Ramghat,Maharashtra,24.84359201,17.2090095,74.84183361,MH,Sangli,Tasgaon,Jarandi,17.29942784,74.98258886,MH,Solapur,Sangole,Sonewadi
+126607,Nimma Vagu,Krishna,Wira,Telangana,69.63359519,17.61302175,80.36491438,TS,Bhadradri Kothagudem,Yellandu,Sudimalla,17.20462429,80.36855969,TS,Khammam,Konijerla,Gundrathimadugu
+126616,Dodda Halla,Krishna,Gonde Halla,Karnataka,14.77316416,14.95180167,76.58742855,KA,Ballari,Sandur,Yerraiahnahalli,14.92422224,76.6949873,KA,Chitradurga,Molakalmuru,Chinivaladagudda
+126608,Boggu Gutta,Krishna,Nimma Vagu,Telangana,25.07031603,17.48767302,80.4124862,TS,Khammam,Singareni,Relakayalapally,17.34571103,80.36008203,TS,Khammam,Enkoor,Timmaraopeta
+126609,Ralla Vagu,Krishna,Nimma Vagu,Telangana,10.5983773,17.35573462,80.25005889,TS,Khammam,Raghunadhapalem,Manchukonda,17.36435968,80.32641941,TS,Khammam,Enkoor,Raimadharam
+126610,Devarkadra Vagu,Krishna,Kaukuntla Vagu,Telangana,16.42887658,16.59484597,77.86377257,TS,Mahabubnagar,Devarakadra,Meenuguvanipalle,16.53709012,77.85976413,TS,Mahabubnagar,Devarakadra,Koukuntla
+126611,Pedda Vagu,Krishna,Devarkadra Vagu,Telangana,31.37934881,16.74873847,77.94316173,TS,Mahabubnagar,Mahabubnagar Urban,Mahabubnagar,16.59484597,77.86377257,TS,Mahabubnagar,Devarakadra,Meenuguvanipalle
+126612,Vasna,Krishna,Tilganga,Maharashtra,47.84465928,17.96448235,74.01718902,MH,Satara,Koregaon,Randullabad,17.68490134,74.14466274,MH,Satara,Koregaon,Koregaon
+126613,Hippargi Halla,Krishna,Bhima River,Karnataka,29.59647706,16.87523747,76.66389683,KA,Kalaburagi,Yadrami,Kakhandki,17.06100638,76.5968317,KA,Kalaburagi,Afzalpur,Chinmalla
+126614,Eddlavagu,Krishna,Eddlavagu,Telangana,16.35971792,16.5571608,78.95533761,TS,Nalgonda,Chandampeta,Chitriyala,16.51466321,79.08207031,TS,Nalgonda,Chandampeta,Kacharaj Palle
+126624,Jharav,Krishna,Nira,Maharashtra,28.62406537,17.84426918,74.60502668,MH,Satara,Man,Gherewadi,18.02807119,74.71574979,MH,Solapur,Malshiras,Kurbavi
+126625,Mandvi,Krishna,Pushpavati,Maharashtra,42.17491575,19.39898027,73.8665509,MH,Ahmednagar,Akola,Phophasandi,19.24302409,73.96167538,MH,Pune,Junnar,Netwad
+126632,Sus Nala,Krishna,Bhima River,Maharashtra,40.42234712,18.00000001,75.37449047,MH,Solapur,Madha,Bhend,17.69574711,75.39267193,MH,Solapur,Pandharpur,Mundhewadi
+126626,Kadvi,Krishna,Varna,Maharashtra,46.61099823,16.96063148,73.77027178,MH,Kolhapur,Shahuwadi,Manoli Correct Name,16.90691039,74.08101597,MH,Kolhapur,Shahuwadi,Thergaon
+126627,Sindi Halla or Dodda Halla,Krishna,Bhima River,Karnataka,33.43869247,16.90663724,76.24737475,KA,Vijayapura,Sindgi,Sindgi Rural,17.15013942,76.25867334,KA,Kalaburagi,Afzalpur,Dudangi
+126628,Sindi Halla,Krishna,Bori,Karnataka,11.92193515,17.31749052,76.22275936,KA,Kalaburagi,Afzalpur,Mashal,17.29119321,76.30724502,KA,Kalaburagi,Afzalpur,Nanderga
+126685,Gharkada Odha,Krishna,Nag Dhaunn,Maharashtra,5.98216218,17.79704905,74.6413182,MH,Satara,Man,Dangirewadi,17.76283671,74.62015664,MH,Satara,Man,Danavalewadi
+126629,Dabucha,Krishna,Man,Maharashtra,43.95250623,17.36149926,74.69428725,MH,Sangli,Khanapur,Devnagar,17.42816459,74.99667549,MH,Sangli,Atpadi,Atpadi
+126630,Nagnul,Krishna,Dindi,Telangana,42.53146622,16.60359174,78.17224979,TS,Nagarkurnool,Thimmajipet,Bajipuram,16.50636238,78.47825949,TS,Nagarkurnool,Uppununthala,Dasarlapalle
+126631,Gharkhada,Krishna,Man,Maharashtra,41.1269278,17.49213469,74.67611445,MH,Satara,Man,Virali,17.49720234,74.95048181,MH,Solapur,Sangole,Khavaspur
+126633,Vang,Krishna,Koyna,Maharashtra,40.69894165,17.25002041,73.79853657,MH,Satara,Patan,Humbarne,17.27705975,74.1152821,MH,Satara,Karad,Yeravale
+126634,Kud Don Halla,Krishna,Don,Karnataka,13.04980571,16.57992092,75.79032822,KA,Vijayapura,Kolhar,Talewad,16.67183518,75.73843753,KA,Vijayapura,Basavana Bagevadi,Managuli
+126635,Kudddoni Halla,Krishna,Don,Karnataka,23.42029245,16.77835621,75.35647271,KA,Belagavi,Athni,Telsang,16.75950849,75.54727924,KA,Vijayapura,Babaleshwar,Dasyal
+126639,Gondardi,Krishna,Sina,Maharashtra,24.19963502,18.70697215,74.89047693,MH,Ahmednagar,Karjat,Kaudane,18.74765409,75.05255643,MH,Ahmednagar,Karjat,Mirajgaon
+126686,Amli,Krishna,Lamacha Odha,Maharashtra,2.37497731,17.82783976,74.65035822,MH,Satara,Man,Shinganapur,17.80740881,74.64888329,MH,Satara,Man,Mohi
+126636,Kudali,Krishna,Krishna River,Maharashtra,31.19271767,17.91702657,73.75587731,MH,Satara,Jaoli,Bahule,17.8330923,73.96371698,MH,Satara,Wai,Udatare
+126637,Pushpavati,Krishna,Kukadi,Maharashtra,27.32049401,19.3135933,73.85200512,MH,Pune,Junnar,Madh,19.1773919,73.99573957,MH,Pune,Junnar,Yedgaon
+126638,Tilganga,Krishna,Krishna River,Maharashtra,23.89224637,17.78611614,74.24814734,MH,Satara,Khatav,Shindewadi,17.6499498,74.12775975,MH,Satara,Koregaon,Shirdhon
+126665,Khatik,Krishna,Ghod,Maharashtra,14.52864286,18.81754825,74.51942447,MH,Ahmednagar,Shrigonda,Kondegavhan,18.72377588,74.47033482,MH,Pune,Shirur,Nimone
+126640,Kansa,Krishna,Varna,Maharashtra,24.08368242,17.10011298,73.81246366,MH,Kolhapur,Shahuwadi,Nivale,17.04830794,73.96412287,MH,Sangli,Shirala,Mohare
+126641,Padal,Krishna,Kukadi,Maharashtra,24.00148245,19.08145953,74.31388723,MH,Ahmednagar,Parner,Padali Darya,18.95159185,74.25432011,MH,Ahmednagar,Parner,Morwadi
+126642,Pandhara,Krishna,Bhima River,Maharashtra,23.68689315,18.34813148,75.1901074,MH,Solapur,Karmala,Deolali,18.17342219,75.09974304,MH,Pune,Indapur,Ajoti
+126643,Nani,Krishna,Yerala,Maharashtra,23.73758897,17.41521492,74.345684,MH,Sangli,Kadegaon,Hingangaon Bk,17.2509195,74.41968647,MH,Sangli,Kadegaon,Shelakbav
+126666,Kokan Oda,Krishna,Sina,Maharashtra,14.22902247,18.71732872,74.94565494,MH,Ahmednagar,Karjat,Kombhali,18.75788082,75.03968827,MH,Ahmednagar,Karjat,Mirajgaon
+126644,Kapur,Krishna,Yerala,Maharashtra,23.22625456,17.12388343,74.6786568,MH,Sangli,Tasgaon,Arwade,16.99354177,74.56540265,MH,Sangli,Tasgaon,Shirgaon Kavathe
+126645,Kasarsai Odha,Krishna,Pauna,Maharashtra,22.97192426,18.63561633,73.54645237,MH,Pune,Mawal,Malavandi Thule,18.65501624,73.7168879,MH,Pune,Mawal,Gahunje
+126646,Kabbala,Krishna,Chinna Hagari,Andhra Pradesh,19.38443246,14.79649922,76.96388261,AP,Anantapur,Rayadurg,Gramadatla,14.92318611,76.95926165,AP,Anantapur,Bommanahal,Kolaganahalli
+126647,Sidhheshwarwadi,Krishna,Kukadi,Maharashtra,20.59850211,18.99150298,74.41379904,MH,Ahmednagar,Parner,Parner,18.8972673,74.29310294,MH,Pune,Shirur,Takali Haji
+126687,Lamacha Odha,Krishna,Gharkada Odha,Maharashtra,1.87293153,17.80740881,74.64888329,MH,Satara,Man,Mohi,17.79704905,74.6413182,MH,Satara,Man,Dangirewadi
+126648,Kunt Don,Krishna,Don,Karnataka,20.47363348,16.85758278,75.53601029,KA,Vijayapura,Tikota,Tikota,16.72833676,75.61748878,KA,Vijayapura,Babaleshwar,Sarawad
+126649,Tumna,Krishna,Dindi,Telangana,19.65682364,16.6604457,78.51225249,TS,Nagarkurnool,Kalwakurthy,Kalwakurthy CT,16.51968153,78.58109248,TS,Nagarkurnool,Uppununthala,Zapthisadgode
+126650,Kera,Krishna,Koyna,Maharashtra,19.4483337,17.50926231,73.84266105,MH,Satara,Patan,Van,17.37060322,73.90530973,MH,Satara,Patan,Mhavashi
+126651,Andhra,Krishna,Indrayani,Maharashtra,19.30469458,18.85495996,73.56969207,MH,Pune,Mawal,Vadeshwar,18.7660166,73.65439042,MH,Pune,Mawal,Rajpuri
+126652,Valki,Krishna,Mula,Maharashtra,17.92023157,18.63037961,73.52266946,MH,Pune,Mawal,Tikona,18.53872881,73.61837332,MH,Pune,Mulshi,Bhare
+126667,Ghumara Odha,Krishna,Bhima River,Maharashtra,13.96578409,17.74534677,75.06094624,MH,Solapur,Malshiras,Shendechinch,17.78187382,75.16944721,MH,Solapur,Pandharpur,Taratgaon
+126653,Ram,Krishna,Mula,Maharashtra,17.64885364,18.47807683,73.70945208,MH,Pune,Mulshi,Mukaiwadi,18.56700916,73.79640868,MH,Pune,Haveli,Pimpri Chinchwad
+126654,Khar,Krishna,Bhima River,Maharashtra,17.46474955,18.61176876,74.6692407,MH,Ahmednagar,Shrigonda,Shrigonda,18.50083812,74.68862756,MH,Pune,Daund,Pedgaon
+126655,Chandkhed,Krishna,Pauna,Maharashtra,17.2767187,18.66758484,73.56286859,MH,Pune,Mawal,Shivali,18.65805631,73.69879594,MH,Pune,Mawal,Salumbare
+126656,Mendka,Krishna,Sina,Maharashtra,17.18421838,19.01557205,74.65057686,MH,Ahmednagar,Nagar,Chas,18.99546059,74.7887538,MH,Ahmednagar,Nagar,Pargaon Maula
+126657,Amble Odha,Krishna,Bhima River,Maharashtra,17.11855599,18.72653165,74.34920799,MH,Pune,Shirur,Karde,18.61365195,74.30958295,MH,Pune,Daund,Koregaon Bhiwar
+126658,Phondsiras,Krishna,Nira,Maharashtra,16.35903365,17.90143908,74.72227692,MH,Solapur,Malshiras,Pimpari,17.94924876,74.84375828,MH,Solapur,Malshiras,Kadamwadi
+126659,Pimpri,Krishna,Ghod,Maharashtra,16.12847787,18.62654725,74.65618006,MH,Ahmednagar,Shrigonda,Shrigonda,18.56231061,74.56239942,MH,Pune,Shirur,Tandali
+126660,Landana Halla,Krishna,Dodda Halla,Karnataka,6.90271294,15.471558,75.15706196,KA,Dharwad,Dharwad,Hebballi,15.44135852,75.20629715,KA,Dharwad,Hubballi,Byahatti
+126661,Landana Halla,Krishna,Don,Karnataka,8.42431593,16.71110448,75.87023878,KA,Vijayapura,Basavana Bagevadi,Ukkali,16.75158668,75.926521,KA,Vijayapura,Basavana Bagevadi,Ukkali
+126662,Sinde Odha,Krishna,Mula-Mutha,Maharashtra,14.46977498,18.43068733,74.24669442,MH,Pune,Purandhar,Malshiras,18.53912416,74.2634311,MH,Pune,Daund,Rahu
+126663,Kyadgi Halla,Krishna,Malprabha,Karnataka,6.13919714,15.8127085,74.90801706,KA,Belagavi,Savadatti,Chikkoppa K M,15.76974981,74.93230822,KA,Belagavi,Bailahongala,Malaprabha River
+126664,Kyadgi Halla,Krishna,Malprabha,Karnataka,8.31827871,15.81840399,74.86058459,KA,Belagavi,Bailahongala,Bail Hongal,15.75987795,74.89345765,KA,Belagavi,Bailahongala,Wakkund
+126675,Adda Halla,Krishna,Hire Halla,Karnataka,10.88680223,15.25162455,76.78504193,KA,Ballari,Kurugodu,Siddammanahalli,15.29458407,76.85443452,KA,Ballari,Kurugodu,Vaddahatti
+126676,Huvina Halla or Adda Halla,Krishna,Shankarana Halla,Karnataka,15.38544589,15.35200447,76.18154453,KA,Koppal,Koppal,Koppal Rural,15.33787011,76.31095478,KA,Koppal,Koppal,Hitnal
+126677,Bankan Halla,Krishna,Adda Halla,Karnataka,9.66686346,15.17654606,76.77671371,KA,Ballari,Ballari,Kudathini,15.25162455,76.78504193,KA,Ballari,Kurugodu,Siddammanahalli
+126678,Gadde Halla,Krishna,Hire Halla,Karnataka,29.26969877,15.32118118,75.59896637,KA,Gadag,Gadag,Kanavi,15.51696243,75.71320955,KA,Gadag,Gadag,Neeralagi
+126679,Gadde Halla,Krishna,Iruve Halla,Karnataka,12.97776835,15.5269974,75.57744802,KA,Gadag,Gadag,Hombal,15.62160407,75.54720358,KA,Dharwad,Navalgund,Datanal
+126680,Kalla Halla,Krishna,Tupari Halla,Karnataka,17.41162128,15.71860775,75.00399844,KA,Belagavi,Savadatti,Karikatti,15.6121562,75.09016043,KA,Belagavi,Savadatti,Inamhongal
+126681,Kallari Halla,Krishna,Hire Halla,Karnataka,13.68458825,16.58259783,75.77213573,KA,Vijayapura,Kolhar,Kalgurki,16.49353491,75.7013181,KA,Vijayapura,Kolhar,Garasangi B K
+126682,Wangna,Krishna,Vasna,Maharashtra,31.28491589,17.89389134,74.23823629,MH,Satara,Phaltan,Aljapur,17.69112453,74.145063,MH,Satara,Koregaon,Koregaon
+126683,Krishnawati,Krishna,Pushpavati,Maharashtra,12.87951246,19.3190812,73.7516672,MH,Pune,Junnar,Nimgiri,19.3135933,73.85200512,MH,Pune,Junnar,Madh
+126684,Sarasvati Nala,Krishna,Dev Nala,Maharashtra,12.789951,18.74139227,74.71354118,MH,Ahmednagar,Shrigonda,Doraje,18.6487612,74.67394821,MH,Ahmednagar,Shrigonda,Shrigonda
+126688,Chambhali,Krishna,Karha,Maharashtra,20.38910798,18.38631184,73.88661072,MH,Pune,Haveli,Gogalwadi,18.33993453,74.02847875,MH,Pune,Purandhar,Sasvad
+126689,Dodda,Krishna,Parvatakatti Halla,Karnataka,12.04519114,16.52442355,75.95474807,KA,Vijayapura,Basavana Bagevadi,Basavana Bagevadi,16.45381371,75.88372395,KA,Vijayapura,Nidagundi,Beeraladinni
+126690,Halpan,Krishna,Yadawad Halla,Karnataka,7.19706036,16.18999079,75.1313674,KA,Belagavi,Mudalgi,Yadwad,16.23017137,75.18049098,KA,Belagavi,Mudalgi,Yadwad
+126691,Mayli,Krishna,Tarli,Maharashtra,10.72645757,17.44927144,73.98157757,MH,Satara,Karad,Daphalwadi,17.46852577,74.06026129,MH,Satara,Karad,Shirgaon
+126692,Bhulobcha Odha,Krishna,Roti Nala,Maharashtra,8.08859091,18.33284522,74.53442043,MH,Pune,Baramati,Sabalewadi,18.37158183,74.58924621,MH,Pune,Daund,Maladpatas
+126693,Gunda Vagu,Krishna,Bugga,Andhra Pradesh,6.54743635,16.32821352,79.53338994,AP,Guntur,Durgi,Reserved Forest,16.36725057,79.55631245,AP,Guntur,Durgi,Obulesunipalle
+126707,Lakshmi Halla,Krishna,Yatnal Halla,Maharashtra,16.444494,16.96582883,75.65277822,MH,Sangli,Jat,Kontya Boblad,17.06734986,75.57847551,MH,Sangli,Jat,Bhivargi
+126694,Bugga,Krishna,Goll Vagu,Andhra Pradesh,21.84817101,16.36725057,79.55631245,AP,Guntur,Durgi,Obulesunipalle,16.51434107,79.52340142,AP,Guntur,Macherla,Kambhampadu
+126695,Chikka Halla,Krishna,Dodda Halla,Karnataka,7.4202258,15.46344243,75.13974517,KA,Dharwad,Dharwad,Shivalli,15.42749727,75.18911044,KA,Dharwad,Hubballi,Sulla
+126696,Chikka Halla,Krishna,Tupari Halla,Karnataka,17.2438911,15.53681514,74.95206854,KA,Dharwad,Dharwad,Garag,15.62134706,75.0122993,KA,Dharwad,Dharwad,Hanamanhal
+126697,Talla Vagu,Krishna,Akeru,Telangana,28.46741819,17.512347,80.01248311,TS,Mahabubabad,Kuravi,Kuravi,17.33247325,80.12277643,TS,Khammam,Khammam (Rural),Gudurupadu
+126727,Tupari Halla,Krishna,Benni Hala,Karnataka,12.91411316,15.62485665,75.2778525,KA,Dharwad,Navalgund,Alagawadi,15.56701726,75.35854354,KA,Dharwad,Navalgund,Navalgund
+126698,Nani,Krishna,Chandni,Maharashtra,28.25699213,18.37820751,75.77140291,MH,Solapur,Barshi,Dhamangaon,18.2607239,75.59350713,MH,Osmanabad,Paranda,Hingangaon Bk
+126699,Darai Halla,Krishna,Bor,Maharashtra,23.38895582,16.99768618,75.36657678,MH,Sangli,Jat,Muchandi,17.08308361,75.52916776,MH,Sangli,Jat,Sankh
+126700,Honhal,Krishna,Tamrapani,Maharashtra,21.57828496,15.82943334,74.26338351,MH,Kolhapur,Chandgad,Kitvade,15.93975787,74.33455571,MH,Kolhapur,Chandgad,Mangaon
+126701,Erga,Krishna,Bugga Vagu,Andhra Pradesh,20.91557013,16.41274395,79.77804748,AP,Guntur,Piduguralla,Reserved Forest,16.49656902,79.91364246,AP,Guntur,Piduguralla,Konanki
+126702,Dhotlikand,Krishna,Tamrapani,Maharashtra,20.39080662,15.84369983,74.14672313,MH,Kolhapur,Chandgad,Gudavale Khalsa,15.91766574,74.24784575,MH,Kolhapur,Chandgad,Kurtanwadi
+126703,Raadagi Halla,Krishna,Hire Halla,Karnataka,20.09224113,16.80953616,75.75329425,KA,Vijayapura,Vijayapura,Rambhapur,16.93099406,75.83819509,KA,Vijayapura,Vijayapura,Nagathan
+126704,Nargel,Krishna,Dodda Halla,Maharashtra,19.83558822,17.22678751,75.41256569,MH,Sangli,Jat,Jadraboblad,17.33113765,75.53460577,MH,Solapur,Mangalvedhe,Salagar Kh
+126705,Naigon Odha,Krishna,Karha,Maharashtra,16.98960425,18.425772,74.25077457,MH,Pune,Purandhar,Malshiras,18.30460563,74.27224497,MH,Pune,Baramati,Ambi Bk
+126706,Tati,Krishna,Chandravanka,Andhra Pradesh,16.81082471,16.45649361,79.34498684,AP,Guntur,Veldurthi,Reserved Forest,16.53749581,79.4073319,AP,Guntur,Macherla,Thallapalle
+126708,Gaddu Halla,Krishna,Dodda Halla,Maharashtra,15.91513498,17.27248661,75.35167757,MH,Solapur,Mangalvedhe,Hunnar,17.33946989,75.46343636,MH,Solapur,Mangalvedhe,Chikhalgi
+126709,Kurkumbhcha,Krishna,Sinthal Odha,Maharashtra,15.66496935,18.37043152,74.45332242,MH,Pune,Daund,Hinganigada,18.38113165,74.57692886,MH,Pune,Daund,Maladpatas
+126710,Saraswati Nala,Krishna,Dev Nala,Maharashtra,14.98392859,18.76017021,74.70786038,MH,Ahmednagar,Shrigonda,Doraje,18.6617355,74.65369608,MH,Ahmednagar,Shrigonda,Pargaon
+126711,Gurugatu Vagu,Krishna,Bugga Vagu_Krishna,Telangana,14.70454557,16.21709505,78.73910899,TS,Nagarkurnool,Amrabad,Reserved Forest,16.14627493,78.78901315,TS,Nagarkurnool,Amrabad,Reserved Forest
+126712,Gadam Oda,Krishna,Nandi,Maharashtra,14.11465598,18.57246387,74.96598993,MH,Ahmednagar,Karjat,Wadgaon Tanpure,18.48475869,74.91537346,MH,Ahmednagar,Karjat,Torkadwadi
+126713,Peddarutlapenta,Krishna,Karakali,Andhra Pradesh,13.950774,16.03429459,79.01187014,AP,Prakasam,Dornala,Reserved Forest,16.08088193,78.93923664,AP,Prakasam,Yerragondapalem,Reserved Forest
+126714,Tandi,Krishna,Uddara Halla,Karnataka,13.08713178,16.40581964,75.31565222,KA,Bagalkote,Mudhol,Budni P M,16.30825945,75.35412392,KA,Bagalkote,Mudhol,Yadahalli
+126715,Gurralbanda,Krishna,Nalla Vagu,Telangana,9.60577456,16.33983893,78.81794162,TS,Nagarkurnool,Amrabad,Reserved Forest,16.29391789,78.87760362,TS,Nagarkurnool,Amrabad,Reserved Forest
+126716,Kala Odha,Krishna,Karha,Maharashtra,10.74046308,18.23910738,74.18084697,MH,Pune,Purandhar,Daundaj,18.30134797,74.23819245,MH,Pune,Purandhar,Jawalarjun
+126717,Thorla Odha,Krishna,Bhama,Maharashtra,9.77704172,18.73355336,73.86402423,MH,Pune,Khed,Rase,18.7457074,73.93149055,MH,Pune,Khed,Bhose
+126718,Talona Halla,Krishna,Kudi Halla,Karnataka,5.27059631,15.4536455,75.10887723,KA,Dharwad,Dharwad,Maradagi,15.42495543,75.14050221,KA,Dharwad,Dharwad,Maradagi
+126719,Markcha Odha,Krishna,Chandan Odha,Maharashtra,6.27340835,18.2973307,74.0589849,MH,Pune,Purandhar,Pimpale,18.32009318,74.10231071,MH,Pune,Purandhar,Khalad
+126720,Sangam,Krishna,Sima,Maharashtra,5.7623284,18.8433282,74.50694619,MH,Ahmednagar,Shrigonda,Yavati,18.83050972,74.46150982,MH,Ahmednagar,Shrigonda,Deodaithan
+126721,Mula-Mutha,Krishna,Bhima River,Maharashtra,69.50764678,18.53212455,73.86064827,MH,Pune,Pune City,Pune,18.56013658,74.34509636,MH,Pune,Shirur,Ranjangaon Sandas
+126722,Mosi,Krishna,Musi,Telangana,70.48195598,17.12768421,77.927992,TS,Vikarabad,Pargi,Khudavanpur,17.37127194,78.41285247,TS,Hyderabad,Golconda,Hyderabad
+126723,Musi,Krishna,Krishna River,Telangana,295.97940232,17.24531699,77.93776654,TS,Vikarabad,Pudur,Rakamcherla,16.69204461,79.67548348,TS,Nalgonda,Dameracherla,Wadapalli
+126724,Vatti Vagu,Krishna,Pakhal or Muneru,Telangana,62.23889796,17.90529088,79.56918147,TS,Hanumakonda,Hanamkonda,Kondaparthy,17.70350188,79.96894902,TS,Mahabubabad,Gudur,Govindapur
+126725,Bettur Halla,Krishna,Budala Halla,Karnataka,8.3326573,14.46088983,75.94019164,KA,Davangere,Davanagere,Davanagere,14.50117779,75.91262712,KA,Davangere,Davanagere,Chikkabudihalu
+126726,Karla Halla,Krishna,Syagali Halla,Karnataka,20.73846489,14.15640534,76.10000616,KA,Chitradurga,Holalkere,Kadur,14.24783976,75.9906296,KA,Davangere,Channagiri,Maradi
+130084,Kamli,Krishna,Mehekri,Maharashtra,51.32405493,19.11832657,75.09512831,MH,Beed,Ashti,Sawargaon Ghat,18.82104659,75.06050947,MH,Beed,Ashti,Nanda
+130085,Kamandal N,Krishna,Krishna River,Maharashtra,19.55782271,20.62343339,73.04795362,MH,Valsad,Valsad,Kalwada,20.67031231,72.93521792,MH,Valsad,Valsad,Chharvada
+130086,Sita,Krishna,Tunga,Karnataka,29.70561452,13.31352289,75.29645287,KA,Chikkamagaluru,Koppa,Kallugudde,13.46751834,75.32177526,KA,Chikkamagaluru,Koppa,Thammadavalli
+130087,Gunjavani,Krishna,Gunjawani,Maharashtra,14.92188381,18.26730016,73.61529644,MH,Pune,Velhe,Metpilaware,18.27211476,73.73806179,MH,Pune,Velhe,Sakhar
+130088,Pochamma Vagu,Krishna,Kollam Vagu,Telangana,19.17066738,17.52038584,77.70585682,TS,Vikarabad,Marpalle,Damasthapur,17.3842032,77.73952619,TS,Vikarabad,Peddemul,Kotpalle
+130089,Son Odha,Krishna,Bhima River,Maharashtra,11.03691637,18.40135786,74.56979288,MH,Pune,Daund,Gopalwadi,18.46031635,74.62360924,MH,Pune,Daund,Khorodi
+130090,Soppina Halla,Krishna,Sulekere Halla,Karnataka,26.20481015,14.00211616,75.97976413,KA,Davangere,Channagiri,Honnebagi,14.13805886,75.90863322,KA,Davangere,Channagiri,Tank
+130091,Walumba,Krishna,Sina,Maharashtra,18.30534928,18.96501829,74.64374195,MH,Ahmednagar,Parner,Astagaon,18.98606788,74.79546902,MH,Ahmednagar,Nagar,Shiradhon
+151963,Jambhali,Krishna,Kasari,Maharashtra,21.8626472,16.69721643,73.85439568,MH,Kolhapur,Panhala,Padasali,16.74618118,73.97094439,MH,Kolhapur,Panhala,Patpanhala

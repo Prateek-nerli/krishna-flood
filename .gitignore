@@ -1,0 +1,64 @@
+# Python Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Python Bytecode & Cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyd
+*.pyc
+
+# Distribution & Build
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Frontend & Node
+node_modules/
+frontend/node_modules/
+frontend/dist/
+.npm/
+
+# Caches & Runtime Data
+data/dem_cache/
+data/sat_tile_cache/
+data/osm_water_cache/
+.cache/
+*.log
+
+# Large Raw GIS Datasets (exceeds recommended limits and not consumed at runtime)
+data/wris_krishna_subbasins.geojson
+
+# Temporary & Scratch Files
+temp_git/
+scratch/
+*.bak
+*_before_return.txt
+debug_vision.png
+test_out.txt
+test_kallol*.py
+test_solver.py
+apply_changes*.py
+fix_*.py
+patch_app_jsx.py
+
+# System & IDE files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

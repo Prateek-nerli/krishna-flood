@@ -1,4 +1,4 @@
-import os
+﻿import os
 import json
 import os
 os.environ["AWS_NO_SIGN_REQUEST"] = "YES"
@@ -110,7 +110,7 @@ def get_copernicus_dem_window(lat, lon, window_size=5):
 
 import time
 
-def get_true_elevation_batch(lat, lon, nearest_lat, nearest_lon, cop_peak=None, cop_5x5_p10=None):
+def get_true_elevation_batch(lat, lon, cop_center_raw):
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     cache_dir = os.path.join(base_dir, 'data', 'dem_cache')
     os.makedirs(cache_dir, exist_ok=True)
@@ -156,11 +156,11 @@ def get_true_elevation_batch(lat, lon, nearest_lat, nearest_lon, cop_peak=None, 
         if v1 is not None: ground_30m.append(v1)
         if v2 is not None: ground_30m.append(v2)
 
-    if cop_peak is not None:
-        ground_30m.append(cop_peak)
+    if cop_center_raw is not None and cop_center_raw > 0:
+        ground_30m.append(cop_center_raw)
         
     valid_g = [e for e in ground_30m if e is not None and e > 0]
-    ground_elev = round(float(max(valid_g)), 2) if valid_g else 500.0
+    ground_elev = round(float(np.median(valid_g)), 2) if valid_g else 500.0
     
     try:
         with open(cache_file, 'w') as f:
@@ -171,11 +171,16 @@ def get_true_elevation_batch(lat, lon, nearest_lat, nearest_lon, cop_peak=None, 
     return ground_elev
 
 def get_merit_hydro_data(lat, lon):
+    import math
     cop_ground_elv, cop_peak, dem_ground_5x5 = get_copernicus_dem_window(lat, lon, window_size=5)
     if dem_ground_5x5 is None:
         dem_ground_5x5 = np.full((5, 5), 500.0)
-        cop_ground_elv = 500.0
-        cop_peak = 500.0
+        bare_ground_cop = 500.0
+        cop_center_raw = 500.0
+    else:
+        import numpy as np
+        bare_ground_cop = float(np.nanpercentile(dem_ground_5x5, 20))
+        cop_center_raw = float(dem_ground_5x5[2, 2])
 
     dz_dy, dz_dx = np.gradient(dem_ground_5x5.astype(float), 30.0, 30.0)
     center_y, center_x = 2, 2
@@ -212,20 +217,6 @@ def get_merit_hydro_data(lat, lon):
             "end_tehsil": meta[5]
         }
         
-    cop_river_elv, cop_peak_river, dem_river_5x5 = get_copernicus_dem_window(nearest_lat, nearest_lon, window_size=5)
-    
-    if dem_river_5x5 is not None:
-        river_water_surface_cop = float(np.nanpercentile(dem_river_5x5, 15))
-    else:
-        river_water_surface_cop = cop_ground_elv - 5.0
-        
-    rel_height_above_water = max(0.0, cop_ground_elv - river_water_surface_cop)
-    
-    elv = get_true_elevation_batch(lat, lon, nearest_lat, nearest_lon, cop_peak, None)
-    
-    # Exact datum offset applied equally
-    river_surface_elv = elv - rel_height_above_water
-    
     # Physical river width model
     if river_length_km >= 800:
         half_width_m = 225.0
@@ -235,6 +226,41 @@ def get_merit_hydro_data(lat, lon):
         half_width_m = 80.0
     else:
         half_width_m = 35.0
+
+    # Execute vision block first to get true nearest_lat and nearest_lon
+    dist_r = max(5.0, dist_to_centerline - half_width_m)
+    wth = half_width_m * 2
+    is_water_body_image = False
+    try:
+        from gis_engine.satellite_water_vision import analyze_satellite_water_boundary
+        vision = analyze_satellite_water_boundary(lat, lon, nearest_lat, nearest_lon)
+        if vision.get('exact_shoreline_dist_m') is not None and vision['exact_shoreline_dist_m'] > 0.0:
+            dist_r = vision['exact_shoreline_dist_m']
+        nearest_lat = vision['shoreline_lat']
+        nearest_lon = vision['shoreline_lon']
+        wth = vision['measured_width_m']
+        is_water_body_image = vision['is_water_body_image']
+        if wris_data is None:
+            wris_data = {}
+        wris_data.update(vision['satellite_pass_info'])
+    except Exception as e:
+        print("VISION ERROR:", e)
+
+    dist_r_geom = dist_r
+    
+    cop_river_elv, cop_peak_river, dem_river_5x5 = get_copernicus_dem_window(nearest_lat, nearest_lon, window_size=5)
+    if dem_river_5x5 is not None:
+        cop_river_surface = float(np.nanpercentile(dem_river_5x5, 75))
+    else:
+        cop_river_surface = bare_ground_cop - 5.0
+        
+    raw_bare_diff = max(0.5, bare_ground_cop - cop_river_surface)
+    
+    canopy_filtered_diff = 2.25 * math.log1p(raw_bare_diff / 1.8) + 0.0012 * min(dist_r_geom, 2500.0)
+    rel_height_above_water = round(min(raw_bare_diff, canopy_filtered_diff) if raw_bare_diff > 2.2 else raw_bare_diff + 0.0010 * min(dist_r_geom, 2500.0), 2)
+    
+    elv = round(float(cop_center_raw), 2)
+    river_surface_elv = round(elv - rel_height_above_water, 2)
         
     # Detect water body
     is_water_body_raster = False
@@ -258,8 +284,7 @@ def get_merit_hydro_data(lat, lon):
         hand_m = 0.0
         E_bed_r = round(elv - 2.5, 2)
     else:
-        dist_r = round(max(5.0, dist_to_centerline - half_width_m), 2)
-        E_bed_r = round(river_surface_elv - 1.5, 2)
+        E_bed_r = round(river_surface_elv - 1.0, 2)
         hand_m = round(max(1.0, elv - E_bed_r), 2)
 
     nodes = _get_nodes()
@@ -292,23 +317,13 @@ def get_merit_hydro_data(lat, lon):
                 alpha = t
 
     hnd = float(hand_m)
-    wth = half_width_m * 2.0
     upa = round(max(150.0, (river_length_km ** 1.65) * 3.2), 1)
         
-    try:
-        from gis_engine.satellite_water_vision import analyze_satellite_water_boundary
-        vision = analyze_satellite_water_boundary(lat, lon, nearest_lat, nearest_lon)
-        dist_r = vision['exact_shoreline_dist_m']
-        nearest_lat = vision['shoreline_lat']
-        nearest_lon = vision['shoreline_lon']
-        wth = vision['measured_width_m']
-        if vision['is_water_body_image']:
-            is_water_body_raster = True
-        if wris_data is None:
-            wris_data = {}
-        wris_data.update(vision['satellite_pass_info'])
-    except Exception as e:
-        print("VISION ERROR:", e)
+    if is_water_body_image and not is_water_body_raster:
+        is_water_body_raster = True
+        dist_r = 0.0
+        hand_m = 0.0
+        hnd = 0.0
 
     return {
         "elv": float(elv),
