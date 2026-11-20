@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import Optional, Dict
+from typing import Optional, Dict, Any, List
 
 class PredictRequest(BaseModel):
     latitude: float
@@ -17,6 +17,8 @@ class ForecastDay(BaseModel):
     
     predicted_discharge_cusecs: float = 0.0
     predicted_discharge_cumecs: float = 0.0
+    glofas_baseline_cusecs: float = 0.0
+    ml_predicted_cusecs: float = 0.0
     upstream_inflow_cusecs: float = 0.0
     upstream_outflow_cusecs: float = 0.0
     bankfull_capacity_cusecs: float = 0.0
@@ -52,6 +54,11 @@ class PredictResponse(BaseModel):
     is_water_body: bool = False
     water_body_name: Optional[str] = None
     live_telemetry: Optional[LiveTelemetry] = None
+    uparea: Optional[float] = None
+    wris_river_name: Optional[str] = None
+    wris_data: Optional[Dict[str, Any]] = None
+    xai_attribution: Optional[Dict[str, Any]] = None
+    model_info: Optional[Dict[str, Any]] = None
 
 class SimulateReleaseRequest(BaseModel):
     node_id: str

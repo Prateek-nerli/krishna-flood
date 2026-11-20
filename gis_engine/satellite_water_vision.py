@@ -30,7 +30,7 @@ def get_stac_items(lat, lon, collection="sentinel-2-l2a", limit=8):
         "sortby": [{"field": "properties.datetime", "direction": "desc"}]
     }
     try:
-        r = requests.post(stac_url, json=payload, timeout=3.0, verify=False)
+        r = requests.post(stac_url, json=payload, timeout=3.0, verify=True)
         if r.status_code == 200:
             return r.json().get('features', [])
     except:
@@ -46,7 +46,7 @@ def get_pc_item_id(lat, lon):
             "limit": 1,
             "sortby": [{"field": "properties.datetime", "direction": "desc"}]
         }
-        r = requests.post(url, json=payload, timeout=2.5, verify=False)
+        r = requests.post(url, json=payload, timeout=2.5, verify=True)
         if r.status_code == 200:
             feats = r.json().get('features', [])
             if feats:
@@ -375,7 +375,7 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
     # Overlay Shoreline vector in Magenta/Pink (94, 63, 244 in BGR)
     if 0 <= py_click < h and 0 <= px_click < w:
         cv2.circle(img_bgr, (int(px_click), int(py_click)), 4, (94, 63, 244), -1)
-        if exact_shoreline_dist_m > 0 and 0 <= py_shore < h and 0 <= px_shore < w:
+        if exact_shoreline_dist_m is not None and exact_shoreline_dist_m > 0 and 0 <= py_shore < h and 0 <= px_shore < w:
             cv2.line(img_bgr, (int(px_click), int(py_click)), (int(px_shore), int(py_shore)), (94, 63, 244), 2)
             cv2.circle(img_bgr, (int(px_shore), int(py_shore)), 4, (94, 63, 244), -1)
             

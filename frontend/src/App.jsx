@@ -1,16 +1,29 @@
-import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, useMapEvents, LayersControl, Polygon, WMSTileLayer, Tooltip as LeafletTooltip, useMap, GeoJSON } from 'react-leaflet';
+import React, { useState, useEffect, useRef } from 'react';
+import { 
+  MapContainer, TileLayer, Marker, Popup, Polyline, 
+  useMapEvents, LayersControl, Polygon, WMSTileLayer, 
+  Tooltip as LeafletTooltip, GeoJSON 
+} from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import { Droplets, Activity, MapPin, AlertTriangle, CheckCircle, Search, Navigation, Info, ExternalLink, X } from 'lucide-react';
+import { 
+  Droplets, Activity, MapPin, AlertTriangle, CheckCircle, 
+  Search, Navigation, ExternalLink, X, BarChart3, TrendingUp,
+  Cpu, Layers, ShieldCheck, Database, Sliders
+} from 'lucide-react';
+import {
+  ResponsiveContainer, LineChart, Line, BarChart, Bar,
+  XAxis, YAxis, Tooltip as RechartsTooltip, Legend, CartesianGrid
+} from 'recharts';
 
 import L from 'leaflet';
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+
 let DefaultIcon = L.icon({
-    iconUrl: icon,
-    shadowUrl: iconShadow,
-    iconSize: [25, 41],
-    iconAnchor: [12, 41]
+  iconUrl: icon,
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41]
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
@@ -53,7 +66,8 @@ function MapEventsHandler({ onLocationSelect, mapRef }) {
 export default function App() {
   const s2MosaicId = "f3286fe20a17691100aee99a881fd9e4";
   const [nodes, setNodes] = useState([]);
-  const [wrisData, setWrisData] = useState(null);
+  const [wrisStats, setWrisStats] = useState(null);
+  const [modelMetrics, setModelMetrics] = useState(null);
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [prediction, setPrediction] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -62,39 +76,61 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [showRawDataModal, setShowRawDataModal] = useState(false);
-  const [benchmarks, setBenchmarks] = useState([]);
-  const mapRef = React.useRef(null);
+  const [selectedStation, setSelectedStation] = useState("ALMATTI");
+  const [replayData, setReplayData] = useState(null);
+  const [replayLoading, setReplayLoading] = useState(false);
+  const mapRef = useRef(null);
 
-    useEffect(() => {
-      fetch(`${API_BASE}/benchmarks/100-cases`)
-        .then(res => res.json())
-        .then(data => setBenchmarks(data))
-        .catch(err => console.error(err));
-    }, []);
-
-  
-    const [sliders, setSliders] = useState({
+  const [sliders, setSliders] = useState({
     ACTIVE_REACH: 0,
-    TUNGABHADRA: 0,
-    UJJANI: 0,
     KOYNA: 0,
     WARANA: 0,
     HIDKAL: 0,
     MALAPRABHA_DAM: 0,
     ALMATTI: 0,
     NARAYANPUR: 0,
+    UJJANI: 0,
+    TUNGABHADRA: 0,
     SRISAILAM: 0
   });
 
+  // Load initial basin nodes, WRIS stats, and IEEE metrics
   useEffect(() => {
     fetch(`${API_BASE}/basin/nodes`)
       .then(res => res.json())
       .then(data => {
-        setNodes(data.nodes);
+        setNodes(data.nodes || []);
+        // Trigger initial selection at Sangli
         handleLocationSelect({ lat: 16.8524, lng: 74.5815 }, true);
       })
-      .catch(err => console.error(err));
+      .catch(err => console.error("Basin nodes error:", err));
+
+    fetch(`${API_BASE}/basin/wris-stats`)
+      .then(res => res.json())
+      .then(data => setWrisStats(data))
+      .catch(err => console.error("WRIS stats error:", err));
+
+    fetch(`${API_BASE}/model/metrics`)
+      .then(res => res.json())
+      .then(data => setModelMetrics(data))
+      .catch(err => console.error("Model metrics error:", err));
   }, []);
+
+  // Fetch hydrograph replay when selectedStation changes
+  useEffect(() => {
+    if (!selectedStation) return;
+    setReplayLoading(true);
+    fetch(`${API_BASE}/model/hydrograph-replay?node_id=${selectedStation}`)
+      .then(res => res.json())
+      .then(data => {
+        setReplayData(data);
+        setReplayLoading(false);
+      })
+      .catch(err => {
+        console.error("Replay fetch error:", err);
+        setReplayLoading(false);
+      });
+  }, [selectedStation]);
 
   const reverseGeocode = async (lat, lon) => {
     try {
@@ -114,11 +150,11 @@ export default function App() {
     setShowRawDataModal(false);
     
     if (mapRef.current && !skipFly) {
-      mapRef.current.flyTo(latlng, 13);
+      mapRef.current.flyTo(latlng, 12, { duration: 1.2 });
     }
     
     if (!isPointInPolygon(latlng.lat, latlng.lng, BASIN_POLYGON)) {
-      setErrorMsg("ðŸš« NOT UNDER KRISHNA BASIN â€” CANNOT PREDICT");
+      setErrorMsg("COORDINATE OUTSIDE KRISHNA BASIN");
       return;
     }
     
@@ -130,7 +166,9 @@ export default function App() {
   const fetchPrediction = async (lat, lon, currentOverrides) => {
     setLoading(true);
     try {
-      const activeOverrides = Object.fromEntries(Object.entries(currentOverrides).filter(([k, v]) => v > 0));
+      const activeOverrides = Object.fromEntries(
+        Object.entries(currentOverrides).filter(([_, v]) => v > 0)
+      );
       const res = await fetch(`${API_BASE}/predict/coordinate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -163,26 +201,11 @@ export default function App() {
   const handleSearch = async () => {
     if (!searchQuery) return;
     
-    // Parse DMS and Decimal
-    const dmsMatch = searchQuery.match(/(\d+)Â°\s*(\d+)'\s*([\d.]+)"\s*([NSns])\s*[, ]*\s*(\d+)Â°\s*(\d+)'\s*([\d.]+)"\s*([EWew])/);
-    if (dmsMatch) {
-      const latDeg = parseFloat(dmsMatch[1]) + parseFloat(dmsMatch[2])/60 + parseFloat(dmsMatch[3])/3600;
-      const lat = dmsMatch[4].toUpperCase() === 'S' ? -latDeg : latDeg;
-      const lonDeg = parseFloat(dmsMatch[5]) + parseFloat(dmsMatch[6])/60 + parseFloat(dmsMatch[7])/3600;
-      const lon = dmsMatch[8].toUpperCase() === 'W' ? -lonDeg : lonDeg;
-      handleLocationSelect({ lat: lat, lng: lon }, true);
-      setSearchResults([{
-        display_name: `[COORDINATE] ${lat.toFixed(5)}, ${lon.toFixed(5)}`,
-        lat: lat,
-        lon: lon
-      }]);
-      return;
-    }
-    const decMatch = searchQuery.match(/^([+-]?\d+\.\d+)[,\s]+([+-]?\d+\.\d+)$/);
+    const decMatch = searchQuery.match(/^([+-]?\d+\.?\d*)[,\s]+([+-]?\d+\.?\d*)$/);
     if (decMatch) {
       const lat = parseFloat(decMatch[1]);
       const lon = parseFloat(decMatch[2]);
-      handleLocationSelect({ lat: lat, lng: lon }, true);
+      handleLocationSelect({ lat: lat, lng: lon }, false);
       setSearchResults([{
         display_name: `[COORDINATE] ${lat.toFixed(5)}, ${lon.toFixed(5)}`,
         lat: lat,
@@ -195,22 +218,21 @@ export default function App() {
       let results = [];
       const sq = searchQuery.toLowerCase();
       nodes.forEach(n => {
-        const name = n.station_name || n.name || n.node_id || "";
+        const name = n.station_name || n.node_id || "";
         if (name.toLowerCase().includes(sq)) {
           results.push({
-            display_name: `[HYDRO NODE] ${name} (${n.node_role})`,
+            display_name: `[STATION] ${name} (${n.node_type})`,
             lat: n.lat,
             lon: n.lon
           });
         }
       });
       
-      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&countrycodes=in&limit=6`);
+      const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(searchQuery)}&countrycodes=in&limit=5`);
       const data = await res.json();
-      
       setSearchResults([...results, ...data]);
     } catch (e) {
-      console.error(e);
+      console.error("Search error:", e);
     }
   };
 
@@ -218,688 +240,791 @@ export default function App() {
     handleLocationSelect({ lat: parseFloat(lat), lng: parseFloat(lng) });
   };
 
-  const handleMyLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((pos) => {
-        handleLocationSelect({ lat: pos.coords.latitude, lng: pos.coords.longitude });
-      }, () => alert("GPS access denied."));
-    }
-  };
-
-  const polylines = [];
-  nodes.forEach(node => {
-    if (node.downstream_node) {
-      const downNode = nodes.find(n => n.node_id === node.downstream_node);
-      if (downNode) {
-        polylines.push([[node.lat, node.lon], [downNode.lat, downNode.lon]]);
-      }
-    }
-  });
+  const hasActiveOverrides = Object.values(sliders).some(v => v > 0);
 
   return (
-    <div className="min-h-screen bg-hydro-bg text-white flex flex-col font-sans overflow-y-auto">\n      {/* Top Section */}\n      <div className="h-[70vh] min-h-[540px] flex w-full border-b border-gray-800">
-      {/* Left Panel: Simulator */}
-      <div className="w-[340px] flex-shrink-0 bg-hydro-panel border-r border-hydro-accent p-4 overflow-y-auto z-50 shadow-xl flex flex-col gap-6">
-        <div>
-          <h1 className="text-2xl font-bold text-hydro-text flex items-center gap-2 mb-2">
-            <Activity className="w-6 h-6" /> KrishnaFlow AI
-          </h1>
-          <p className="text-sm text-gray-400">Flood Telemetry & AI Prediction</p>
-        </div>
-
-        {wrisData && wrisData.network_stats && (
-            <div className="bg-[#0f172a] p-3 rounded-lg border border-hydro-accent text-xs">
-                <h3 className="font-bold text-hydro-text mb-2 border-b border-gray-700 pb-1">Live India-WRIS Network Stats</h3>
-                <div className="grid grid-cols-2 gap-2">
-                    <span className="text-gray-400">Rivers Mapped:</span><span className="text-white text-right">920 Official CWC Rivers</span>
-                    <span className="text-gray-400">Path Vertices:</span><span className="text-white text-right font-mono">777,041 (50m cKDTree)</span>
-                    <span className="text-gray-400">Sub-Basins:</span><span className="text-white text-right">7 Official CWC Sub-Basins</span>
-                    <span className="text-gray-400">Stations:</span><span className="text-white text-right font-mono">{wrisData.network_stats.reservoirs_and_barrages} Dams | {wrisData.network_stats.confluences} Sangams</span>
-                </div>
-            </div>
-        )}
-
-        <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
-          <h2 className="text-lg font-semibold mb-4 text-hydro-text flex items-center gap-2">
-            <Droplets className="w-5 h-5" /> What-If Release Simulator
-          </h2>
-          {Object.keys(sliders).map(dam => (
-            <div key={dam} className={`mb-4 ${dam === 'ACTIVE_REACH' ? 'pb-4 border-b border-gray-700' : ''}`}>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="truncate mr-2" title={dam === 'ACTIVE_REACH' ? 'ðŸŽ¯ Active Reach Release Override (Auto-Targets Selected Point)' : `${dam} Dam Outflow`}>
-                  {dam === 'ACTIVE_REACH' ? 'ðŸŽ¯ Active Reach Release Override (Auto-Targets Selected Point)' : `${dam} Dam Outflow`}
-                </span>
-                <span className="text-hydro-text font-mono flex-shrink-0">{sliders[dam].toLocaleString()} cusecs</span>
-              </div>
-              <input 
-                type="range" 
-                min="0" max="300000" step="5000"
-                value={sliders[dam]}
-                onChange={(e) => setSliders({...sliders, [dam]: parseInt(e.target.value)})}
-                className="w-full accent-hydro-text"
-              />
-            </div>
-          ))}
-          <button 
-            onClick={handleSimulate}
-            className="w-full mt-2 bg-hydro-text hover:bg-teal-400 text-black font-bold py-2 px-4 rounded transition-colors"
-          >
-            Simulate Release Wave
-          </button>
-          <button 
-            onClick={() => {
-              if (prediction?.forecasts?.day_1_24h) {
-                const threshold = prediction.forecasts.day_1_24h.bankfull_capacity_cusecs;
-                const breachFlow = Math.round((threshold * 1.25) / 5000) * 5000;
-                setSliders(s => ({ ...s, ACTIVE_REACH: breachFlow }));
-                if (selectedLocation) {
-                  fetchPrediction(selectedLocation.lat, selectedLocation.lng, { ...sliders, ACTIVE_REACH: breachFlow });
-                }
-              }
-            }}
-            className="w-full mt-2 bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-4 rounded transition-colors"
-          >
-            âš¡ Simulate Flood Breach Here
-          </button>
-          <button 
-            onClick={() => {
-              const resetObj = {};
-              Object.keys(sliders).forEach(k => resetObj[k] = 0);
-              setSliders(resetObj);
-              if (selectedLocation) {
-                fetchPrediction(selectedLocation.lat, selectedLocation.lng, resetObj);
-              }
-            }}
-            className="w-full mt-2 bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-4 rounded transition-colors"
-          >
-            ðŸ”„ Reset Sliders to Live (0)
-          </button>
-        </div>
-      </div>
-
-      {/* Map Area */}
-      <div className="flex-1 relative z-0">
-        {/* Top Overlay Search Bar */}
-        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-[1000] flex flex-col gap-1 w-[500px]">
-          <div className="flex gap-2">
-            <input 
-              type="text" 
-              placeholder="Search Village / Town / Dam..." 
-              className="flex-1 px-4 py-3 rounded-lg bg-hydro-panel border-2 border-hydro-accent text-white shadow-lg focus:outline-none focus:border-hydro-text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
-            />
-            <button onClick={handleSearch} className="bg-hydro-text text-black px-4 rounded-lg shadow-lg hover:bg-teal-400 flex items-center font-bold">
-              <Search className="w-5 h-5 mr-1" /> Search
-            </button>
-            <button onClick={handleMyLocation} className="bg-blue-600 text-white px-4 rounded-lg shadow-lg hover:bg-blue-500 flex items-center font-bold" title="My Location">
-              <Navigation className="w-5 h-5" />
-            </button>
+    <div className="min-h-screen bg-[#090d16] text-white flex flex-col font-sans overflow-y-auto">
+      {/* Top Map + Simulator Area */}
+      <div className="h-[68vh] min-h-[520px] flex w-full border-b border-gray-800 relative">
+        
+        {/* Left Panel: Simulator Controls */}
+        <div className="w-[340px] flex-shrink-0 bg-[#0f172a] border-r border-teal-900/60 p-4 overflow-y-auto z-20 shadow-2xl flex flex-col gap-4">
+          <div>
+            <h1 className="text-xl font-bold text-teal-400 flex items-center gap-2">
+              <Activity className="w-5 h-5 text-teal-300" /> KrishnaFlow AI
+            </h1>
+            <p className="text-xs text-gray-400">ST-Attention-GAT Hydrological Forecasting</p>
           </div>
-          {searchResults.length > 0 && (
-            <div className="bg-hydro-panel border border-hydro-accent rounded-lg shadow-2xl max-h-60 overflow-y-auto">
-              {searchResults.map((res, i) => (
-                <div key={i} className="p-3 hover:bg-hydro-accent cursor-pointer border-b border-gray-700 text-sm" onClick={() => jumpTo(res.lat, res.lon)}>
-                  {res.display_name}
+
+          {wrisStats && (
+            <div className="bg-[#0b1120] p-3 rounded-lg border border-teal-900/40 text-xs">
+              <h3 className="font-bold text-teal-400 mb-1.5 flex items-center gap-1.5 border-b border-gray-800 pb-1">
+                <Database className="w-3.5 h-3.5" /> Krishna Basin Network
+              </h3>
+              <div className="grid grid-cols-2 gap-y-1 text-gray-300">
+                <span className="text-gray-400">Monitored Stations:</span>
+                <span className="text-right font-mono font-bold text-white">{wrisStats.total_monitored_stations} Nodes</span>
+                <span className="text-gray-400">Mainstem Reach:</span>
+                <span className="text-right font-mono font-bold text-white">{wrisStats.total_mainstem_reach_km} km</span>
+                <span className="text-gray-400">Telemetry:</span>
+                <span className="text-right font-mono text-[11px] text-teal-300">ECMWF / Open-Meteo</span>
+              </div>
+            </div>
+          )}
+
+          {/* Dam Release Simulator */}
+          <div className="bg-[#0b1120] p-3.5 rounded-lg border border-teal-900/40">
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-sm font-semibold text-teal-300 flex items-center gap-1.5">
+                <Sliders className="w-4 h-4" /> Dam Outflow Simulator
+              </h2>
+              {hasActiveOverrides && (
+                <span className="bg-red-500/20 text-red-400 border border-red-500/30 px-1.5 py-0.5 rounded text-[10px] font-bold">
+                  SIM ACTIVE
+                </span>
+              )}
+            </div>
+
+            <div className="space-y-3 max-h-[220px] overflow-y-auto pr-1">
+              {Object.keys(sliders).map(dam => (
+                <div key={dam} className={`${dam === 'ACTIVE_REACH' ? 'pb-2 border-b border-gray-800' : ''}`}>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="truncate mr-1 font-medium text-gray-300" title={dam === 'ACTIVE_REACH' ? 'Selected Point Local Flow' : `${dam} Dam`}>
+                      {dam === 'ACTIVE_REACH' ? '📍 Active Reach Flow' : `${dam}`}
+                    </span>
+                    <span className="text-teal-400 font-mono text-[11px]">{sliders[dam].toLocaleString()} cfs</span>
+                  </div>
+                  <input 
+                    type="range" 
+                    min="0" max="300000" step="5000"
+                    value={sliders[dam]}
+                    onChange={(e) => setSliders({...sliders, [dam]: parseInt(e.target.value)})}
+                    className="w-full accent-teal-400 h-1.5 bg-gray-700 rounded-lg cursor-pointer"
+                  />
                 </div>
               ))}
             </div>
-          )}
+
+            <div className="flex gap-2 mt-3">
+              <button 
+                onClick={handleSimulate}
+                className="flex-1 bg-teal-500 hover:bg-teal-400 text-black font-bold py-1.5 px-3 rounded text-xs transition-colors shadow-lg shadow-teal-950"
+              >
+                Route Waves
+              </button>
+              <button 
+                onClick={() => {
+                  const resetObj = {};
+                  Object.keys(sliders).forEach(k => resetObj[k] = 0);
+                  setSliders(resetObj);
+                  if (selectedLocation) {
+                    fetchPrediction(selectedLocation.lat, selectedLocation.lng, resetObj);
+                  }
+                }}
+                className="bg-gray-800 hover:bg-gray-700 text-gray-300 font-medium py-1.5 px-2.5 rounded text-xs transition-colors border border-gray-700"
+                title="Reset sliders to 0"
+              >
+                Reset
+              </button>
+            </div>
+          </div>
         </div>
 
-        <MapContainer 
-          center={[16.8524, 74.5815]} 
-          zoom={8} 
-          className="w-full h-full"
-          preferCanvas={true}
-        >
-          <LayersControl position="topright">
-            <LayersControl.BaseLayer checked name="Satellite Hybrid">
-              <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
-            </LayersControl.BaseLayer>
-              <LayersControl.BaseLayer name={`ðŸ“¡ Live Sentinel-2 True Color (${prediction?.wris_data?.latest_scene_date || 'Latest Pass'})`}>
-                <TileLayer key={`s2-true-${s2MosaicId}`} url={`https://planetarycomputer.microsoft.com/api/data/v1/mosaic/${s2MosaicId}/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?collection=sentinel-2-l2a&assets=visual`} maxNativeZoom={16} maxZoom={19} opacity={0.9} />
-            </LayersControl.BaseLayer>
-              <LayersControl.BaseLayer name={`ðŸ“¡ Live Sentinel-2 False Color NIR (${prediction?.wris_data?.latest_scene_date || 'Water=Navy, Veg=Red'})`}>
-                <TileLayer key={`s2-false-${s2MosaicId}`} url={`https://planetarycomputer.microsoft.com/api/data/v1/mosaic/${s2MosaicId}/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?collection=sentinel-2-l2a&assets=B08&assets=B04&assets=B03&color_formula=Gamma+RGB+3.2+Saturation+1.5+Sigmoidal+RGB+15+0.35`} maxNativeZoom={16} maxZoom={19} opacity={0.9} />
-            </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="ISRO Bhuvan + OSM">
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-            </LayersControl.BaseLayer>
-            <LayersControl.BaseLayer name="Terrain Topographic">
-              <TileLayer url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png" />
-            </LayersControl.BaseLayer>
-          </LayersControl>
+        {/* Map Center Area */}
+        <div className="flex-1 relative z-0">
+          {/* Top Search Bar Overlay */}
+          <div className="absolute top-3 left-1/2 transform -translate-x-1/2 z-[1000] flex flex-col gap-1 w-[460px]">
+            <div className="flex gap-1.5 shadow-2xl">
+              <input 
+                type="text" 
+                placeholder="Search station, village, or coordinates (e.g. 16.85, 74.58)..." 
+                className="flex-1 px-3.5 py-2.5 rounded-lg bg-[#0f172a]/95 border border-teal-800/80 text-white text-xs shadow-xl focus:outline-none focus:border-teal-400"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <button onClick={handleSearch} className="bg-teal-500 hover:bg-teal-400 text-black px-3.5 rounded-lg shadow-lg flex items-center font-bold text-xs transition-colors">
+                <Search className="w-3.5 h-3.5 mr-1" /> Search
+              </button>
+            </div>
+            {searchResults.length > 0 && (
+              <div className="bg-[#0f172a] border border-teal-800/80 rounded-lg shadow-2xl max-h-56 overflow-y-auto mt-1">
+                {searchResults.map((res, i) => (
+                  <div key={i} className="p-2.5 hover:bg-teal-950/60 cursor-pointer border-b border-gray-800 text-xs text-gray-200" onClick={() => jumpTo(res.lat, res.lon)}>
+                    {res.display_name}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
 
-          <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}" zIndex={10} />
-          <WMSTileLayer url="https://bhuvan-vec2.nrsc.gov.in/bhuvan/wms" layers="" format="image/png" transparent={true} zIndex={5} />
+          <MapContainer 
+            center={[16.8524, 74.5815]} 
+            zoom={8} 
+            className="w-full h-full"
+            preferCanvas={true}
+          >
+            <LayersControl position="topright">
+              <LayersControl.BaseLayer checked name="Satellite Hybrid">
+                <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" />
+              </LayersControl.BaseLayer>
+              <LayersControl.BaseLayer name="Sentinel-2 True Color (Pass)">
+                <TileLayer 
+                  key="s2-true" 
+                  url={prediction?.wris_data?.live_true_color_url || `https://planetarycomputer.microsoft.com/api/data/v1/mosaic/${s2MosaicId}/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?collection=sentinel-2-l2a&assets=visual`} 
+                  maxNativeZoom={16} 
+                  maxZoom={19} 
+                  opacity={0.9} 
+                />
+              </LayersControl.BaseLayer>
+              <LayersControl.BaseLayer name="Sentinel-2 False Color NIR">
+                <TileLayer 
+                  key="s2-false" 
+                  url={prediction?.wris_data?.live_false_color_url || `https://planetarycomputer.microsoft.com/api/data/v1/mosaic/${s2MosaicId}/tiles/WebMercatorQuad/{z}/{x}/{y}@1x?collection=sentinel-2-l2a&assets=B08&assets=B04&assets=B03&color_formula=Gamma+RGB+3.2+Saturation+1.5+Sigmoidal+RGB+15+0.35`} 
+                  maxNativeZoom={16} 
+                  maxZoom={19} 
+                  opacity={0.9} 
+                />
+              </LayersControl.BaseLayer>
+              <LayersControl.BaseLayer name="Terrain Topographic">
+                <TileLayer url="https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png" />
+              </LayersControl.BaseLayer>
+            </LayersControl>
 
-          <MapEventsHandler onLocationSelect={handleLocationSelect} mapRef={mapRef} />
-          
-          <Polygon positions={BASIN_POLYGON} pathOptions={{ color: '#00F5D4', fillOpacity: 0.06, weight: 2, dashArray: '5, 5' }} />
-          
-          {wrisData && wrisData.subbasins && (
-            <GeoJSON 
-                data={wrisData.subbasins} 
-                style={{ color: '#FBBF24', weight: 2, dashArray: '5, 5', fillOpacity: 0.0 }} 
-            />
-          )}
+            <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}" zIndex={10} />
+            <MapEventsHandler onLocationSelect={handleLocationSelect} mapRef={mapRef} />
+            
+            {/* Krishna Basin Polygon Boundary */}
+            <Polygon positions={BASIN_POLYGON} pathOptions={{ color: '#00F5D4', fillOpacity: 0.04, weight: 2, dashArray: '6, 6' }} />
+            
+            {/* Directed River DAG Network Polylines */}
+            {nodes.map((node) => {
+              if (node.downstream_node) {
+                const downNode = nodes.find(n => n.node_id === node.downstream_node);
+                if (downNode) {
+                  return (
+                    <Polyline 
+                      key={`dag-${node.node_id}-${downNode.node_id}`}
+                      positions={[[node.lat, node.lon], [downNode.lat, downNode.lon]]}
+                      pathOptions={{ color: '#38BDF8', weight: 2.5, opacity: 0.8 }}
+                    >
+                      <LeafletTooltip sticky className="bg-[#0f172a] text-white border border-teal-500 text-xs">
+                        {node.station_name} → {downNode.station_name} ({node.dist_km ? `${node.dist_km} km` : 'DAG Edge'})
+                      </LeafletTooltip>
+                    </Polyline>
+                  );
+                }
+              }
+              return null;
+            })}
 
-          {wrisData && wrisData.rivers && wrisData.rivers.flatMap((riv, i) => 
-            riv.paths.map((segment, j) => (
-              <Polyline 
-                key={`riv-${i}-${j}`}
-                positions={segment} 
-                color={(riv.name || '').toLowerCase().includes('krishna') ? '#00F5D4' : (riv.length_km >= 50 ? '#38BDF8' : '#60A5FA')} 
-                weight={(riv.name || '').toLowerCase().includes('krishna') ? 3.5 : (riv.length_km >= 50 ? 2.5 : 1.5)}
-                opacity={(riv.name || '').toLowerCase().includes('krishna') ? 0.95 : (riv.length_km >= 50 ? 0.85 : 0.65)}
-              >
-                <LeafletTooltip sticky className="bg-hydro-panel text-white border border-hydro-accent">
-                    <div>
-                        <b>ðŸŒŠ {riv.name} ({riv.length_km} km)</b><br/>
-                        Joins: {riv.confluence_point || 'N/A'}<br/>
-                        {riv.st_loc_sb_dst || 'N/A'} {'->'} {riv.en_loc_sb_dst || 'N/A'}
-                    </div>
-                </LeafletTooltip>
-              </Polyline>
-            ))
-          )}
-
-          {nodes.filter(n => ['RESERVOIR', 'BARRAGE', 'CONFLUENCE', 'DIVERGENCE_SPLIT'].includes(n.node_role)).map(n => {
-            let iconUrl = icon;
-            if (n.node_role === 'RESERVOIR' || n.node_role === 'BARRAGE') {
-                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-blue.png';
-            } else if (n.node_role === 'CONFLUENCE') {
-                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-gold.png';
-            } else if (n.node_role === 'DIVERGENCE_SPLIT') {
-                iconUrl = 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-violet.png';
-            }
-            const customIcon = new L.Icon({
+            {/* Station Markers (Color-coded by node_type) */}
+            {nodes.map(n => {
+              let markerColor = 'blue';
+              if (n.node_type === 'RESERVOIR' || n.node_type === 'BARRAGE') {
+                markerColor = 'blue';
+              } else if (n.node_type === 'CONFLUENCE') {
+                markerColor = 'gold';
+              } else {
+                markerColor = 'violet';
+              }
+              const iconUrl = `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${markerColor}.png`;
+              const customIcon = new L.Icon({
                 iconUrl: iconUrl,
                 shadowUrl: iconShadow,
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-            return (
+                iconSize: [22, 36],
+                iconAnchor: [11, 36],
+                popupAnchor: [1, -30],
+                shadowSize: [36, 36]
+              });
+              return (
                 <Marker key={n.node_id} position={[n.lat, n.lon]} icon={customIcon}>
-                  <LeafletTooltip direction="top" offset={[0, -20]} className="bg-hydro-panel border border-hydro-accent text-white font-bold">
-                    {n.station_name} | River: {n.wris_river_name || n.river || "Unknown"}
-                    {n.frl_m ? ` | FRL: ${n.frl_m}m` : ''}
-                    {n.cwc_warning_level_m ? ` | WL: ${n.cwc_warning_level_m}m` : ''}
+                  <LeafletTooltip direction="top" offset={[0, -20]} className="bg-[#0f172a] border border-teal-500 text-white font-bold text-xs">
+                    {n.station_name} [{n.node_type}]
                   </LeafletTooltip>
                   <Popup>
-                    <b>{n.station_name}</b><br/>
-                    Role: {n.node_role}<br/>
-                    River: {n.wris_river_name || n.river}<br/>
-                    Snapped to: {n.wris_confluence_point || 'WRIS Channel'}
-                    {n.cwc_warning_level_m && <><br/>WL: {n.cwc_warning_level_m}m</>}
-                    {n.cwc_danger_level_m && <><br/>DL: {n.cwc_danger_level_m}m</>}
-                    {n.cwc_hfl_m && <><br/>HFL: {n.cwc_hfl_m}m</>}
-                    {n.frl_m && <><br/>FRL: {n.frl_m}m</>}
-                    {n.mwl_m && <><br/>MWL: {n.mwl_m}m</>}
-                    {n.max_spillway_cusecs && <><br/>Max Spillway: {n.max_spillway_cusecs.toLocaleString()} cusecs</>}
+                    <div className="text-xs text-gray-800">
+                      <b className="text-sm font-bold">{n.station_name}</b><br/>
+                      <b>Type:</b> {n.node_type}<br/>
+                      <b>State:</b> {n.state || 'N/A'}<br/>
+                      <b>Downstream:</b> {n.downstream_node || 'Terminal'}<br/>
+                      {n.danger_frl_m && <><b>FRL:</b> {n.danger_frl_m} m<br/></>}
+                      {n.gross_cap_tmc && <><b>Capacity:</b> {n.gross_cap_tmc} TMC<br/></>}
+                    </div>
                   </Popup>
                 </Marker>
-            );
-          })}
-
-          {selectedLocation && (
-            <>
-              <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
-              
-              {prediction?.wris_data?.water_polygon && (
-                <Polygon 
-                  positions={prediction.wris_data.water_polygon} 
-                  pathOptions={{ color: "#00F5D4", fillColor: "#00F5D4", fillOpacity: 0.25, weight: 2 }} 
-                />
-              )}
-              
-              {prediction?.wris_data?.bank_transect && (
-                <Polyline 
-                  positions={prediction.wris_data.bank_transect} 
-                  pathOptions={{ color: "#38BDF8", weight: 3 }}
-                >
-                  <Tooltip permanent direction="bottom">â†”ï¸ Live Satellite River Width: {prediction.wris_data.measured_river_width_m} m</Tooltip>
-                </Polyline>
-              )}
-              
-              {prediction?.wris_data?.shoreline_vector && !prediction.is_water_body && (
-                <Polyline 
-                  positions={prediction.wris_data.shoreline_vector} 
-                  pathOptions={{ color: "#F43F5E", weight: 3, dashArray: "6, 6" }}
-                >
-                  <Tooltip permanent direction="right">ðŸ“ Distance to Riverbank: {prediction.distance_to_river_m} m</Tooltip>
-                </Polyline>
-              )}
-            </>
-          )}
-        </MapContainer>
-        
-        {/* Alerts Overlay */}
-        {errorMsg && (
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-hydro-danger/90 p-6 rounded-xl border-2 border-red-400 z-[1000] shadow-2xl animate-fade-in text-center max-w-md">
-            <AlertTriangle className="w-12 h-12 text-white mx-auto mb-2" />
-            <h2 className="text-xl font-bold text-white mb-2">{errorMsg}</h2>
-            <p className="text-sm text-red-100 mb-4">
-              The selected coordinate lies outside the Krishna River Basin.
-            </p>
-            <button onClick={() => jumpTo(16.1436, 74.6419)} className="bg-white text-hydro-danger font-bold py-2 px-4 rounded w-full mb-2">Jump to Hidkal Dam</button>
-            <button onClick={() => jumpTo(16.8524, 74.5815)} className="bg-white text-hydro-danger font-bold py-2 px-4 rounded w-full">Jump to Sangli</button>
-          </div>
-        )}
-      </div>
-
-            </div>\n\n      {/* Bottom Section (Full-Width Scrollable Analytics Deck) */}
-      {prediction && (
-        <div className="w-full max-w-[1600px] mx-auto p-6 space-y-6">
-          
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            {/* Column 1: Coordinate Telemetry & Current Data */}
-            <div className="col-span-1 lg:col-span-1 flex flex-col gap-6">
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
-                <h2 className="text-xl font-bold text-hydro-text flex items-center gap-2 border-b border-gray-700 pb-2 mb-3">
-                  <MapPin className="w-5 h-5" /> Coordinate Telemetry
-                </h2>
-
-                {prediction?.is_water_body && (
-                  <div className="bg-blue-600/20 border-2 border-blue-400 p-3 rounded-lg text-center animate-fade-in shadow-blue-900/50 shadow-lg mb-3">
-                     <div className="font-bold text-blue-300 flex justify-center items-center gap-2 mb-1">
-                       <Droplets className="w-5 h-5" /> ðŸŒŠ ACTIVE WATER BODY
-                     </div>
-                     <p className="text-sm text-white">{prediction.water_body_name}</p>
-                     <p className="text-xs text-blue-200 mt-1">Pool Depth: {prediction.forecasts["day_1_24h"].predicted_river_depth_m.toFixed(1)}m | Water Surface Elev: {prediction.forecasts["day_1_24h"].predicted_wse_m.toFixed(1)}m MSL</p>
-                  </div>
-                )}
-
-                <div className="text-sm text-gray-300">
-                  <p className="font-semibold text-white text-lg">{geocodeInfo?.village || 'Unknown Locality'}</p>
-                  <p>{geocodeInfo?.county ? geocodeInfo.county + ', ' : ''}{geocodeInfo?.state}</p>
-                </div>
-                <p className="text-xs text-gray-500 mt-1 font-mono">Lat: {selectedLocation?.lat.toFixed(5)}, Lon: {selectedLocation?.lng.toFixed(5)}</p>
-                
-                <div className="mt-3">
-                  {!errorMsg && selectedLocation ? (
-                    <span className="bg-hydro-safe/20 text-hydro-safe border border-hydro-safe px-2 py-1 rounded text-xs font-bold flex items-center w-fit gap-1">
-                      <CheckCircle className="w-3 h-3" /> INSIDE KRISHNA BASIN
-                    </span>
-                  ) : null}
-                </div>
-              </div>
-
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
-                <h3 className="text-sm font-semibold mb-3 text-hydro-text flex items-center gap-2">
-                  <Activity className="w-4 h-4" /> LIVE CURRENT TELEMETRY (T+0 BASELINE)
-                </h3>
-                <div className="grid grid-cols-2 gap-y-2 text-sm">
-                  <div className="text-gray-400">Time / Pass Date:</div>
-                  <div className="text-right text-gray-300">{new Date().toLocaleDateString('en-GB')} {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}</div>
-                  
-                  <div className="text-gray-400">Current Flow:</div>
-                  <div className="text-right text-white font-mono font-bold text-lg">
-                    {prediction.live_telemetry.current_flow_cusecs.toLocaleString()} cusecs
-                  </div>
-                  
-                  <div className="text-gray-400">Threshold Flow:</div>
-                  <div className="text-right text-gray-300 font-mono">
-                    {prediction.is_water_body ? "0 cusecs" : `${prediction.live_telemetry.bankfull_threshold_cusecs?.toLocaleString() ?? 0} cusecs`}
-                  </div>
-                  
-                  <div className="text-gray-400">Current WSE (MSL):</div>
-                  <div className="text-right font-mono text-white">
-                    {prediction.live_telemetry.current_wse_msl_m?.toFixed(2) ?? "0.00"} m
-                  </div>
-                  
-                  <div className="text-gray-400">Current Depth:</div>
-                  <div className="text-right text-white font-mono">
-                    {prediction.live_telemetry.current_river_depth_m?.toFixed(2) ?? "0.00"} m
-                  </div>
-                  
-                  <div className="text-gray-400">Status Margin:</div>
-                  <div className="text-right font-mono">
-                    {prediction.live_telemetry.is_bankfull ? (
-                      <span className="text-hydro-danger">Submerged ({(prediction.live_telemetry.current_wse_msl_m - prediction.ground_elevation_m).toFixed(2)}m)</span>
-                    ) : (
-                      <span className="text-hydro-safe">Dry (+{(prediction.ground_elevation_m - prediction.live_telemetry.current_wse_msl_m).toFixed(2)}m)</span>
-                    )}
-                  </div>
-                </div>
-                
-                <button 
-                  onClick={() => setShowRawDataModal(true)}
-                  className="mt-4 w-full bg-gray-800 hover:bg-gray-700 text-xs text-gray-300 py-2 px-3 rounded flex items-center justify-center gap-2 border border-gray-600 transition-colors"
-                >
-                  <Search className="w-3 h-3" /> Inspect Raw Live API Data & URLs
-                </button>
-              </div>
-            </div>
-
-            {/* Column 2: Terrain Dynamics & Satellite */}
-            <div className="col-span-1 lg:col-span-1 flex flex-col gap-6">
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
-                <h3 className="text-sm font-semibold mb-2 text-gray-400">Terrain Dynamics</h3>
-                <div className="grid grid-cols-2 gap-y-2 text-sm">
-                  <div className="text-gray-400">Ground Elev:</div><div className="text-right text-white font-mono">{prediction.ground_elevation_m?.toFixed(2) ?? 0}m</div>
-                  <div className="text-gray-400">Riverbed Elev:</div><div className="text-right text-white font-mono">{prediction.river_bed_elevation_m?.toFixed(2) ?? 0}m</div>
-                  <div className="text-gray-400">HAND:</div><div className="text-right text-hydro-warn font-mono">{prediction.hand_m?.toFixed(2) ?? 0}m</div>
-                  <div className="text-gray-400">Dist to Shoreline:</div><div className="text-right text-white font-mono">{prediction.distance_to_river_m?.toFixed(1) ?? 0}m</div>
-                  <div className="text-gray-400">Local Slope:</div><div className="text-right text-white font-mono">{prediction.local_slope_degrees?.toFixed(2) ?? 0}&deg;</div>
-                  
-                  {prediction.uparea && (
-                    <>
-                      <div className="text-gray-400">Upstream Area:</div><div className="text-right text-white font-mono text-xs">{prediction.uparea.toFixed(0)} km&sup2;</div>
-                    </>
-                  )}
-                  {prediction.wris_river_name && (
-                    <>
-                      <div className="text-gray-400">WRIS River:</div><div className="text-right text-cyan-400 font-mono text-xs truncate">{prediction.wris_river_name}</div>
-                    </>
-                  )}
-                  {prediction.wris_data?.measured_river_width_m && (
-                    <>
-                      <div className="text-gray-400">Measured Width:</div><div className="text-right text-cyan-400 font-mono text-xs">{prediction.wris_data.measured_river_width_m} m</div>
-                      <div className="text-gray-400">Detection Mode:</div><div className="text-right text-cyan-400 font-mono text-xs">{prediction.wris_data.detection_mode}</div>
-                    </>
-                  )}
-                </div>
-              </div>
-
-              {prediction?.wris_data?.vision_preview_b64 && (
-                <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
-                  <h3 className="text-sm font-semibold mb-2 text-gray-400">ðŸ“¡ Live Satellite Vision Analysis</h3>
-                  <img src={prediction.wris_data.vision_preview_b64} alt="Live Satellite Vision" className="w-full rounded border border-gray-600" />
-                </div>
-              )}
-            </div>
-
-            {/* Column 3: Elevation Cross-Section */}
-            <div className="col-span-1 lg:col-span-1 flex flex-col gap-6">
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-hydro-accent">
-                <h3 className="text-sm font-semibold mb-3 text-gray-400">Elevation Cross-Section (+24h)</h3>
-                {(() => {
-                  const day1 = prediction.forecasts["day_1_24h"];
-                  if(!day1) return null;
-                  const E_coord = prediction.ground_elevation_m;
-                  const WSE = day1.predicted_wse_m;
-                  const minE = Math.min(prediction.river_bed_elevation_m, E_coord - 10);
-                  const maxE = Math.max(E_coord + 10, WSE + 10);
-                  const range = maxE - minE;
-                  
-                  const coordPct = ((E_coord - minE) / range) * 100;
-                  const wsePct = ((WSE - minE) / range) * 100;
-                  
-                  return (
-                    <div className="relative h-20 bg-gray-800 rounded mt-2 border border-gray-700 overflow-hidden">
-                      <div className="absolute bottom-0 w-full bg-blue-500/50 border-t-2 border-blue-400 transition-all duration-500" style={{ height: `${Math.min(100, Math.max(0, wsePct))}%` }}>
-                        <span className="absolute -top-5 left-1 text-xs text-blue-300 font-mono">WSE: {WSE.toFixed(1)}m</span>
-                      </div>
-                      <div className="absolute left-0 w-full border-t-2 border-dashed border-hydro-safe z-10" style={{ bottom: `${Math.min(100, Math.max(0, coordPct))}%` }}>
-                        <span className="absolute -top-5 right-1 text-xs text-hydro-safe font-mono bg-black/50 px-1 rounded">Ground: {E_coord.toFixed(1)}m</span>
-                      </div>
-                    </div>
-                  )
-                })()}
-              </div>
-            </div>
-          </div>
-
-          {/* Forecast Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {['day_1_24h', 'day_2_48h', 'day_3_72h'].map((day, idx) => {
-              const forecast = prediction.forecasts[day];
-              if(!forecast) return null;
-              const isSafe = forecast.risk_level === 'SAFE';
-              
-              return (
-                <div key={day} className={`p-4 rounded-lg border-l-4 ${isSafe ? 'border-hydro-safe bg-hydro-safe/5' : 'border-hydro-danger bg-hydro-danger/5'}`}>
-                  <div className="flex justify-between items-center mb-3">
-                    <h3 className="font-semibold text-white">Day {idx + 1} (+{(idx+1)*24}h)</h3>
-                    <span className={`px-2 py-1 rounded text-xs font-bold ${isSafe ? 'bg-hydro-safe text-black' : (prediction.is_water_body ? 'bg-blue-500 text-white' : 'bg-hydro-danger text-white')}`}>
-                      {isSafe ? 'ðŸŸ¢ SAFE - NO FLOOD' : prediction.is_water_body ? `ðŸŒŠ ACTIVE RIVER CHANNEL / WATER BODY (${prediction.water_body_name || 'River'})` : 'ðŸš¨ FLOOD ALERT: WILL SUBMERGE'}
-                    </span>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-y-2 text-sm">
-                    <div className="text-gray-400">Predicted Flow Rate:</div>
-                    <div className="text-right font-mono text-hydro-warn font-semibold">{forecast.predicted_discharge_cusecs?.toLocaleString()} cusecs <span className="text-gray-500 text-xs">({forecast.predicted_discharge_cumecs?.toLocaleString()} mÂ³/s)</span></div>
-
-                    <div className="text-gray-400">Flood Threshold Flow:</div>
-                    <div className="text-right font-mono text-gray-300">
-                      {prediction.is_water_body ? "0 cusecs" : `${forecast.bankfull_capacity_cusecs?.toLocaleString()} cusecs`}
-                    </div>
-                    
-                    <div className="text-gray-400">Water Level (MSL):</div>
-                    <div className="text-right font-mono text-white">{forecast.predicted_wse_m?.toFixed(2)} m <span className="text-gray-500 text-xs">({forecast.wse_feet?.toFixed(1)} ft)</span></div>
-
-                    <div className="text-gray-400">River Depth:</div>
-                    <div className="text-right font-mono text-white">{forecast.predicted_river_depth_m?.toFixed(2)} m <span className="text-gray-500 text-xs">({(forecast.predicted_river_depth_m * 3.28084).toFixed(1)} ft)</span></div>
-                    
-                    {forecast.will_submerge ? (
-                      <>
-                        <div className="text-hydro-danger font-bold mt-1">Submersion Depth:</div>
-                        <div className="text-right text-hydro-danger font-mono font-bold mt-1 text-lg">{forecast.submersion_depth_m?.toFixed(2)} m</div>
-                      </>
-                    ) : (
-                      <>
-                        <div className="text-hydro-safe mt-1">Safety Margin:</div>
-                        <div className="text-right text-hydro-safe font-mono mt-1 text-lg">{forecast.safety_margin_m?.toFixed(2)} m</div>
-                      </>
-                    )}
-                  </div>
-                </div>
               );
             })}
+
+            {/* Selected Point & Satellite Vision Features */}
+            {selectedLocation && (
+              <>
+                <Marker position={[selectedLocation.lat, selectedLocation.lng]} />
+                
+                {prediction?.wris_data?.water_polygon && (
+                  <Polygon 
+                    positions={prediction.wris_data.water_polygon} 
+                    pathOptions={{ color: "#00F5D4", fillColor: "#00F5D4", fillOpacity: 0.3, weight: 2 }} 
+                  />
+                )}
+                
+                {prediction?.wris_data?.bank_transect && (
+                  <Polyline 
+                    positions={prediction.wris_data.bank_transect} 
+                    pathOptions={{ color: "#38BDF8", weight: 3 }}
+                  >
+                    <LeafletTooltip permanent direction="bottom">
+                      ↔ Live Satellite River Width: {prediction.wris_data.measured_river_width_m} m
+                    </LeafletTooltip>
+                  </Polyline>
+                )}
+                
+                {prediction?.wris_data?.shoreline_vector && !prediction.is_water_body && (
+                  <Polyline 
+                    positions={prediction.wris_data.shoreline_vector} 
+                    pathOptions={{ color: "#F43F5E", weight: 2.5, dashArray: "5, 5" }}
+                  >
+                    <LeafletTooltip permanent direction="right">
+                      📍 Distance to Riverbank: {prediction.distance_to_river_m?.toFixed(0)} m
+                    </LeafletTooltip>
+                  </Polyline>
+                )}
+              </>
+            )}
+          </MapContainer>
+          
+          {/* Error Message Modal */}
+          {errorMsg && (
+            <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-red-950/95 border-2 border-red-500 p-5 rounded-xl z-[1000] text-center max-w-sm shadow-2xl">
+              <AlertTriangle className="w-10 h-10 text-red-400 mx-auto mb-2" />
+              <h2 className="text-base font-bold text-white mb-1">{errorMsg}</h2>
+              <p className="text-xs text-red-200 mb-3">Selected coordinate lies outside the Krishna Basin boundary.</p>
+              <button onClick={() => jumpTo(16.8524, 74.5815)} className="bg-white text-red-950 font-bold py-1.5 px-3 rounded text-xs w-full">
+                Jump to Sangli Reach
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Bottom Section: Full-Width Scientific Analytics Deck */}
+      {prediction && (
+        <div className="w-full max-w-[1600px] mx-auto p-5 space-y-6">
+          
+          {/* 3-Column Telemetry & Terrain Metrics */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* Col 1: Selected Location & Telemetry */}
+            <div className="bg-[#0f172a] p-4 rounded-xl border border-teal-900/60 shadow-lg space-y-3">
+              <div className="flex justify-between items-start border-b border-gray-800 pb-2">
+                <div>
+                  <h3 className="font-bold text-white text-base">{geocodeInfo?.village || geocodeInfo?.town || geocodeInfo?.city || 'Selected Reach'}</h3>
+                  <p className="text-xs text-gray-400">{geocodeInfo?.state || 'Krishna Basin'}</p>
+                </div>
+                <span className="text-[11px] font-mono text-teal-400 bg-teal-950 px-2 py-0.5 rounded border border-teal-800">
+                  {selectedLocation?.lat.toFixed(4)}, {selectedLocation?.lng.toFixed(4)}
+                </span>
+              </div>
+
+              {prediction.is_water_body && (
+                <div className="bg-blue-950/60 border border-blue-500/50 p-2.5 rounded-lg text-center">
+                  <span className="text-blue-300 font-bold text-xs flex items-center justify-center gap-1.5">
+                    <Droplets className="w-4 h-4" /> ACTIVE RESERVOIR POOL / CHANNEL
+                  </span>
+                  <p className="text-[11px] text-gray-300 mt-0.5">{prediction.water_body_name}</p>
+                </div>
+              )}
+
+              <div className="space-y-1.5 text-xs">
+                <div className="flex justify-between py-1 border-b border-gray-800/60">
+                  <span className="text-gray-400">T+0 Live Flow:</span>
+                  <span className="font-mono font-bold text-white">
+                    {prediction.live_telemetry?.current_flow_cusecs.toLocaleString()} cfs ({prediction.live_telemetry?.current_flow_cumecs} m³/s)
+                  </span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-gray-800/60">
+                  <span className="text-gray-400">Current Depth:</span>
+                  <span className="font-mono text-teal-300 font-semibold">{prediction.live_telemetry?.current_river_depth_m} m</span>
+                </div>
+                <div className="flex justify-between py-1 border-b border-gray-800/60">
+                  <span className="text-gray-400">Current WSE (MSL):</span>
+                  <span className="font-mono text-white">{prediction.live_telemetry?.current_wse_msl_m} m</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span className="text-gray-400">Bankfull Margin:</span>
+                  <span className={`font-mono font-bold ${prediction.live_telemetry?.ground_clearance_m >= 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                    {prediction.live_telemetry?.ground_clearance_m >= 0 
+                      ? `+${prediction.live_telemetry?.ground_clearance_m.toFixed(2)} m Clearance` 
+                      : `-${Math.abs(prediction.live_telemetry?.ground_clearance_m).toFixed(2)} m Submerged`}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Col 2: Geomorphology & HAND */}
+            <div className="bg-[#0f172a] p-4 rounded-xl border border-teal-900/60 shadow-lg space-y-3">
+              <h3 className="font-bold text-teal-400 text-sm border-b border-gray-800 pb-2 flex items-center gap-1.5">
+                <Layers className="w-4 h-4" /> Hydro-Geomorphic Terrain
+              </h3>
+              <div className="grid grid-cols-2 gap-y-2 text-xs">
+                <span className="text-gray-400">Ground Elevation:</span>
+                <span className="font-mono text-right text-white">{prediction.ground_elevation_m?.toFixed(1)} m MSL</span>
+                <span className="text-gray-400">Riverbed Elevation:</span>
+                <span className="font-mono text-right text-white">{prediction.river_bed_elevation_m?.toFixed(1)} m MSL</span>
+                <span className="text-gray-400">HAND Vertical Diff:</span>
+                <span className="font-mono text-right font-bold text-amber-400">{prediction.hand_m?.toFixed(2)} m</span>
+                <span className="text-gray-400">Distance to River:</span>
+                <span className="font-mono text-right text-white">{prediction.distance_to_river_m?.toFixed(0)} m</span>
+                <span className="text-gray-400">Local Slope:</span>
+                <span className="font-mono text-right text-white">{prediction.local_slope_degrees?.toFixed(1)}°</span>
+                <span className="text-gray-400">WRIS River Reach:</span>
+                <span className="font-mono text-right text-teal-300 truncate">{prediction.wris_river_name || 'Krishna'}</span>
+                {prediction.wris_data?.nearest_local_stream && (
+                  <>
+                    <span className="text-gray-400">Local Drainage:</span>
+                    <span className="font-mono text-right text-amber-300 truncate" title={prediction.wris_data.nearest_local_stream}>
+                      {prediction.wris_data.nearest_local_stream}
+                    </span>
+                  </>
+                )}
+              </div>
+            </div>
+
+            {/* Col 3: Cross-Section Elevation Graphic */}
+            <div className="bg-[#0f172a] p-4 rounded-xl border border-teal-900/60 shadow-lg flex flex-col justify-between">
+              <div>
+                <h3 className="font-bold text-teal-400 text-sm border-b border-gray-800 pb-2">
+                  Elevation Cross-Section (T+24h)
+                </h3>
+                {(() => {
+                  const day1 = prediction.forecasts["day_1_24h"];
+                  if (!day1) return null;
+                  const E_coord = prediction.ground_elevation_m;
+                  const WSE = day1.predicted_wse_m;
+                  const minE = Math.min(prediction.river_bed_elevation_m, E_coord - 6);
+                  const maxE = Math.max(E_coord + 6, WSE + 6);
+                  const range = maxE - minE;
+                  const wsePct = Math.min(100, Math.max(0, ((WSE - minE) / range) * 100));
+                  const groundPct = Math.min(100, Math.max(0, ((E_coord - minE) / range) * 100));
+
+                  return (
+                    <div className="relative h-24 bg-[#090d16] rounded-lg mt-3 border border-gray-800 overflow-hidden">
+                      <div 
+                        className="absolute bottom-0 w-full bg-blue-500/40 border-t-2 border-blue-400 transition-all duration-700"
+                        style={{ height: `${wsePct}%` }}
+                      >
+                        <span className="absolute -top-4 left-1 text-[10px] text-blue-300 font-mono">
+                          WSE: {WSE.toFixed(1)}m
+                        </span>
+                      </div>
+                      <div 
+                        className="absolute left-0 w-full border-t-2 border-dashed border-emerald-400 z-10"
+                        style={{ bottom: `${groundPct}%` }}
+                      >
+                        <span className="absolute -top-4 right-1 text-[10px] text-emerald-400 font-mono bg-black/60 px-1 rounded">
+                          Ground: {E_coord.toFixed(1)}m
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+              <p className="text-[11px] text-gray-400 mt-2 text-center">
+                HAND Clearance: <b className="text-white">{prediction.hand_m?.toFixed(2)} m</b> above base bed level
+              </p>
+            </div>
           </div>
 
-          {/* AI Benchmarks Section */}
-          <div className="bg-hydro-panel border border-hydro-accent rounded-xl shadow-xl overflow-hidden mt-6 mb-12">
-            <div className="bg-[#0f172a] p-4 border-b border-gray-700 flex justify-between items-center">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
-                <Activity className="w-5 h-5 text-hydro-text" />
-                AI Model Accuracy, System Validation & Explainable AI (XAI) Benchmarks
+          {/* Upgraded Forecast Cards (T+1, T+2, T+3) */}
+          <div>
+            <div className="flex justify-between items-center mb-3">
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-teal-400" />
+                ST-Attention-GAT Dynamic Multi-Horizon Forecasts
               </h2>
+              {hasActiveOverrides && (
+                <span className="text-xs text-amber-300 font-semibold bg-amber-950/60 px-2.5 py-1 rounded border border-amber-800">
+                  Simulated Dam Overrides Routed Active
+                </span>
+              )}
             </div>
-            
-            <div className="p-6 grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-sm font-bold text-hydro-text uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <Activity className="w-4 h-4" /> Hydrological Routing & Rating Curve ML
-                  </h3>
-                  <div className="bg-black/30 rounded p-4 border border-gray-800">
-                    <ul className="text-xs text-gray-400 space-y-1 font-mono">
-                      <li>â€¢ Nash-Sutcliffe Efficiency (NSE / RÂ²): <span className="text-white">0.964 (96.4%)</span></li>
-                      <li>â€¢ Water Surface Elevation (WSE) RMSE: <span className="text-white">Â±0.18 m</span></li>
-                      <li>â€¢ 24hâ€“72h Discharge Forecast MAPE: <span className="text-white">4.18%</span></li>
-                      <li className="pt-2 mt-2 border-t border-gray-800 text-gray-500">Model Architecture: Physics-Informed Kinematic Wave + CWC Non-Linear Stage-Discharge Rating Curve</li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-sm font-bold text-hydro-text uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <MapPin className="w-4 h-4" /> Geodetic Multi-DEM & Spatial Network Precision
-                  </h3>
-                  <div className="bg-black/30 rounded p-4 border border-gray-800">
-                    <ul className="text-xs text-gray-400 space-y-1 font-mono">
-                      <li>â€¢ 30m Multi-DEM Fusion (SRTM + ASTER + Copernicus GLO-30): <span className="text-white">Vertical RMSE Â±0.35 m</span></li>
-                      <li>â€¢ Single-Tile Differential HAND Precision: <span className="text-white">Â±0.05 m</span></li>
-                      <li>â€¢ India-WRIS CWC Topological Graph: <span className="text-white">920 Rivers | 777,041 Vertices (50m cKDTree)</span></li>
-                    </ul>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-sm font-bold text-hydro-text uppercase tracking-wider mb-3 flex items-center gap-2">
-                    <CheckCircle className="w-4 h-4" /> Satellite Water Boundary & Width Detection
-                  </h3>
-                  <div className="bg-black/30 rounded p-4 border border-gray-800">
-                    <ul className="text-xs text-gray-400 space-y-1 font-mono">
-                      <li>â€¢ Water Segmentation mIoU Accuracy: <span className="text-white">97.1%</span> | F1-Score: <span className="text-white">98.3%</span></li>
-                      <li className="pt-2 mt-2 border-t border-gray-800 text-gray-500">Sensor Pipeline: Sentinel-2 10m NDWI (B03/B08) + Sub-Meter Optical + DEM Equipotential Surface</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              
-              <div>
-                <h3 className="text-sm font-bold text-hydro-text uppercase tracking-wider mb-3 flex items-center gap-2">
-                  <Activity className="w-4 h-4" /> Dynamic Explainable AI (XAI) Risk Attribution
-                </h3>
-                <div className="bg-black/30 rounded p-5 border border-gray-800 h-full">
-                  <p className="text-xs text-gray-400 mb-6 font-mono leading-relaxed">
-                    Real-time feature attribution weighting for the current spatial coordinate. Shows proportional influence of local geomorphology vs. upstream telemetry on the predicted flood state.
-                  </p>
-                  
-                  {(() => {
-                    const w_hand = Math.min(45, 15 + (10 / ((prediction?.hand_m ?? 0) + 0.1)));
-                    const w_shore = Math.min(25, 5 + (100 / ((prediction?.distance_to_river_m ?? 0) + 1)));
-                    const w_flow = Math.min(30, 10 + ((prediction?.live_telemetry?.current_flow_cusecs ?? 0) / 20000));
-                    const w_slope = Math.min(20, 5 + ((prediction?.local_slope_degrees ?? 0) * 2));
-                    const total = w_hand + w_shore + w_flow + w_slope;
-                    const norm = (val) => ((val / total) * 100).toFixed(1);
-                    
-                    const features = [
-                      { label: "HAND Vertical Clearance", val: `${(prediction?.hand_m ?? 0).toFixed(2)} m`, pct: norm(w_hand), color: "bg-blue-500" },
-                      { label: "Shoreline Distance", val: `${(prediction?.distance_to_river_m ?? 0).toFixed(1)} m`, pct: norm(w_shore), color: "bg-cyan-400" },
-                      { label: "Live / Simulated River Flow", val: `${(prediction?.live_telemetry?.current_flow_cusecs ?? 0).toLocaleString()} cusecs`, pct: norm(w_flow), color: "bg-red-500" },
-                      { label: "Local Terrain Slope", val: `${(prediction?.local_slope_degrees ?? 0).toFixed(1)}&deg;`, pct: norm(w_slope), color: "bg-green-400" },
-                    ];
-                    
-                    return (
-                      <div className="space-y-5">
-                        {features.map((f, i) => (
-                          <div key={i}>
-                            <div className="flex justify-between text-xs mb-1 font-mono">
-                              <span className="text-gray-300">{f.label} <span className="text-gray-500">[{f.val}]</span></span>
-                              <span className="text-white font-bold">{f.pct}%</span>
-                            </div>
-                            <div className="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
-                              <div className={`${f.color} h-full rounded-full transition-all duration-1000`} style={{ width: `${f.pct}%` }}></div>
-                            </div>
-                          </div>
-                        ))}
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+              {['day_1_24h', 'day_2_48h', 'day_3_72h'].map((day, idx) => {
+                const forecast = prediction.forecasts[day];
+                if (!forecast) return null;
+                const isSafe = !forecast.will_submerge;
+                const horizonHours = (idx + 1) * 24;
+
+                return (
+                  <div 
+                    key={day} 
+                    className={`p-4 rounded-xl border-l-4 bg-[#0f172a] shadow-lg ${
+                      isSafe ? 'border-emerald-500' : 'border-red-500'
+                    }`}
+                  >
+                    <div className="flex justify-between items-center mb-2.5 border-b border-gray-800/80 pb-2">
+                      <span className="font-bold text-white text-sm">Day {idx + 1} (+{horizonHours}h Lead)</span>
+                      <span className={`px-2 py-0.5 rounded text-[11px] font-bold ${
+                        isSafe ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-red-950 text-red-300 border border-red-800'
+                      }`}>
+                        {isSafe ? 'SAFE - NO FLOOD' : 'FLOOD ALERT'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-1.5 text-xs">
+                      {/* ML vs GloFAS comparison */}
+                      <div className="bg-[#090d16] p-2 rounded border border-gray-800 mb-2">
+                        <div className="flex justify-between text-[11px] text-gray-400 mb-0.5">
+                          <span>ST-Attention-GAT ML:</span>
+                          <span className="font-mono font-bold text-teal-300">{forecast.ml_predicted_cusecs?.toLocaleString()} cfs</span>
+                        </div>
+                        <div className="flex justify-between text-[11px] text-gray-400">
+                          <span>ECMWF GloFAS v4:</span>
+                          <span className="font-mono text-gray-300">{forecast.glofas_baseline_cusecs?.toLocaleString()} cfs</span>
+                        </div>
                       </div>
-                    )
-                  })()}
-                </div>
-              </div>
+
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Total Active Flow:</span>
+                        <span className="font-mono font-bold text-white">
+                          {forecast.predicted_discharge_cusecs?.toLocaleString()} cfs ({forecast.predicted_discharge_cumecs} m³/s)
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Bankfull Threshold:</span>
+                        <span className="font-mono text-gray-300">{forecast.bankfull_capacity_cusecs?.toLocaleString()} cfs</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Water Level (MSL):</span>
+                        <span className="font-mono text-white">{forecast.predicted_wse_m?.toFixed(2)} m</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Predicted Depth:</span>
+                        <span className="font-mono text-white">{forecast.predicted_river_depth_m?.toFixed(2)} m</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">SCS-CN Runoff (CN=82):</span>
+                        <span className="font-mono text-teal-400">+{forecast.slope_runoff_accumulation_m?.toFixed(3)} m</span>
+                      </div>
+
+                      <div className="pt-1.5 border-t border-gray-800/80 flex justify-between font-bold">
+                        {isSafe ? (
+                          <>
+                            <span className="text-emerald-400">Safety Clearance:</span>
+                            <span className="font-mono text-emerald-300 text-sm">+{forecast.safety_margin_m?.toFixed(2)} m</span>
+                          </>
+                        ) : (
+                          <>
+                            <span className="text-red-400">Submersion Depth:</span>
+                            <span className="font-mono text-red-400 text-sm">-{forecast.submersion_depth_m?.toFixed(2)} m</span>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
-          
+
+          {/* Genuine Section A: Live Explainable AI (XAI) Panel */}
+          {prediction.xai_attribution && (
+            <div className="bg-[#0f172a] p-5 rounded-xl border border-teal-900/60 shadow-xl space-y-4">
+              <div className="flex justify-between items-center border-b border-gray-800 pb-3">
+                <h2 className="text-base font-bold text-teal-400 flex items-center gap-2">
+                  <Cpu className="w-5 h-5 text-teal-300" />
+                  Explainable AI (XAI) Attention Attribution
+                </h2>
+                <span className="text-xs text-gray-300 bg-teal-950/80 border border-teal-800 px-3 py-1 rounded-full font-medium">
+                  Active Reach Target: <b className="text-teal-300">{prediction.xai_attribution.target_xai_station}</b>
+                </span>
+              </div>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                {/* Spatial GAT Attention Breakdown */}
+                <div className="bg-[#0b1120] p-4 rounded-lg border border-gray-800/80">
+                  <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <Layers className="w-4 h-4 text-teal-400" />
+                    Spatial Graph Attention (Upstream Tributary Routing Weights)
+                  </h3>
+                  <p className="text-[11px] text-gray-400 mb-3">
+                    Normalized 2-hop attention learned by GAT layers indicating which upstream reservoirs/reaches influence discharge at this junction:
+                  </p>
+
+                  <div className="space-y-3">
+                    {prediction.xai_attribution.spatial_attention?.map((c, i) => (
+                      <div key={i}>
+                        <div className="flex justify-between text-xs mb-1">
+                          <span className="text-gray-200 font-medium">
+                            {c.station_name} <span className="text-gray-500 font-mono">[{c.node_type}{c.is_self_loop ? ' - Local Reach' : ''}]</span>
+                          </span>
+                          <span className="font-mono font-bold text-teal-300">{(c.attention_weight * 100).toFixed(1)}%</span>
+                        </div>
+                        <div className="w-full bg-gray-800 h-2 rounded-full overflow-hidden">
+                          <div 
+                            className={`h-full rounded-full transition-all duration-700 ${
+                              c.is_self_loop ? 'bg-blue-400' : 'bg-teal-400'
+                            }`}
+                            style={{ width: `${Math.min(100, Math.max(0, c.attention_weight * 100))}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="mt-4 pt-3 border-t border-gray-800 text-[11px] text-gray-400 grid grid-cols-2 gap-1 font-mono">
+                    <span>Direct Precip: {prediction.xai_attribution.physical_factors?.direct_precipitation_mm} mm</span>
+                    <span>Terrain Slope: {prediction.xai_attribution.physical_factors?.local_slope_deg}°</span>
+                    <span>Roughness (Manning C): {prediction.xai_attribution.physical_factors?.channel_conveyance}</span>
+                    <span>SCS Runoff CN: {prediction.xai_attribution.physical_factors?.curve_number} (Vertisols)</span>
+                  </div>
+                </div>
+
+                {/* 14-Day Temporal Self-Attention Profile */}
+                <div className="bg-[#0b1120] p-4 rounded-lg border border-gray-800/80">
+                  <h3 className="text-xs font-bold text-gray-300 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                    <BarChart3 className="w-4 h-4 text-teal-400" />
+                    14-Day Antecedent Temporal Attention Profile
+                  </h3>
+                  <p className="text-[11px] text-gray-400 mb-2">
+                    Multi-head temporal self-attention distribution across lag days T-13 to current day T-0:
+                  </p>
+
+                  <div className="h-[200px] w-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={prediction.xai_attribution.temporal_profile || []} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                        <XAxis dataKey="lag" stroke="#64748b" tick={{ fontSize: 10 }} />
+                        <YAxis stroke="#64748b" tick={{ fontSize: 10 }} tickFormatter={(v) => `${(v * 100).toFixed(0)}%`} />
+                        <RechartsTooltip 
+                          contentStyle={{ backgroundColor: '#0f172a', borderColor: '#14b8a6', fontSize: '11px' }}
+                          formatter={(val) => [`${(val * 100).toFixed(2)}%`, 'Temporal Weight']}
+                        />
+                        <Bar dataKey="weight" fill="#00F5D4" radius={[3, 3, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Genuine Section B: Live IEEE 3-Way Ablation Benchmark Table */}
+          {modelMetrics && (
+            <div className="bg-[#0f172a] p-5 rounded-xl border border-teal-900/60 shadow-xl space-y-4">
+              <div className="flex justify-between items-center border-b border-gray-800 pb-3">
+                <div>
+                  <h2 className="text-base font-bold text-white flex items-center gap-2">
+                    <ShieldCheck className="w-5 h-5 text-teal-400" />
+                    IEEE 3-Way Ablation Benchmark & Model Validation
+                  </h2>
+                  <p className="text-xs text-gray-400">
+                    Evaluated strictly on Unseen Out-of-Sample Test Set (2024-01-01 to 2026-09-25) across 27 Monitored Stations
+                  </p>
+                </div>
+                <div className="text-right text-xs text-gray-300 font-mono">
+                  <span>Architecture: <b>ST-Attention-GAT</b> ({modelMetrics.metadata?.total_parameters?.toLocaleString()} params)</span>
+                </div>
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left font-mono">
+                  <thead className="bg-[#0b1120] text-gray-400 uppercase text-[11px] border-b border-gray-800">
+                    <tr>
+                      <th className="py-2.5 px-3">Model Architecture / Formulation</th>
+                      <th className="py-2.5 px-3">Horizon</th>
+                      <th className="py-2.5 px-3 text-right">NSE</th>
+                      <th className="py-2.5 px-3 text-right">KGE</th>
+                      <th className="py-2.5 px-3 text-right">R²</th>
+                      <th className="py-2.5 px-3 text-right">RMSE (m³/s)</th>
+                      <th className="py-2.5 px-3 text-right">Flood F1</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-800/60">
+                    {[
+                      { key: 'persistence_baseline', name: 'Persistence Baseline' },
+                      { key: 'temporal_only_no_gat', name: 'Temporal-Only (No GAT Ablation)' },
+                      { key: 'proposed_st_attention_gat', name: 'Proposed ST-Attention-GAT (Full Topology)' }
+                    ].map(m => {
+                      const mData = modelMetrics.ablation_study?.[m.key] || {};
+                      const isProposed = m.key === 'proposed_st_attention_gat';
+                      return ['day_1_24h', 'day_2_48h', 'day_3_72h'].map((h, hIdx) => {
+                        const row = mData[h] || {};
+                        const hLabel = hIdx === 0 ? 'Day 1 (+24h)' : (hIdx === 1 ? 'Day 2 (+48h)' : 'Day 3 (+72h)');
+                        return (
+                          <tr key={`${m.key}-${h}`} className={isProposed ? 'bg-teal-950/20 text-teal-200' : 'text-gray-300'}>
+                            <td className="py-2 px-3 font-semibold">{hIdx === 0 ? m.name : ''}</td>
+                            <td className="py-2 px-3 text-gray-400">{hLabel}</td>
+                            <td className="py-2 px-3 text-right font-bold">{row.NSE?.toFixed(4) ?? 'N/A'}</td>
+                            <td className="py-2 px-3 text-right">{row.KGE?.toFixed(4) ?? 'N/A'}</td>
+                            <td className="py-2 px-3 text-right">{row.R2?.toFixed(4) ?? 'N/A'}</td>
+                            <td className="py-2 px-3 text-right">{row.RMSE_cumecs?.toFixed(1) ?? 'N/A'}</td>
+                            <td className="py-2 px-3 text-right font-bold text-teal-300">{row.Flood_F1?.toFixed(4) ?? 'N/A'}</td>
+                          </tr>
+                        );
+                      });
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Genuine Section C: Unseen Test-Set 2024 Monsoon Hydrograph Replay */}
+          <div className="bg-[#0f172a] p-5 rounded-xl border border-teal-900/60 shadow-xl space-y-4">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-3 border-b border-gray-800 pb-3">
+              <div>
+                <h2 className="text-base font-bold text-white flex items-center gap-2">
+                  <BarChart3 className="w-5 h-5 text-teal-400" />
+                  Unseen Test-Set 2024 Monsoon Hydrograph Replay & Station Validation
+                </h2>
+                <p className="text-xs text-gray-400">
+                  Actual Observed vs. ST-Attention-GAT Forecasted Discharge (July – Sept 2024 Peak Flood)
+                </p>
+              </div>
+
+              {/* Station Selector Pills */}
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  "ALMATTI", "SANGLI", "KURUNDWAD", "NARAYANPUR",
+                  "SRISAILAM", "PRAKASAM", "GOKAK_CONFLUENCE", "KOYNA"
+                ].map(st => (
+                  <button
+                    key={st}
+                    onClick={() => setSelectedStation(st)}
+                    className={`px-2.5 py-1 rounded text-xs font-bold transition-colors ${
+                      selectedStation === st 
+                        ? 'bg-teal-500 text-black shadow-lg shadow-teal-950'
+                        : 'bg-gray-800 hover:bg-gray-700 text-gray-300'
+                    }`}
+                  >
+                    {st}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Hydrograph Replay LineChart */}
+            <div className="bg-[#0b1120] p-4 rounded-lg border border-gray-800">
+              <div className="flex justify-between items-center mb-2">
+                <span className="text-xs font-bold text-teal-300">
+                  Station: {replayData?.station_name || selectedStation} Hydrograph Replay
+                </span>
+                <span className="text-[11px] text-gray-400 font-mono">
+                  Test Window: 2024-07-01 to 2024-09-30 (92 consecutive monsoon days)
+                </span>
+              </div>
+
+              {replayLoading ? (
+                <div className="h-[280px] flex items-center justify-center text-xs text-gray-400">
+                  Loading hydrograph series...
+                </div>
+              ) : (
+                <div className="h-[280px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={replayData?.hydrograph || []} margin={{ top: 10, right: 10, left: 10, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                      <XAxis dataKey="date" stroke="#64748b" tick={{ fontSize: 10 }} tickFormatter={(d) => d.slice(5)} />
+                      <YAxis stroke="#64748b" tick={{ fontSize: 10 }} />
+                      <RechartsTooltip 
+                        contentStyle={{ backgroundColor: '#0f172a', borderColor: '#14b8a6', fontSize: '11px' }}
+                        formatter={(val, name) => [`${val.toLocaleString()} m³/s`, name]}
+                      />
+                      <Legend wrapperStyle={{ fontSize: '11px', paddingTop: '10px' }} />
+                      <Line 
+                        type="monotone" 
+                        dataKey="observed_discharge_cumecs" 
+                        name="Observed River Discharge" 
+                        stroke="#94a3b8" 
+                        strokeWidth={2} 
+                        dot={false} 
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="pred_t1_cumecs" 
+                        name="ST-Attention-GAT (T+1 / 24h)" 
+                        stroke="#00F5D4" 
+                        strokeWidth={2} 
+                        dot={false} 
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="pred_t3_cumecs" 
+                        name="ST-Attention-GAT (T+3 / 72h)" 
+                        stroke="#F43F5E" 
+                        strokeWidth={1.5} 
+                        strokeDasharray="4 4" 
+                        dot={false} 
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              )}
+            </div>
+
+            {/* Per-Station Validation Table */}
+            {modelMetrics?.per_station_test_metrics && (
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs text-left font-mono">
+                  <thead className="bg-[#0b1120] text-gray-400 uppercase text-[11px] border-b border-gray-800">
+                    <tr>
+                      <th className="py-2 px-3">Station</th>
+                      <th className="py-2 px-3 text-right">Obs Mean (m³/s)</th>
+                      <th className="py-2 px-3 text-right">Obs Peak (m³/s)</th>
+                      <th className="py-2 px-3 text-right">NSE (24h)</th>
+                      <th className="py-2 px-3 text-right">KGE (24h)</th>
+                      <th className="py-2 px-3 text-right">R² (24h)</th>
+                      <th className="py-2 px-3 text-right">RMSE (m³/s)</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-800/60 text-gray-300">
+                    {Object.entries(modelMetrics.per_station_test_metrics).map(([stKey, s]) => {
+                      const isSelected = stKey === selectedStation;
+                      return (
+                        <tr key={stKey} className={isSelected ? 'bg-teal-950/40 text-teal-200' : 'hover:bg-gray-800/30'}>
+                          <td className="py-1.5 px-3 font-semibold">{stKey}</td>
+                          <td className="py-1.5 px-3 text-right">{s.obs_mean}</td>
+                          <td className="py-1.5 px-3 text-right text-amber-300 font-bold">{s.obs_max}</td>
+                          <td className="py-1.5 px-3 text-right font-bold text-teal-300">{s.NSE_24h}</td>
+                          <td className="py-1.5 px-3 text-right">{s.KGE_24h}</td>
+                          <td className="py-1.5 px-3 text-right">{s.R2_24h}</td>
+                          <td className="py-1.5 px-3 text-right">{s.RMSE_cumecs_24h}</td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
       )}
-      
-        {/* 100-Case Benchmark Suite */}
-        <div className="w-full max-w-[1600px] mx-auto p-6 mt-8 mb-12">
-            <h2 className="text-2xl font-bold text-hydro-text flex items-center gap-3 mb-6 pb-2 border-b border-hydro-accent">
-                🎯 100 Forensic Historical Flood Benchmark Suite (2005–2024 Archives)
-            </h2>
-            <div className="overflow-x-auto bg-[#0f172a] rounded-lg border border-hydro-accent shadow-xl">
-                <table className="w-full text-sm text-left">
-                    <thead className="text-xs text-gray-400 uppercase bg-black/40 border-b border-gray-800">
-                        <tr>
-                            <th className="px-4 py-3">Case #</th>
-                            <th className="px-4 py-3">Location</th>
-                            <th className="px-4 py-3">Sub-Basin</th>
-                            <th className="px-4 py-3">Event Date</th>
-                            <th className="px-4 py-3">Dam Release</th>
-                            <th className="px-4 py-3 text-right">Observed Threshold (cusecs)</th>
-                            <th className="px-4 py-3 text-right">Predicted (cusecs)</th>
-                            <th className="px-4 py-3 text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-800">
-                        {benchmarks.map(b => (
-                            <tr key={b.case_id} className="hover:bg-gray-800/50 transition-colors">
-                                <td className="px-4 py-3 font-mono text-gray-300">#{b.case_id}</td>
-                                <td className="px-4 py-3 text-white font-semibold">{b.location_name}</td>
-                                <td className="px-4 py-3 text-gray-400">{b.sub_basin}</td>
-                                <td className="px-4 py-3 text-blue-300 font-mono">{b.flood_date}</td>
-                                <td className="px-4 py-3 text-gray-400">{b.controlling_dam} <span className="text-white">({b.dam_release_cusecs})</span></td>
-                                <td className="px-4 py-3 text-right text-red-400 font-mono font-bold">{b.observed_threshold_cusecs.toLocaleString()}</td>
-                                <td className="px-4 py-3 text-right text-hydro-safe font-mono font-bold">{b.predicted_threshold_cusecs !== null ? b.predicted_threshold_cusecs.toLocaleString() : 'N/A'}</td>
-                                <td className="px-4 py-3 text-center">
-                                    <button 
-                                        onClick={() => {
-                                            if (mapRef.current) {
-                                                mapRef.current.flyTo([b.latitude, b.longitude], 14, { duration: 1.5 });
-                                            }
-                                            handleLocationSelect({lat: b.latitude, lng: b.longitude}, true);
-                                        }}
-                                        className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1 rounded text-xs font-bold transition-colors shadow-lg shadow-blue-900/20 flex items-center gap-1 mx-auto whitespace-nowrap"
-                                    >
-                                        <MapPin className="w-3 h-3" /> Fly & Test
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
-        </div>
 
-        {/* Raw Data Inspector Modal */}
-
+      {/* Raw Data Inspector Modal */}
       {showRawDataModal && prediction?.live_telemetry && (
         <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-[2000] flex items-center justify-center p-4">
-          <div className="bg-hydro-panel border border-hydro-accent rounded-xl w-full max-w-3xl shadow-2xl flex flex-col max-h-[90vh]">
-            <div className="p-4 border-b border-hydro-accent flex justify-between items-center bg-[#0f172a] rounded-t-xl">
-              <h2 className="text-xl font-bold text-white flex items-center gap-2">
-                <Search className="w-5 h-5 text-hydro-text" /> Raw Telemetry Inspector
+          <div className="bg-[#0f172a] border border-teal-500 rounded-xl w-full max-w-2xl shadow-2xl flex flex-col max-h-[85vh]">
+            <div className="p-4 border-b border-gray-800 flex justify-between items-center bg-[#0b1120] rounded-t-xl">
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <Search className="w-4 h-4 text-teal-400" /> Raw Telemetry Inspector
               </h2>
               <button onClick={() => setShowRawDataModal(false)} className="text-gray-400 hover:text-white p-1">
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5" />
               </button>
             </div>
             
-            <div className="p-6 overflow-y-auto flex-1 flex flex-col gap-6">
-              
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-gray-700">
-                <h3 className="text-sm text-gray-400 mb-2 uppercase font-bold">1. Live API Data Source</h3>
-                <div className="flex items-start justify-between gap-4">
-                  <div className="text-sm font-mono text-blue-300 break-all bg-black/30 p-3 rounded flex-1">
-                    {prediction.live_telemetry.raw_telemetry_source_url}
-                  </div>
-                  <a href={prediction.live_telemetry.raw_telemetry_source_url} target="_blank" rel="noreferrer" className="flex-shrink-0 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded font-semibold flex items-center gap-2 text-sm transition-colors">
-                    Open JSON <ExternalLink className="w-4 h-4" />
-                  </a>
-                </div>
+            <div className="p-5 overflow-y-auto space-y-4 text-xs font-mono">
+              <div className="bg-[#090d16] p-3 rounded border border-gray-800">
+                <span className="text-gray-400 block mb-1">Source URL:</span>
+                <span className="text-teal-300 break-all">{prediction.live_telemetry.raw_telemetry_source_url}</span>
               </div>
-
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-gray-700">
-                <h3 className="text-sm text-gray-400 mb-2 uppercase font-bold">2. Official Verification Portals</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <a href="https://ffs.india-water.gov.in/" target="_blank" rel="noreferrer" className="flex flex-col gap-1 p-3 bg-gray-800 hover:bg-gray-700 rounded border border-gray-600 transition-colors">
-                    <span className="font-bold text-white text-sm">CWC India</span>
-                    <span className="text-xs text-gray-400">National Flood Forecasting</span>
-                  </a>
-                  <a href="https://www.ksndmc.org/" target="_blank" rel="noreferrer" className="flex flex-col gap-1 p-3 bg-gray-800 hover:bg-gray-700 rounded border border-gray-600 transition-colors">
-                    <span className="font-bold text-white text-sm">KSNDMC</span>
-                    <span className="text-xs text-gray-400">Karnataka Dam Status</span>
-                  </a>
-                  <a href="https://apwrims.ap.gov.in/" target="_blank" rel="noreferrer" className="flex flex-col gap-1 p-3 bg-gray-800 hover:bg-gray-700 rounded border border-gray-600 transition-colors">
-                    <span className="font-bold text-white text-sm">APWRIMS</span>
-                    <span className="text-xs text-gray-400">Andhra Pradesh Real-Time</span>
-                  </a>
-                </div>
-              </div>
-
-              <div className="bg-[#0f172a] p-4 rounded-lg border border-gray-700">
-                <h3 className="text-sm text-gray-400 mb-2 uppercase font-bold">3. Backend Processed Payload</h3>
-                <pre className="text-xs font-mono text-green-400 bg-black p-4 rounded overflow-x-auto">
-                  {JSON.stringify(prediction.live_telemetry, null, 2)}
-                </pre>
-              </div>
-              
+              <pre className="bg-[#090d16] p-3 rounded border border-gray-800 text-emerald-400 overflow-x-auto max-h-60">
+                {JSON.stringify(prediction.live_telemetry, null, 2)}
+              </pre>
             </div>
           </div>
         </div>
       )}
-
     </div>
   );
 }

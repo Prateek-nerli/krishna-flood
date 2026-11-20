@@ -1,0 +1,224 @@
+{
+  "metadata": {
+    "timestamp": "2026-11-20T18:41:28Z",
+    "total_parameters": 27739,
+    "architecture": "Spatio-Temporal Attention Graph Neural Network (ST-Attention-GAT)",
+    "features": [
+      "log1p_discharge",
+      "precipitation_sum",
+      "precip_3d_sum",
+      "et0",
+      "sin_doy",
+      "cos_doy"
+    ],
+    "stations_count": 27,
+    "training_duration_seconds": 259.52,
+    "best_epoch": 29,
+    "loss_function": "Peak-Aware Composite Smooth-L1 + Scaled Physical MSE"
+  },
+  "splits": {
+    "train_days": 8766,
+    "val_days": 1095,
+    "test_days": 999,
+    "train_windows": 8750,
+    "val_windows": 1092,
+    "test_windows": 996
+  },
+  "ablation_study": {
+    "persistence_baseline": {
+      "day_1_24h": {
+        "NSE": 0.9625,
+        "KGE": 0.9812,
+        "R2": 0.9628,
+        "RMSE_cumecs": 325.26,
+        "MAE_cumecs": 77.6,
+        "Flood_Precision": 0.8676,
+        "Flood_Recall": 0.8676,
+        "Flood_F1": 0.8676,
+        "Flood_CSI": 0.7662
+      },
+      "day_2_48h": {
+        "NSE": 0.8836,
+        "KGE": 0.9418,
+        "R2": 0.887,
+        "RMSE_cumecs": 572.69,
+        "MAE_cumecs": 144.99,
+        "Flood_Precision": 0.7542,
+        "Flood_Recall": 0.7542,
+        "Flood_F1": 0.7542,
+        "Flood_CSI": 0.6054
+      },
+      "day_3_72h": {
+        "NSE": 0.7886,
+        "KGE": 0.8943,
+        "R2": 0.7997,
+        "RMSE_cumecs": 771.9,
+        "MAE_cumecs": 203.57,
+        "Flood_Precision": 0.6576,
+        "Flood_Recall": 0.6576,
+        "Flood_F1": 0.6576,
+        "Flood_CSI": 0.4898
+      }
+    },
+    "temporal_only_no_gat": {
+      "day_1_24h": {
+        "NSE": 0.9718,
+        "KGE": 0.965,
+        "R2": 0.9719,
+        "RMSE_cumecs": 281.92,
+        "MAE_cumecs": 61.03,
+        "Flood_Precision": 0.9067,
+        "Flood_Recall": 0.8945,
+        "Flood_F1": 0.9006,
+        "Flood_CSI": 0.8192
+      },
+      "day_2_48h": {
+        "NSE": 0.916,
+        "KGE": 0.8749,
+        "R2": 0.9181,
+        "RMSE_cumecs": 486.61,
+        "MAE_cumecs": 109.17,
+        "Flood_Precision": 0.8578,
+        "Flood_Recall": 0.7681,
+        "Flood_F1": 0.8105,
+        "Flood_CSI": 0.6813
+      },
+      "day_3_72h": {
+        "NSE": 0.8545,
+        "KGE": 0.8001,
+        "R2": 0.8594,
+        "RMSE_cumecs": 640.4,
+        "MAE_cumecs": 148.34,
+        "Flood_Precision": 0.8217,
+        "Flood_Recall": 0.6563,
+        "Flood_F1": 0.7297,
+        "Flood_CSI": 0.5745
+      }
+    },
+    "proposed_st_attention_gat": {
+      "day_1_24h": {
+        "NSE": 0.9757,
+        "KGE": 0.9534,
+        "R2": 0.9759,
+        "RMSE_cumecs": 261.41,
+        "MAE_cumecs": 56.93,
+        "Flood_Precision": 0.9315,
+        "Flood_Recall": 0.8798,
+        "Flood_F1": 0.9049,
+        "Flood_CSI": 0.8264
+      },
+      "day_2_48h": {
+        "NSE": 0.9336,
+        "KGE": 0.911,
+        "R2": 0.9341,
+        "RMSE_cumecs": 432.59,
+        "MAE_cumecs": 96.35,
+        "Flood_Precision": 0.8775,
+        "Flood_Recall": 0.7706,
+        "Flood_F1": 0.8206,
+        "Flood_CSI": 0.6958
+      },
+      "day_3_72h": {
+        "NSE": 0.8868,
+        "KGE": 0.8596,
+        "R2": 0.8881,
+        "RMSE_cumecs": 564.78,
+        "MAE_cumecs": 130.67,
+        "Flood_Precision": 0.8279,
+        "Flood_Recall": 0.6853,
+        "Flood_F1": 0.7499,
+        "Flood_CSI": 0.5999
+      }
+    }
+  },
+  "per_station_test_metrics": {
+    "KOYNA": {
+      "obs_mean": 77.35,
+      "obs_max": 1155.11,
+      "NSE_24h": 0.9579,
+      "KGE_24h": 0.9731,
+      "R2_24h": 0.958,
+      "RMSE_cumecs_24h": 33.41
+    },
+    "KARAD": {
+      "obs_mean": 172.25,
+      "obs_max": 3053.92,
+      "NSE_24h": 0.9384,
+      "KGE_24h": 0.8815,
+      "R2_24h": 0.9432,
+      "RMSE_cumecs_24h": 93.58
+    },
+    "SANGLI": {
+      "obs_mean": 280.25,
+      "obs_max": 4633.47,
+      "NSE_24h": 0.9482,
+      "KGE_24h": 0.8882,
+      "R2_24h": 0.9527,
+      "RMSE_cumecs_24h": 140.49
+    },
+    "KURUNDWAD": {
+      "obs_mean": 390.19,
+      "obs_max": 5983.12,
+      "NSE_24h": 0.9462,
+      "KGE_24h": 0.869,
+      "R2_24h": 0.9534,
+      "RMSE_cumecs_24h": 194.64
+    },
+    "HIPPARAGI": {
+      "obs_mean": 477.89,
+      "obs_max": 7361.07,
+      "NSE_24h": 0.9566,
+      "KGE_24h": 0.9032,
+      "R2_24h": 0.9598,
+      "RMSE_cumecs_24h": 215.21
+    },
+    "ALMATTI": {
+      "obs_mean": 593.61,
+      "obs_max": 9748.91,
+      "NSE_24h": 0.9698,
+      "KGE_24h": 0.945,
+      "R2_24h": 0.9704,
+      "RMSE_cumecs_24h": 225.35
+    },
+    "NARAYANPUR": {
+      "obs_mean": 674.82,
+      "obs_max": 9726.47,
+      "NSE_24h": 0.9768,
+      "KGE_24h": 0.9394,
+      "R2_24h": 0.9779,
+      "RMSE_cumecs_24h": 222.93
+    },
+    "HIDKAL": {
+      "obs_mean": 66.11,
+      "obs_max": 1126.2,
+      "NSE_24h": 0.9252,
+      "KGE_24h": 0.9026,
+      "R2_24h": 0.9264,
+      "RMSE_cumecs_24h": 41.66
+    },
+    "GOKAK_CONFLUENCE": {
+      "obs_mean": 84.92,
+      "obs_max": 1464.55,
+      "NSE_24h": 0.9133,
+      "KGE_24h": 0.8895,
+      "R2_24h": 0.915,
+      "RMSE_cumecs_24h": 58.06
+    },
+    "SRISAILAM": {
+      "obs_mean": 1866.0,
+      "obs_max": 24489.63,
+      "NSE_24h": 0.9784,
+      "KGE_24h": 0.9746,
+      "R2_24h": 0.9791,
+      "RMSE_cumecs_24h": 488.3
+    },
+    "PRAKASAM": {
+      "obs_mean": 1975.79,
+      "obs_max": 26362.31,
+      "NSE_24h": 0.9731,
+      "KGE_24h": 0.9711,
+      "R2_24h": 0.9739,
+      "RMSE_cumecs_24h": 586.02
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "node_ids": [
+    "KOYNA",
+    "WARANA",
+    "KARAD",
+    "SANGLI",
+    "RADHANAGARI",
+    "KURUNDWAD",
+    "HIPPARAGI",
+    "ALMATTI",
+    "NARAYANPUR",
+    "UJJANI",
+    "YADGIR",
+    "JURALA",
+    "TUNGABHADRA",
+    "SRISAILAM",
+    "NAGARJUNA",
+    "PULICHINTALA",
+    "PRAKASAM",
+    "RAKASKOP",
+    "SHIRUR_MARKANDEYA",
+    "HIDKAL",
+    "HIRANYAKESHI",
+    "GOKAK_CONFLUENCE",
+    "MUDHOL_GHATAPRABHA",
+    "KALAMMAWADI",
+    "KALLOL_CHIKODI",
+    "MALAPRABHA_DAM",
+    "BADAMI_MALAPRABHA"
+  ],
+  "feature_names": [
+    "log1p_discharge",
+    "precipitation_sum",
+    "precip_3d_sum",
+    "et0",
+    "sin_doy",
+    "cos_doy"
+  ],
+  "q_mean": 2.9707461343159225,
+  "q_scale": 2.3932522555781346,
+  "means": [
+    2.9707461343159225,
+    2.964334846527076,
+    8.893004538870207,
+    4.671081579056227,
+    4.416371808526942e-06,
+    -4.9035950301853783e-08
+  ],
+  "scales": [
+    2.3932522555781346,
+    8.764400142711409,
+    23.08627085964109,
+    1.573714784203261,
+    0.7071068534885554,
+    0.707106709469148
+  ],
+  "seq_len": 14,
+  "pred_horizon": 3,
+  "split_dates": {
+    "train": [
+      "1997-01-01",
+      "2020-12-31"
+    ],
+    "val": [
+      "2021-01-01",
+      "2023-12-31"
+    ],
+    "test": [
+      "2024-01-01",
+      "2026-09-25"
+    ]
+  }
+}

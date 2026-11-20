@@ -24,7 +24,7 @@ def fetch_apwrims_reservoirs():
     }
 
     try:
-        response = requests.get(url, headers=headers, verify=False, timeout=15)
+        response = requests.get(url, headers=headers, verify=True, timeout=10)
         response.raise_for_status()
         soup = BeautifulSoup(response.content, 'html.parser')
         
