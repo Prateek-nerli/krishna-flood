@@ -1,0 +1,25 @@
+{
+  "output": {
+    "filePath": "repomix-output.xml",
+    "style": "xml",
+    "removeComments": false,
+    "removeEmptyLines": false,
+    "topFilesLength": 10,
+    "showLineNumbers": false
+  },
+  "include": [],
+  "ignore": {
+    "useGitignore": true,
+    "useDefaultPatterns": true,
+    "customPatterns": [
+      "venv/**",
+      ".venv/**",
+      "data/**",
+      "qa/image.png",
+      "frontend/dist/**",
+      "frontend/package-lock.json",
+      "models/*.pt",
+      "models/*.pkl"
+    ]
+  }
+}
