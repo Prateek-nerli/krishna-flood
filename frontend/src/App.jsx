@@ -1,4 +1,4 @@
-﻿import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, Polyline, useMapEvents, LayersControl, Polygon, WMSTileLayer, Tooltip as LeafletTooltip, useMap, GeoJSON } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Droplets, Activity, MapPin, AlertTriangle, CheckCircle, Search, Navigation, Info, ExternalLink, X } from 'lucide-react';
@@ -41,13 +41,6 @@ function MapEventsHandler({ onLocationSelect, mapRef }) {
       onLocationSelect(e.latlng);
     },
   });
-  
-  useEffect(() => {
-    fetch('http://localhost:8000/api/v1/benchmarks/100-cases')
-      .then(res => res.json())
-      .then(data => setBenchmarks(data))
-      .catch(err => console.error("Benchmark fetch error:", err));
-  }, []);
 
   useEffect(() => {
     if (mapRef) {
@@ -803,7 +796,7 @@ export default function App() {
         {/* 100-Case Benchmark Suite */}
         <div className="w-full max-w-[1600px] mx-auto p-6 mt-8 mb-12">
             <h2 className="text-2xl font-bold text-hydro-text flex items-center gap-3 mb-6 pb-2 border-b border-hydro-accent">
-                ðŸŽ¯ 100 Forensic Historical Flood Benchmark Suite (2005â€“2024 Archives)
+                🎯 100 Forensic Historical Flood Benchmark Suite (2005–2024 Archives)
             </h2>
             <div className="overflow-x-auto bg-[#0f172a] rounded-lg border border-hydro-accent shadow-xl">
                 <table className="w-full text-sm text-left">

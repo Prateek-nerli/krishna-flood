@@ -1,4 +1,4 @@
-﻿import os
+import os
 import json
 import os
 os.environ["AWS_NO_SIGN_REQUEST"] = "YES"
@@ -178,7 +178,6 @@ def get_merit_hydro_data(lat, lon):
         bare_ground_cop = 500.0
         cop_center_raw = 500.0
     else:
-        import numpy as np
         bare_ground_cop = float(np.nanpercentile(dem_ground_5x5, 20))
         cop_center_raw = float(dem_ground_5x5[2, 2])
 

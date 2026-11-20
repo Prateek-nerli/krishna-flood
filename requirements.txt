@@ -12,3 +12,5 @@ uvicorn
 pydantic
 httpx
 scikit-learn
+scipy
+pyproj

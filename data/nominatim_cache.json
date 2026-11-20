@@ -1,0 +1,166 @@
+{
+  "Haripur, Miraj, Sangli, MH": {
+    "lat": 16.8475241,
+    "lon": 74.5374654
+  },
+  "Miraj, Miraj, Sangli, MH": {
+    "lat": 16.8190307,
+    "lon": 74.6432382
+  },
+  "Shirol, Shirol, Kolhapur, MH": {
+    "lat": 16.7336685,
+    "lon": 74.6023832
+  },
+  "Bahe, Walwa, Sangli, MH": {
+    "lat": 17.1100514,
+    "lon": 74.2800617
+  },
+  "Walwa, Walwa, Sangli, MH": {
+    "lat": 17.0249533,
+    "lon": 74.3802928
+  },
+  "Bhilawadi, Palus, Sangli, MH": {
+    "lat": 17.0080619,
+    "lon": 74.5155173
+  },
+  "Nrusinhwadi, Shirol, Kolhapur, MH": {
+    "lat": 16.693089,
+    "lon": 74.599394
+  },
+  "Ichalkaranji, Hatkanangale, Kolhapur, MH": {
+    "lat": 16.6959348,
+    "lon": 74.4555755
+  },
+  "Ankali, Chikkodi, Belagavi, KA": {
+    "lat": 16.5425256,
+    "lon": 74.6732625
+  },
+  "Manjari, Chikkodi, Belagavi, KA": {
+    "lat": 16.5592955,
+    "lon": 74.6902645
+  },
+  "Dattawad, Chikkodi, Belagavi, KA": {
+    "lat": 16.5896811,
+    "lon": 74.5818815
+  },
+  "Darur, Athani, Belagavi, KA": {
+    "lat": 16.6353217,
+    "lon": 75.0170107
+  },
+  "Hunnur, Jamkhandi, Bagalkot, KA": {
+    "lat": 16.5114073,
+    "lon": 75.2604204
+  },
+  "Savadi, Athani, Belagavi, KA": {
+    "lat": 16.5875713,
+    "lon": 75.1555623
+  },
+  "Sankeshwar, Hukkeri, Belagavi, KA": {
+    "lat": 16.2591823,
+    "lon": 74.4853327
+  },
+  "Gotur, Hukkeri, Belagavi, KA": {
+    "lat": 16.2291133,
+    "lon": 74.512341
+  },
+  "Konnur, Gokak, Belagavi, KA": {
+    "lat": 16.2004603,
+    "lon": 74.745066
+  },
+  "Sunadholi, Mudalgi, Belagavi, KA": {
+    "lat": 16.2728391,
+    "lon": 74.989148
+  },
+  "Kuligod, Mudalgi, Belagavi, KA": {
+    "lat": 16.244215,
+    "lon": 75.042448
+  },
+  "Mudhol, Mudhol, Bagalkot, KA": {
+    "lat": 16.3340213,
+    "lon": 75.2865078
+  },
+  "Khanapur, Khanapur, Belagavi, KA": {
+    "lat": 15.6377745,
+    "lon": 74.4997035
+  },
+  "Munavalli, Savadatti, Belagavi, KA": {
+    "lat": 15.8537336,
+    "lon": 75.1201998
+  },
+  "Ramdurg, Ramdurg, Belagavi, KA": {
+    "lat": 15.9477824,
+    "lon": 75.2949709
+  },
+  "Sureban, Ramdurg, Belagavi, KA": {
+    "lat": 15.8791731,
+    "lon": 75.4016397
+  },
+  "Hole Alur, Ron, Gadag, KA": {
+    "lat": 15.82027,
+    "lon": 75.6467462
+  },
+  "Pattadakal, Badami, Bagalkot, KA": {
+    "lat": 15.9484334,
+    "lon": 75.8159703
+  },
+  "Aihole, Hungund, Bagalkot, KA": {
+    "lat": 16.02679,
+    "lon": 75.883537
+  },
+  "Daund, Daund, Pune, MH": {
+    "lat": 18.4610039,
+    "lon": 74.5790616
+  },
+  "Baramati, Baramati, Pune, MH": {
+    "lat": 18.1478834,
+    "lon": 74.5733979
+  },
+  "Mangalwedha, Mangalwedha, Solapur, MH": {
+    "lat": 17.5157845,
+    "lon": 75.4460672
+  },
+  "Takali, South Solapur, Solapur, MH": {
+    "lat": 17.422268,
+    "lon": 75.8560681
+  },
+  "Indi, Indi, Vijayapura, KA": {
+    "lat": 17.1744599,
+    "lon": 75.9553764
+  },
+  "Jewargi, Jewargi, Kalaburagi, KA": {
+    "lat": 17.015116,
+    "lon": 76.7748644
+  },
+  "Kudli, Shivamogga, Shivamogga, KA": {
+    "lat": 14.0037381,
+    "lon": 75.6736595
+  },
+  "Harihar, Harihar, Davanagere, KA": {
+    "lat": 14.5153541,
+    "lon": 75.8110476
+  },
+  "Munirabad / Hospet, Hospet, Vijayanagara, KA": {
+    "lat": 15.2666153,
+    "lon": 76.3299197
+  },
+  "Siruguppa, Siruguppa, Ballari, KA": {
+    "lat": 15.6345569,
+    "lon": 76.8937407
+  },
+  "Kenchanagudda, Siruguppa, Ballari, KA": {
+    "lat": 15.6171973,
+    "lon": 76.8417293
+  },
+  "Mantralayam, Yemmiganur, Kurnool, AP": {
+    "lat": 15.9413643,
+    "lon": 77.4236981
+  },
+  "Beechupally, Itikyal, Jogulamba Gadwal, TS": {
+    "lat": 16.1590815,
+    "lon": 77.9286687
+  },
+  "Keesara, Kanchikacherla, NTR, AP": {
+    "lat": 16.719107,
+    "lon": 80.3248697
+  }
+}
