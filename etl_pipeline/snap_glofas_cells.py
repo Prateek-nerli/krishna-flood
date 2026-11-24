@@ -144,7 +144,7 @@ def snap_and_update_all():
     for nid, _, _, _ in before_after_records:
         sub = df_pq[df_pq["node_id"] == nid][["time", "discharge_cumecs"]]
         for _, row in sub.iterrows():
-            t_str = row["time"].strftime("%Y-%m-%d %H:%M:%S")
+            t_str = row["time"].strftime("%Y-%m-%d")
             cur.execute("""
                 UPDATE daily_hydro
                 SET discharge_cumecs = ?

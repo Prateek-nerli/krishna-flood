@@ -245,22 +245,57 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
     py_river, px_river = ll_to_px(nearest_river_lat, nearest_river_lon)
     
     h, w = live_water_mask.shape
-    live_water_mask = ndimage.binary_opening(live_water_mask, structure=np.ones((3,3)))
-    labeled, num_features = ndimage.label(live_water_mask)
-    
-    final_water_mask = np.zeros_like(live_water_mask)
-    if num_features > 0 and 0 <= py_river < h and 0 <= px_river < w:
-        river_label = labeled[py_river, px_river]
-        if river_label == 0:
-            dist_to_labels, inds = ndimage.distance_transform_edt(labeled == 0, return_indices=True)
-            closest_py, closest_px = inds[0, py_river, px_river], inds[1, py_river, px_river]
-            river_label = labeled[closest_py, closest_px]
-        
-        if river_label > 0:
-            final_water_mask = (labeled == river_label)
-            final_water_mask = ndimage.binary_fill_holes(final_water_mask)
+    # Remove small isolated noise specks (< 6 pixels) without eroding narrow 20-35m river channels
+    lbl, num_features = ndimage.label(live_water_mask)
+    if num_features > 0:
+        counts = np.bincount(lbl.ravel())
+        mask_sizes = counts >= 6
+        mask_sizes[0] = 0  # Background
+        cleaned_water = mask_sizes[lbl]
     else:
-        final_water_mask = live_water_mask
+        cleaned_water = live_water_mask
+
+    # Select water components near the WRIS river line (keep ALL within 150m)
+    labeled, num_features = ndimage.label(cleaned_water)
+    final_water_mask = np.zeros_like(cleaned_water)
+
+    if num_features > 0:
+        from gis_engine.raster_lookup import _get_wris_network
+        all_tree, _, _, _ = _get_wris_network()
+        near_wris_labels = set()
+
+        if all_tree is not None:
+            idxs = all_tree.query_ball_point([center_lat, center_lon], r=0.022)
+            if len(idxs) > 0:
+                wris_mask = np.zeros((h, w), dtype=bool)
+                for pt in all_tree.data[idxs]:
+                    r_pt, c_pt = ll_to_px(pt[0], pt[1])
+                    if 0 <= r_pt < h and 0 <= c_pt < w:
+                        wris_mask[r_pt, c_pt] = True
+                
+                if np.any(wris_mask):
+                    # 150m at 10m/px is 15 pixels
+                    dist_to_wris_px = ndimage.distance_transform_edt(~wris_mask)
+                    intersecting_labels = np.unique(labeled[dist_to_wris_px <= 15.0])
+                    near_wris_labels = set(intersecting_labels[intersecting_labels > 0])
+
+        # Also ensure component closest to py_river, px_river is included
+        if 0 <= py_river < h and 0 <= px_river < w:
+            r_lbl = labeled[py_river, px_river]
+            if r_lbl == 0:
+                dist_to_labels, inds = ndimage.distance_transform_edt(labeled == 0, return_indices=True)
+                closest_py, closest_px = inds[0, py_river, px_river], inds[1, py_river, px_river]
+                r_lbl = labeled[closest_py, closest_px]
+            if r_lbl > 0:
+                near_wris_labels.add(r_lbl)
+
+        if near_wris_labels:
+            final_water_mask = np.isin(labeled, list(near_wris_labels))
+            final_water_mask = ndimage.binary_fill_holes(final_water_mask)
+        else:
+            final_water_mask = cleaned_water
+    else:
+        final_water_mask = cleaned_water
         
     live_water_mask = final_water_mask
         
@@ -353,6 +388,21 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
                 plat, plon = px_to_ll(py, px)
                 water_polygon.append([float(plat), float(plon)])
                 
+    # --- Dynamic NDVI for Floodplain Roughness ---
+    fp_mask = (~live_water_mask) & valid_mask & (~clouds)
+    if np.any(fp_mask):
+        nir_fp = nir[fp_mask].astype(np.float32)
+        red_fp = red[fp_mask].astype(np.float32)
+        denom = nir_fp + red_fp + 1e-6
+        ndvi_vals = (nir_fp - red_fp) / denom
+        valid_ndvi = ndvi_vals[~np.isnan(ndvi_vals)]
+        mean_fp_ndvi = float(np.median(valid_ndvi)) if len(valid_ndvi) > 0 else 0.25
+    else:
+        mean_fp_ndvi = 0.25
+        
+    manning_n_fp = round(float(np.clip(0.035 + 0.055 * max(0.0, mean_fp_ndvi), 0.032, 0.090)), 4)
+    mean_fp_ndvi = round(float(mean_fp_ndvi), 3)
+
     # --- Base64 Image Generation ---
     # Create False Color Composite (NIR, Red, Green)
     def normalize_band(b, max_val=4000):
@@ -403,7 +453,9 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
         "water_polygon": water_polygon,
         "live_true_color_url": true_color_url,
         "live_false_color_url": false_color_url,
-        "vision_preview_b64": vision_preview_b64
+        "vision_preview_b64": vision_preview_b64,
+        "manning_n_fp": float(manning_n_fp),
+        "mean_floodplain_ndvi": float(mean_fp_ndvi)
     }
     
     return {
@@ -412,5 +464,7 @@ def analyze_satellite_water_boundary(lat, lon, nearest_river_lat, nearest_river_
         "shoreline_lat": float(shoreline_lat),
         "shoreline_lon": float(shoreline_lon),
         "measured_width_m": float(measured_width_m),
+        "manning_n_fp": float(manning_n_fp),
+        "mean_floodplain_ndvi": float(mean_fp_ndvi),
         "satellite_pass_info": stac_data
     }

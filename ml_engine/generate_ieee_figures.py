@@ -144,10 +144,45 @@ def main():
         model.load_state_dict(state_dict)
     model.eval()
 
-    # Pass dummy batch to extract learned spatial weights
-    dummy_x = torch.zeros((1, N, 14, 6), dtype=torch.float32)
+    # Pass real scaled 14-day peak monsoon window ending 2024-07-22
+    import pandas as pd
+    pq_path = os.path.join(base_dir, "data", "historical_backfill_1995_2026.parquet")
+    df = pd.read_parquet(pq_path)
+    df["time"] = pd.to_datetime(df["time"])
+    feat_cfg_path = os.path.join(base_dir, "models", "feature_config.json")
+    with open(feat_cfg_path, "r", encoding="utf-8") as f:
+        cfg = json.load(f)
+    means = np.array(cfg["means"], dtype=np.float32)
+    scales = np.array(cfg["scales"], dtype=np.float32)
+
+    target_date = pd.to_datetime("2024-07-22")
+    dates_s = df[df["node_id"] == "KOYNA"]["time"].sort_values().reset_index(drop=True)
+    t_target = int(np.where(dates_s == target_date)[0][0])
+    
+    real_feat = np.zeros((14, N, 6), dtype=np.float32)
+    doy_arr = dates_s.iloc[t_target - 13 : t_target + 1].dt.dayofyear.values
+    sin_doy = np.sin(2.0 * np.pi * doy_arr / 365.25).astype(np.float32)
+    cos_doy = np.cos(2.0 * np.pi * doy_arr / 365.25).astype(np.float32)
+
+    node_to_idx = {nid: i for i, nid in enumerate(node_ids)}
+    for nid in node_ids:
+        idx = node_to_idx[nid]
+        sub = df[df["node_id"] == nid].sort_values("time")
+        q = sub["discharge_cumecs"].iloc[t_target - 13 : t_target + 1].values.astype(np.float32)
+        p = sub["precipitation_sum"].iloc[t_target - 13 : t_target + 1].values.astype(np.float32)
+        p3d = sub["precipitation_sum"].rolling(3, min_periods=1).sum().iloc[t_target - 13 : t_target + 1].values.astype(np.float32)
+        et0 = sub["et0"].iloc[t_target - 13 : t_target + 1].values.astype(np.float32)
+        real_feat[:, idx, 0] = np.log1p(np.clip(q, 0.0, None))
+        real_feat[:, idx, 1] = p
+        real_feat[:, idx, 2] = p3d
+        real_feat[:, idx, 3] = et0
+        real_feat[:, idx, 4] = sin_doy
+        real_feat[:, idx, 5] = cos_doy
+
+    real_x_scaled = (real_feat - means.reshape(1, 1, 6)) / scales.reshape(1, 1, 6)
+    real_x = torch.tensor(real_x_scaled, dtype=torch.float32).permute(1, 0, 2).unsqueeze(0)
     with torch.no_grad():
-        _, attn_info = model(dummy_x, adj, return_attention=True)
+        _, attn_info = model(real_x, adj, return_attention=True)
         spat_attn = attn_info["spatial"][0].cpu().numpy() # [N, N]
         
     fig, ax = plt.subplots(figsize=(11, 9))

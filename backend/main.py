@@ -4,7 +4,7 @@ import math
 import time
 import datetime
 import pickle
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Tuple
 
 import numpy as np
 import torch
@@ -15,8 +15,21 @@ from backend.schemas import (
     PredictRequest, PredictResponse, ForecastDay,
     LiveTelemetry, SimulateReleaseRequest
 )
-from gis_engine.raster_lookup import get_merit_hydro_data, haversine
+from gis_engine.raster_lookup import get_merit_hydro_data, haversine, get_copernicus_dem_patch, _get_wris_network
 from ml_engine.model_tft_gat import ST_Attention_GAT, build_basin_adjacency
+from ml_engine.hydraulic_cross_section import (
+    extract_compound_cross_section,
+    compute_divided_channel_conveyance,
+    solve_water_depth_and_threshold,
+    compute_backwater_afflux,
+    compute_tributary_confluence_piling,
+    compute_unsteady_wave_attenuation
+)
+from ml_engine.flood_connectivity_2d import (
+    find_critical_entry_height_y,
+    extract_connected_flood_footprint,
+    find_nearest_safe_high_ground
+)
 from etl_pipeline.open_meteo import get_live_basin_matrix, get_live_river_discharge
 
 app = FastAPI(title="KrishnaFlow AI Backend - IEEE Standard Hydrological Engine")
@@ -43,7 +56,7 @@ basin_adj: Optional[torch.Tensor] = None
 q_mean: float = 2.97
 q_scale: float = 2.39
 means_vec: np.ndarray = np.zeros(6, dtype=np.float32)
-scales_vec: np.ones = np.ones(6, dtype=np.float32)
+scales_vec: np.ndarray = np.ones(6, dtype=np.float32)
 
 def load_ml_assets():
     global scaler, model, nodes_cache, node_to_idx, basin_adj
@@ -66,6 +79,13 @@ def load_ml_assets():
     if os.path.exists(feat_cfg_path):
         with open(feat_cfg_path, 'r', encoding='utf-8') as f:
             feature_config = json.load(f)
+        
+        # Validate exact 27-node ordering and alignment with seed_nodes.json
+        expected_node_ids = [n['node_id'] for n in nodes_cache]
+        cfg_node_ids = feature_config.get('node_ids', [])
+        if cfg_node_ids != expected_node_ids:
+            raise RuntimeError(f"Feature config node_ids mismatch! Expected {expected_node_ids}, got {cfg_node_ids}")
+
         means_vec = np.array(feature_config.get('means', [0.0]*6), dtype=np.float32)
         scales_vec = np.array(feature_config.get('scales', [1.0]*6), dtype=np.float32)
         q_mean = float(feature_config.get('q_mean', means_vec[0]))
@@ -115,23 +135,21 @@ def load_ml_assets():
 # Initial load on module startup
 load_ml_assets()
 
-def propagate_dam_overrides(overrides: Dict[str, float]) -> Dict[str, float]:
+def propagate_dam_overrides(
+    overrides: Dict[str, float],
+    release_duration_hours: float = 24.0,
+    basin_t0_flows: Optional[Dict[str, float]] = None
+) -> Tuple[Dict[str, float], Dict[str, float]]:
     """
-    Physically routes dam slider releases downstream strictly along the directed River DAG.
-    Decays release flow by 0.92 per reach hop.
-    Upstream or non-connected stations receive ZERO added flow (strict spatial isolation).
+    Physically routes dam slider releases downstream strictly along the directed River DAG
+    using Unsteady Empty-Channel Storage Deficit & Wave Attenuation.
+    Returns (routed_additions_cumecs, storage_absorbed_pcts).
     """
-    flow_additions_cumecs = {n['node_id']: 0.0 for n in nodes_cache}
-    
-    # Direct additions at specific nodes
-    for nid, cusecs in overrides.items():
-        if nid in flow_additions_cumecs and nid != "ACTIVE_REACH":
-            flow_additions_cumecs[nid] = float(cusecs) / 35.3146667
-            
-    # Build downstream edges
     node_set = set(nodes_cache_ids())
     edges: Dict[str, List[str]] = {}
     in_degree: Dict[str, int] = {n['node_id']: 0 for n in nodes_cache}
+    node_map = {n['node_id']: n for n in nodes_cache}
+
     for n in nodes_cache:
         d = n.get('downstream_node')
         if d and d in node_set:
@@ -139,27 +157,63 @@ def propagate_dam_overrides(overrides: Dict[str, float]) -> Dict[str, float]:
                 edges[n['node_id']] = []
             edges[n['node_id']].append(d)
             in_degree[d] += 1
-            
+
+    flow_additions_cumecs = {n['node_id']: 0.0 for n in nodes_cache}
+    storage_absorbed_pcts = {n['node_id']: 0.0 for n in nodes_cache}
+
+    # Direct additions at specific nodes
+    for nid, cusecs in overrides.items():
+        if nid in flow_additions_cumecs and nid != "ACTIVE_REACH":
+            flow_additions_cumecs[nid] = float(cusecs) / 35.3146667
+
     # Topological sort (Kahn's algorithm)
     queue = [nid for nid, deg in in_degree.items() if deg == 0]
-    routed_additions = {nid: 0.0 for nid in nodes_cache_ids()}
-
-    # Initialize with direct releases
-    for nid, add_q in flow_additions_cumecs.items():
-        if nid in routed_additions:
-            routed_additions[nid] = add_q
+    routed_additions = dict(flow_additions_cumecs)
 
     while queue:
         u = queue.pop(0)
+        u_added_flow = routed_additions[u]
         if u in edges:
             for v in edges[u]:
-                if v in routed_additions:
-                    routed_additions[v] += routed_additions[u] * 0.92
+                if u_added_flow > 0.0:
+                    dist_km = float(node_map[u].get('dist_km', 50.0) or 50.0)
+                    q_t0 = basin_t0_flows.get(u, 15.0) if basin_t0_flows else 15.0
+                    w_ch = 180.0 if dist_km >= 80.0 else 100.0
+                    q_pulse_cfs = u_added_flow * 35.3146667
+
+                    q_arr, abs_pct = compute_unsteady_wave_attenuation(
+                        Q_pulse_cusecs=q_pulse_cfs,
+                        release_duration_hours=release_duration_hours,
+                        dist_km=dist_km,
+                        Q_t0_cumecs=q_t0,
+                        W_ch=w_ch,
+                        H_bf=4.5
+                    )
+                    routed_additions[v] += q_arr
+                    storage_absorbed_pcts[v] = abs_pct
                 in_degree[v] -= 1
                 if in_degree[v] == 0:
                     queue.append(v)
-                    
-    return routed_additions
+
+    return routed_additions, storage_absorbed_pcts
+
+def get_amc_adjusted_cn(p5_mm: float, cn_base: float = 82.0) -> Tuple[float, str]:
+    """
+    Dynamically adjusts CN based on 5-day Antecedent Moisture Condition (AMC):
+    - P5 < 35 mm: AMC-I Dry: CN_I = (4.2 * CN_II) / (10 - 0.058 * CN_II)
+    - 35 <= P5 <= 53 mm: AMC-II Normal: CN_II = 82.0
+    - P5 > 53 mm: AMC-III Saturated: CN_III = (23 * CN_II) / (10 + 0.13 * CN_II)
+    """
+    if p5_mm < 35.0:
+        cn = (4.2 * cn_base) / (10.0 - 0.058 * cn_base)
+        amc = "AMC-I (Dry)"
+    elif p5_mm <= 53.0:
+        cn = cn_base
+        amc = "AMC-II (Normal)"
+    else:
+        cn = (23.0 * cn_base) / (10.0 + 0.13 * cn_base)
+        amc = "AMC-III (Saturated)"
+    return round(float(np.clip(cn, 30.0, 98.0)), 1), amc
 
 def nodes_cache_ids() -> List[str]:
     return [n['node_id'] for n in nodes_cache]
@@ -181,29 +235,6 @@ def compute_scs_cn_runoff_depth(daily_precip_mm: float, slope_deg: float, cn: fl
     slope_multiplier = 1.0 + math.sin(math.radians(max(0.0, slope_deg)))
     runoff_m = (q_runoff_mm / 1000.0) * slope_multiplier
     return round(float(runoff_m), 3)
-
-def compute_stage_and_threshold(q_m3s: float, hand_m: float, C_manning: float, is_water_body: bool):
-    """
-    Calibrated stage-discharge curve and bankfull threshold.
-    Unified low-flow threshold at 45.0 m3/s.
-    """
-    q_safe = max(0.0, float(q_m3s))
-    if q_safe <= 45.0:
-        stage_m = round(0.85 * ((max(q_safe, 5.0) / 45.0) ** 0.38), 2)
-    else:
-        stage_m = round(0.85 + ((q_safe / max(C_manning, 1.0)) ** (3.0 / 5.0)), 2)
-        
-    if is_water_body:
-        stage_m += 2.5
-
-    if is_water_body or hand_m <= 0.2:
-        bankfull_threshold_cusecs = 0.0
-    else:
-        h_eff = max(0.0, hand_m - 0.85)
-        bankfull_threshold_m3s = C_manning * (h_eff ** (5.0 / 3.0))
-        bankfull_threshold_cusecs = round(bankfull_threshold_m3s * 35.3147, 0)
-
-    return stage_m, bankfull_threshold_cusecs
 
 BASIN_POLYGON = [
     [73.35, 19.35], [73.55, 17.95], [73.65, 16.90], [73.85, 15.85], [74.35, 15.10], 
@@ -317,15 +348,21 @@ def predict_coordinate(req: PredictRequest):
     elif len(up_dis) > 14:
         today_idx = 14
 
-    # 4. Spatially Isolated Dam Slider Overrides
-    active_overrides = dict(simulation_state)
+    # 4. Spatially Isolated Dam Slider Overrides & Unsteady Wave Routing
+    # Strictly isolated per-request overrides (never reads or mutates global simulation_state)
+    active_overrides: Dict[str, float] = {}
     if req.custom_dam_outflow_override:
         for k, v in req.custom_dam_outflow_override.items():
             if v is not None:
                 active_overrides[k] = float(v)
 
-    # Routed dam flow addition strictly via DAG (0.92 per hop)
-    routed_dam_cumecs = propagate_dam_overrides(active_overrides)
+    release_dur = float(req.release_duration_hours or 24.0)
+    basin_t0_flows = {nid: float(basin_data['nodes'].get(nid, {}).get('discharge', [15.0]*21)[min(today_idx, len(basin_data['nodes'].get(nid, {}).get('discharge', [15.0]*21))-1)]) for nid in node_to_idx}
+    routed_dam_cumecs, storage_absorbed_pcts = propagate_dam_overrides(
+        active_overrides,
+        release_duration_hours=release_dur,
+        basin_t0_flows=basin_t0_flows
+    )
     
     # Check for direct ACTIVE_REACH slider override
     active_reach_cusecs = float(active_overrides.get("ACTIVE_REACH", 0.0))
@@ -334,10 +371,7 @@ def predict_coordinate(req: PredictRequest):
     num_nodes = len(nodes_cache)
     x_input = np.zeros((1, num_nodes, 14, 6), dtype=np.float32)
     
-    # Calculate Day of Year cyclical features
-    doy = datetime.date.today().timetuple().tm_yday
-    sin_doy = math.sin(2.0 * math.pi * doy / 365.25)
-    cos_doy = math.cos(2.0 * math.pi * doy / 365.25)
+    today_dt = datetime.date.today()
 
     for i, node in enumerate(nodes_cache):
         nid = node['node_id']
@@ -352,13 +386,13 @@ def predict_coordinate(req: PredictRequest):
         while len(q_slice) < 14:
             q_slice.insert(0, q_slice[0] if q_slice else 0.0)
 
-        p_slice = p_arr[:14] if len(p_arr) >= 14 else [0.0]*14
+        p_slice = p_arr[start_t : today_idx + 1] if len(p_arr) >= today_idx + 1 else [0.0]*14
         while len(p_slice) < 14:
-            p_slice.append(0.0)
+            p_slice.insert(0, p_slice[0] if p_slice else 0.0)
 
-        et_slice = et_arr[:14] if len(et_arr) >= 14 else [0.0]*14
+        et_slice = et_arr[start_t : today_idx + 1] if len(et_arr) >= today_idx + 1 else [4.0]*14
         while len(et_slice) < 14:
-            et_slice.append(4.0)
+            et_slice.insert(0, et_slice[0] if et_slice else 4.0)
 
         for t in range(14):
             q_val = float(q_slice[t])
@@ -367,12 +401,17 @@ def predict_coordinate(req: PredictRequest):
             p3d_val = float(sum(p_slice[max(0, t-2):t+1]))
             et_val = float(et_slice[t])
 
+            lag_date = today_dt - datetime.timedelta(days=13 - t)
+            lag_doy = lag_date.timetuple().tm_yday
+            sin_doy_t = math.sin(2.0 * math.pi * lag_doy / 365.25)
+            cos_doy_t = math.cos(2.0 * math.pi * lag_doy / 365.25)
+
             x_input[0, i, t, 0] = math.log1p(max(0.0, q_val))
             x_input[0, i, t, 1] = p_val
             x_input[0, i, t, 2] = p3d_val
             x_input[0, i, t, 3] = et_val
-            x_input[0, i, t, 4] = sin_doy
-            x_input[0, i, t, 5] = cos_doy
+            x_input[0, i, t, 4] = sin_doy_t
+            x_input[0, i, t, 5] = cos_doy_t
 
     # Vectorized normalization: (X - means) / scales (ZERO sklearn warnings)
     x_scaled = (x_input - means_vec.reshape(1, 1, 1, 6)) / np.where(scales_vec.reshape(1, 1, 1, 6) == 0, 1.0, scales_vec.reshape(1, 1, 1, 6))
@@ -399,32 +438,78 @@ def predict_coordinate(req: PredictRequest):
                 if temp_attn_all is not None:
                     temp_attn_vector = temp_attn_all[0, up_idx].cpu().numpy().tolist() # [14]
 
-    # Channel hydraulics parameters (Dynamic First-Principles Manning formulation)
+    # Channel hydraulics parameters (Dynamic Compound 30m DEM Cross-Section Solver)
     hand_m = float(terrain['hnd'])
     r_len = float(terrain.get('wris_data', {}).get('river_length_km', 250.0) or 250.0)
     
-    # Hydraulic energy slope S_0 based on upstream to downstream bed drop
+    # Hydraulic energy slope S_0 based on upstream to downstream bed drop, refined for alluvial vs headwater
     E_bed_up = float(nodes_cache[up_idx].get('bed_elev_m', 500.0))
     E_bed_down = float(nodes_cache[down_idx].get('bed_elev_m', 480.0))
     reach_dist_km = float(nodes_cache[up_idx].get('dist_km', 50.0) or 50.0)
     bed_drop_m = max(1.0, E_bed_up - E_bed_down)
     reach_len_m = max(1000.0, reach_dist_km * 1000.0)
-    S_0 = max(0.00010, min(0.00150, bed_drop_m / reach_len_m))
+    S_macro = bed_drop_m / reach_len_m
+
+    # Headwater reaches vs. alluvial plains/valleys
+    # Headwaters in Western Ghats dams can sustain S_0 in [0.00045, 0.00080]
+    # Plains/valley reaches and reaches with waterfalls/drops are capped to [0.00010, 0.00045]
+    is_headwater = (up_id in ["KOYNA", "RADHANAGARI", "RAKASKOP", "KALAMMAWADI"] and reach_alpha < 0.3)
+    if is_headwater:
+        S_0 = max(0.00045, min(0.00080, S_macro))
+    else:
+        S_0 = max(0.00010, min(0.00045, S_macro))
     
     # Active channel width W_live
     W_live = float(terrain.get('wth', 150.0) or 150.0)
     if W_live <= 5.0:
         W_live = 450.0 if r_len >= 800 else (280.0 if r_len >= 200 else (160.0 if r_len >= 60 else 70.0))
-        
-    # Manning n = 0.035 alluvial natural bed conveyance: C_channel = (W_live * sqrt(S_0)) / n
-    C_channel = max(40.0, (W_live * math.sqrt(S_0)) / 0.035)
-    dist_shore = float(terrain.get('dist_r', 50.0) or 50.0)
-    overbank_factor = 1.0 + 0.00085 * min(dist_shore, 2500.0)
-    C_manning = C_channel * overbank_factor
+
+    # Dynamic Compound Cross-Section from 30m DEM
+    reach_vec = (
+        nodes_cache[down_idx]['lon'] - nodes_cache[up_idx]['lon'],
+        nodes_cache[down_idx]['lat'] - nodes_cache[up_idx]['lat']
+    )
+    try:
+        profile = extract_compound_cross_section(
+            lat=lat,
+            lon=lon,
+            river_lat=float(terrain['nearest_river_lat']),
+            river_lon=float(terrain['nearest_river_lon']),
+            dist_to_river_m=float(terrain['distance_to_river_m']),
+            E_bed_r=float(terrain['E_bed_r']),
+            W_live=W_live,
+            bank_transect=terrain.get('bank_transect'),
+            reach_vector=reach_vec
+        )
+    except RuntimeError as e:
+        if "COPERNICUS_DEM_UNAVAILABLE" in str(e):
+            raise HTTPException(status_code=503, detail="Copernicus 30m DEM terrain data unavailable for this coordinate")
+        raise
+
+    n_ch = 0.032
+    n_fp = float(terrain.get('manning_n_fp', 0.045) or 0.045)
+
+    # Dynamic AMC-I/II/III SCS-CN Calculation from 5-day antecedent precipitation (ending today)
+    p_w_idx = min(today_idx, len(up_precip) - 1) if up_precip else 0
+    p5_mm = float(sum(up_precip[max(0, p_w_idx - 4) : p_w_idx + 1])) if up_precip else 0.0
+    cn_dynamic, amc_class = get_amc_adjusted_cn(p5_mm, cn_base=82.0)
 
     # 7. Generate Forecasts for T+1, T+2, T+3
     forecasts = {}
     horizons = ["day_1_24h", "day_2_48h", "day_3_72h"]
+
+    # Dam addition for reach
+    dam_add_up = routed_dam_cumecs.get(up_id, 0.0)
+    dam_add_down = routed_dam_cumecs.get(down_id, 0.0)
+    dam_reach_addition = dam_add_up + reach_alpha * (dam_add_down - dam_add_up)
+
+    # Detect if current reach is a tributary entering a junction
+    down_node_obj = nodes_cache[down_idx]
+    up_node_obj = nodes_cache[up_idx]
+    is_tributary_reach = False
+    if down_node_obj.get('node_type') == 'CONFLUENCE' or up_node_obj.get('node_type') in ['TRIBUTARY', 'RESERVOIR'] or down_node_obj.get('node_id') in ['SANGLI', 'KURUNDWAD', 'KALLOL_CHIKODI', 'GOKAK_CONFLUENCE', 'ALMATTI', 'NARAYANPUR', 'SRISAILAM', 'KARAD']:
+        if up_node_obj.get('wris_river_name') != down_node_obj.get('wris_river_name') or down_node_obj.get('node_type') == 'CONFLUENCE':
+            is_tributary_reach = True
 
     for h_idx, name in enumerate(horizons):
         # GloFAS baseline for horizon h
@@ -440,11 +525,6 @@ def predict_coordinate(req: PredictRequest):
         q_down_ml = preds_phys[down_idx, h_idx] if preds_phys is not None else q_down_glo
         q_local_ml_cumecs = max(0.0, q_up_ml + reach_alpha * (q_down_ml - q_up_ml))
 
-        # Routed Dam Additions for Upstream and Downstream nodes
-        dam_add_up = routed_dam_cumecs.get(up_id, 0.0)
-        dam_add_down = routed_dam_cumecs.get(down_id, 0.0)
-        dam_reach_addition = dam_add_up + reach_alpha * (dam_add_down - dam_add_up)
-
         # Total combined flow
         q_final_cumecs = q_local_ml_cumecs + dam_reach_addition
         if active_reach_cusecs > 0.0:
@@ -452,27 +532,48 @@ def predict_coordinate(req: PredictRequest):
 
         q_final_cusecs = q_final_cumecs * 35.3146667
 
-        # SCS-CN Slope Runoff for Horizon Day (CN=82 Deccan Black Cotton Soil)
-        precip_day_mm = float(up_precip[min(h_idx, len(up_precip)-1)]) if up_precip else 0.0
-        slope_runoff_m = compute_scs_cn_runoff_depth(precip_day_mm, slope_deg, cn=82.0)
+        # Compound Cross-Section Manning Solver
+        pred_depth_manning, bankfull_cumecs, top_w, v_ch, ch_bankfull_cumecs = solve_water_depth_and_threshold(
+            q_final_cumecs, S_0, profile, n_ch, n_fp, hand_m
+        )
+        bankfull_cusecs = round(bankfull_cumecs * 35.3146667, 0)
+        channel_bankfull_cusecs = round(ch_bankfull_cumecs * 35.3146667, 0)
 
-        # Stage and submersion
-        pred_depth_m, bankfull_cusecs = compute_stage_and_threshold(q_final_cumecs, hand_m, C_manning, is_water_body)
-        wse_local = terrain['E_bed_r'] + pred_depth_m
+        # Downstream predicted WSE & Backwater / Confluence Piling Afflux
+        down_q_pred = preds_phys[down_idx, h_idx] if preds_phys is not None else q_down_glo
+        down_wse_pred = E_bed_down + max(0.8, (max(1.0, float(down_q_pred)) / 120.0)**0.4)
+        
+        if is_tributary_reach and down_wse_pred > (terrain['E_bed_r'] + pred_depth_manning):
+            pred_depth_final, h_backwater, mechanism = compute_tributary_confluence_piling(
+                terrain['E_bed_r'], pred_depth_manning, down_wse_pred, reach_alpha, is_tributary_reach=True
+            )
+        else:
+            pred_depth_final, h_backwater, mechanism = compute_backwater_afflux(
+                terrain['E_bed_r'], pred_depth_manning, down_wse_pred, reach_len_m, reach_alpha, S_0
+            )
 
-        if is_water_body or q_final_cusecs >= bankfull_cusecs or pred_depth_m >= hand_m:
+        if is_water_body:
+            pred_depth_final += 2.5
+            
+        wse_local = terrain['E_bed_r'] + pred_depth_final
+
+        # SCS-CN Slope Runoff for Horizon Day (Dynamic AMC-adjusted CN)
+        precip_day_mm = float(up_precip[min(p_w_idx + 1 + h_idx, len(up_precip) - 1)]) if up_precip else 0.0
+        slope_runoff_m = compute_scs_cn_runoff_depth(precip_day_mm, slope_deg, cn=cn_dynamic)
+
+        if is_water_body or q_final_cusecs >= bankfull_cusecs or pred_depth_final >= hand_m:
             will_submerge = True
-            submersion_depth_m = round(max(0.25, pred_depth_m - hand_m + slope_runoff_m), 2)
+            submersion_depth_m = round(max(0.25, pred_depth_final - hand_m + slope_runoff_m), 2)
             safety_margin_m = 0.0
             risk_level = "CRITICAL"
         else:
             will_submerge = False
             submersion_depth_m = 0.0
-            safety_margin_m = round(max(0.05, hand_m - pred_depth_m), 2)
+            safety_margin_m = round(max(0.05, hand_m - pred_depth_final), 2)
             risk_level = "WARNING" if safety_margin_m < 1.2 else "SAFE"
 
         forecasts[name] = ForecastDay(
-            predicted_river_depth_m=pred_depth_m,
+            predicted_river_depth_m=pred_depth_final,
             predicted_wse_m=wse_local,
             slope_runoff_accumulation_m=slope_runoff_m,
             will_submerge=will_submerge,
@@ -480,12 +581,13 @@ def predict_coordinate(req: PredictRequest):
             safety_margin_m=safety_margin_m,
             risk_level=risk_level,
             predicted_discharge_cusecs=round(q_final_cusecs, 0),
-            predicted_discharge_cumecs=round(q_final_cumecs, 1),
+            predicted_discharge_cumecs=round(float(q_final_cumecs), 1),
             glofas_baseline_cusecs=round(q_local_glofas_cumecs * 35.3146667, 0),
             ml_predicted_cusecs=round(q_local_ml_cumecs * 35.3146667, 0),
             upstream_inflow_cusecs=round(q_up_ml * 35.3146667, 0),
             upstream_outflow_cusecs=round(q_down_ml * 35.3146667, 0),
             bankfull_capacity_cusecs=bankfull_cusecs,
+            channel_bankfull_cusecs=channel_bankfull_cusecs,
             wse_feet=round(wse_local * 3.28084, 2),
             ground_elevation_feet=round(terrain['elv'] * 3.28084, 2)
         )
@@ -501,7 +603,25 @@ def predict_coordinate(req: PredictRequest):
         q_local_t0_cumecs += (active_reach_cusecs / 35.3146667)
     q_t0_cusecs = q_local_t0_cumecs * 35.3146667
 
-    curr_depth_m, t0_bankfull_cusecs = compute_stage_and_threshold(q_local_t0_cumecs, hand_m, C_manning, is_water_body)
+    # Solve T+0 stage and bankfull capacity on compound section
+    t0_depth_manning, t0_bankfull_cumecs, t0_top_w, t0_v_ch, t0_ch_bankfull_cumecs = solve_water_depth_and_threshold(
+        q_local_t0_cumecs, S_0, profile, n_ch, n_fp, hand_m
+    )
+    t0_bankfull_cusecs = round(t0_bankfull_cumecs * 35.3146667, 0)
+    t0_channel_bankfull_cusecs = round(t0_ch_bankfull_cumecs * 35.3146667, 0)
+    
+    down_wse_t0 = E_bed_down + max(0.8, (max(1.0, float(q_down_t0)) / 120.0)**0.4)
+    if is_tributary_reach and down_wse_t0 > (terrain['E_bed_r'] + t0_depth_manning):
+        t0_depth_final, t0_h_backwater, t0_mechanism = compute_tributary_confluence_piling(
+            terrain['E_bed_r'], t0_depth_manning, down_wse_t0, reach_alpha, is_tributary_reach=True
+        )
+    else:
+        t0_depth_final, t0_h_backwater, t0_mechanism = compute_backwater_afflux(
+            terrain['E_bed_r'], t0_depth_manning, down_wse_t0, reach_len_m, reach_alpha, S_0
+        )
+    if is_water_body:
+        t0_depth_final += 2.5
+    curr_depth_m = t0_depth_final
     curr_wse_m = terrain['E_bed_r'] + curr_depth_m
     is_bankfull = True if is_water_body or q_t0_cusecs >= t0_bankfull_cusecs or curr_depth_m >= hand_m else False
 
@@ -567,13 +687,198 @@ def predict_coordinate(req: PredictRequest):
             "temporal_lag_days": lag_labels,
             "temporal_profile": temporal_profile,
             "physical_factors": {
-                "direct_precipitation_mm": round(float(up_precip[0]), 1) if up_precip else 0.0,
+                "direct_precipitation_mm": round(float(up_precip[p_w_idx]), 1) if up_precip else 0.0,
                 "local_slope_deg": round(slope_deg, 2),
-                "channel_conveyance": round(C_manning, 1),
+                "channel_conveyance": round(t0_top_w, 1),
                 "upstream_distance_km": round(float(terrain.get('wris_data', {}).get('river_length_km', 50.0) or 50.0), 1),
-                "curve_number": 82
+                "curve_number": round(cn_dynamic, 1)
             }
         }
+
+    # 10. 2D Geospatial Flood Connectivity, Flanking, and Evacuation Pin
+    try:
+        dem_patch, dem_transform, _ = get_copernicus_dem_patch(lat, lon, size_px=96)
+    except RuntimeError as e:
+        if "COPERNICUS_DEM_UNAVAILABLE" in str(e):
+            raise HTTPException(status_code=503, detail="Copernicus 30m DEM terrain data unavailable for this coordinate")
+        raise
+    inv_dem = ~dem_transform
+    c_t, r_t = inv_dem * (lon, lat)
+    target_rc = (int(np.clip(round(r_t), 0, 95)), int(np.clip(round(c_t), 0, 95)))
+
+    riv_lat = float(terrain['nearest_river_lat'])
+    riv_lon = float(terrain['nearest_river_lon'])
+    c_riv, r_riv = inv_dem * (riv_lon, riv_lat)
+    dist_to_riv = float(terrain['distance_to_river_m'])
+    true_site_threshold_cusecs = t0_bankfull_cusecs
+
+    all_tree, _, _, _ = _get_wris_network()
+    river_pixels_set = set()
+
+    if all_tree is not None:
+        # Query true curved WRIS river vertices inside the DEM patch (~2.88 km x 2.88 km)
+        idxs = all_tree.query_ball_point([lat, lon], r=0.020)
+        if len(idxs) > 0:
+            patch_pts = all_tree.data[idxs]
+            for pt in patch_pts:
+                col_f, row_f = inv_dem * (pt[1], pt[0])
+                rr = int(round(row_f))
+                cc = int(round(col_f))
+                if 0 <= rr < 96 and 0 <= cc < 96:
+                    river_pixels_set.add((rr, cc))
+                    for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                        nr, nc = rr + dr, cc + dc
+                        if 0 <= nr < 96 and 0 <= nc < 96:
+                            river_pixels_set.add((nr, nc))
+
+    # If no WRIS points in patch, check Sentinel-2 water_polygon pixels as fallback
+    if not river_pixels_set:
+        water_poly = terrain.get('wris_data', {}).get('water_polygon') or terrain.get('water_polygon')
+        if water_poly and isinstance(water_poly, list):
+            for wp in water_poly:
+                if len(wp) >= 2:
+                    c_w, r_w = inv_dem * (float(wp[1]), float(wp[0]))
+                    rw, cw = int(round(r_w)), int(round(c_w))
+                    if 0 <= rw < 96 and 0 <= cw < 96:
+                        river_pixels_set.add((rw, cw))
+                        for dr, dc in [(-1, 0), (1, 0), (0, -1), (0, 1)]:
+                            nr, nc = rw + dr, cw + dc
+                            if 0 <= nr < 96 and 0 <= nc < 96:
+                                river_pixels_set.add((nr, nc))
+
+    if not river_pixels_set:
+        critical_entry_y = float("inf")
+        H_direct = float("inf")
+        flood_polys = []
+        inun_ha = 0.0
+        conn_mask = np.zeros((96, 96), dtype=bool)
+        safe_high_ground = None
+        indirect_flanking = False
+        barrier_protected = False
+        drainage_lock_active = False
+        connectivity_2d_status = "RIVER_OUTSIDE_TERRAIN_WINDOW"
+    else:
+        connectivity_2d_status = "OK"
+        river_pixels_list = list(river_pixels_set)
+        critical_entry_y, H_direct = find_critical_entry_height_y(
+            dem_patch, river_pixels_list, target_rc, dem_transform
+        )
+
+        # Synchronize Site Flood Threshold with 2D Critical Entry Height Y
+        if not math.isinf(critical_entry_y):
+            h_site_critical = max(0.5, critical_entry_y - float(terrain['E_bed_r']))
+            K_site_crit, _, _, _, _ = compute_divided_channel_conveyance(h_site_critical, profile, n_ch, n_fp)
+            true_site_threshold_cusecs = round(float(K_site_crit * math.sqrt(max(0.00003, S_0)) * 35.3147), 0)
+
+            for h_name in forecasts:
+                forecasts[h_name].bankfull_capacity_cusecs = true_site_threshold_cusecs
+
+            if telemetry is not None:
+                telemetry.bankfull_threshold_cusecs = true_site_threshold_cusecs
+
+        day1_wse = forecasts["day_1_24h"].predicted_wse_m
+        day1_depth = forecasts["day_1_24h"].predicted_river_depth_m
+        h_bankfull = float(profile.get("H_bankfull", 4.5))
+        is_overbank_flood = (day1_depth > h_bankfull) or bool(forecasts["day_1_24h"].will_submerge)
+
+        if is_overbank_flood:
+            flood_polys, inun_ha, conn_mask = extract_connected_flood_footprint(
+                dem_patch, river_pixels_list, day1_wse, dem_transform
+            )
+        else:
+            flood_polys = []
+            inun_ha = 0.0
+            conn_mask = np.zeros((96, 96), dtype=bool)
+
+        if is_overbank_flood or forecasts["day_1_24h"].safety_margin_m < 1.5:
+            safe_high_ground = find_nearest_safe_high_ground(
+                dem_patch, conn_mask, target_rc, day1_wse, dem_transform
+            )
+        else:
+            safe_high_ground = None
+
+        # Scenarios 4A & 4B: Indirect Flanking & Drainage Lock (evaluated per-horizon)
+        clicked_dem = float(dem_patch[target_rc[0], target_rc[1]])
+        horizon_flanking = {}
+        horizon_barrier = {}
+        horizon_drainage_lock = {}
+
+        for h_name, f_obj in forecasts.items():
+            wse_h = f_obj.predicted_wse_m
+            h_flanking = False
+            h_barrier = False
+            h_drainage_lock = False
+
+            if (critical_entry_y < (H_direct - 0.5)) and (wse_h >= critical_entry_y) and (wse_h < H_direct):
+                h_flanking = True
+                f_obj.will_submerge = True
+                f_obj.risk_level = "CRITICAL"
+                f_obj.submersion_depth_m = round(max(0.25, wse_h - clicked_dem), 2)
+                f_obj.safety_margin_m = 0.0
+            elif (wse_h < critical_entry_y) and (clicked_dem < wse_h):
+                h_barrier = True
+                f_obj.will_submerge = False
+                f_obj.risk_level = "SAFE"
+                f_obj.submersion_depth_m = 0.0
+                f_obj.safety_margin_m = round(max(0.5, critical_entry_y - wse_h), 2)
+
+            if (h_barrier or (wse_h < critical_entry_y and clicked_dem < wse_h)) and (p5_mm > 15.0):
+                h_drainage_lock = True
+                f_obj.slope_runoff_accumulation_m = round(f_obj.slope_runoff_accumulation_m * 1.65, 3)
+                if f_obj.slope_runoff_accumulation_m > f_obj.safety_margin_m:
+                    f_obj.will_submerge = True
+                    f_obj.risk_level = "WARNING"
+                    f_obj.submersion_depth_m = round(f_obj.slope_runoff_accumulation_m - f_obj.safety_margin_m, 2)
+
+            horizon_flanking[h_name] = h_flanking
+            horizon_barrier[h_name] = h_barrier
+            horizon_drainage_lock[h_name] = h_drainage_lock
+
+        indirect_flanking = horizon_flanking.get("day_1_24h", False)
+        barrier_protected = horizon_barrier.get("day_1_24h", False)
+        drainage_lock_active = horizon_drainage_lock.get("day_1_24h", False)
+
+    if indirect_flanking:
+        t0_mechanism = "INDIRECT_RIDGE_FLANKING"
+    elif drainage_lock_active:
+        t0_mechanism = "DRAINAGE_LOCK_COMPOUND"
+
+    # 11. Compound Hydraulic Diagnostics
+    active_absorbed_pct = 0.0
+    if up_id in storage_absorbed_pcts and storage_absorbed_pcts[up_id] > 0.0:
+        active_absorbed_pct = storage_absorbed_pcts[up_id]
+    elif down_id in storage_absorbed_pcts and storage_absorbed_pcts[down_id] > 0.0:
+        active_absorbed_pct = storage_absorbed_pcts[down_id]
+
+    hydraulic_diagnostics = {
+        "solver": "Divided-Channel 30m DEM Compound Manning + Unsteady Storage + 2D Flanking",
+        "wetted_top_width_m": round(float(t0_top_w), 1),
+        "channel_velocity_ms": round(float(t0_v_ch), 2),
+        "manning_n_ch": n_ch,
+        "manning_n_fp": round(float(n_fp), 4),
+        "mean_floodplain_ndvi": round(float(terrain.get('mean_floodplain_ndvi', 0.25) or 0.25), 3),
+        "energy_slope_sf": round(float(S_0), 6),
+        "h_manning_m": round(float(t0_depth_manning), 2),
+        "h_backwater_m": round(float(t0_h_backwater), 2),
+        "flood_mechanism": t0_mechanism,
+        "amc_class": amc_class,
+        "cn_effective": round(float(cn_dynamic), 1),
+        "p5_precipitation_mm": round(float(p5_mm), 1),
+        "profile_points": len(profile["offsets"]),
+        "empty_channel_storage_absorbed_pct": round(float(active_absorbed_pct), 1),
+        "release_duration_hours": float(release_dur),
+        "connectivity_2d_status": connectivity_2d_status,
+        "solver_saturated": bool(t0_depth_manning >= 34.5),
+        "channel_bankfull_cusecs": t0_channel_bankfull_cusecs,
+        "bankfull_capacity_cusecs": true_site_threshold_cusecs,
+        "h_bankfull_m": round(float(profile.get("H_bankfull", 4.5)), 2),
+        "critical_entry_height_y_m": round(float(critical_entry_y), 2) if not math.isinf(critical_entry_y) else None,
+        "direct_ridge_height_h_m": round(float(H_direct), 2) if not math.isinf(H_direct) else None,
+        "indirect_flanking": indirect_flanking,
+        "barrier_protected": barrier_protected,
+        "drainage_lock_active": drainage_lock_active,
+        "inundated_area_hectares": round(float(inun_ha), 1)
+    }
 
     return PredictResponse(
         ground_elevation_m=terrain['elv'],
@@ -592,6 +897,15 @@ def predict_coordinate(req: PredictRequest):
         wris_river_name=terrain.get('wris_river_name', 'Krishna River'),
         wris_data=terrain.get('wris_data'),
         xai_attribution=xai_attribution,
+        hydraulic_diagnostics=hydraulic_diagnostics,
+        flood_inundation_polygons=flood_polys,
+        inundated_area_hectares=round(float(inun_ha), 1),
+        critical_entry_height_y_m=round(float(critical_entry_y), 2) if not math.isinf(critical_entry_y) else None,
+        direct_ridge_height_h_m=round(float(H_direct), 2) if not math.isinf(H_direct) else None,
+        indirect_flanking=indirect_flanking,
+        barrier_protected=barrier_protected,
+        drainage_lock_active=drainage_lock_active,
+        nearest_safe_high_ground=safe_high_ground,
         model_info={
             "architecture": "ST-Attention-GAT (27 Stations)",
             "horizons": ["T+1 (24h)", "T+2 (48h)", "T+3 (72h)"],

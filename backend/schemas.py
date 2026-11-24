@@ -5,6 +5,7 @@ class PredictRequest(BaseModel):
     latitude: float
     longitude: float
     custom_dam_outflow_override: Optional[Dict[str, float]] = None
+    release_duration_hours: Optional[float] = 24.0
 
 class ForecastDay(BaseModel):
     predicted_river_depth_m: float
@@ -22,6 +23,7 @@ class ForecastDay(BaseModel):
     upstream_inflow_cusecs: float = 0.0
     upstream_outflow_cusecs: float = 0.0
     bankfull_capacity_cusecs: float = 0.0
+    channel_bankfull_cusecs: float = 0.0
     wse_feet: float = 0.0
     ground_elevation_feet: float = 0.0
 
@@ -58,6 +60,15 @@ class PredictResponse(BaseModel):
     wris_river_name: Optional[str] = None
     wris_data: Optional[Dict[str, Any]] = None
     xai_attribution: Optional[Dict[str, Any]] = None
+    hydraulic_diagnostics: Optional[Dict[str, Any]] = None
+    flood_inundation_polygons: Optional[List[List[List[float]]]] = None
+    inundated_area_hectares: float = 0.0
+    critical_entry_height_y_m: Optional[float] = None
+    direct_ridge_height_h_m: Optional[float] = None
+    indirect_flanking: bool = False
+    barrier_protected: bool = False
+    drainage_lock_active: bool = False
+    nearest_safe_high_ground: Optional[Dict[str, Any]] = None
     model_info: Optional[Dict[str, Any]] = None
 
 class SimulateReleaseRequest(BaseModel):

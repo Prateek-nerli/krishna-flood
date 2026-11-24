@@ -52,8 +52,8 @@ def run_historical_backfill():
 
     for node in nodes:
         node_id = node['node_id']
-        lat = node['lat']
-        lon = node['lon']
+        lat = node.get('glofas_lat', node['lat'])
+        lon = node.get('glofas_lon', node['lon'])
         
         if node_id in existing_nodes:
             print(f"Skipping {node_id}, already in parquet.")

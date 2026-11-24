@@ -27,7 +27,16 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
-const API_BASE = 'http://localhost:8000/api/v1';
+const greenMarkerIcon = new L.Icon({
+  iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+  shadowUrl: iconShadow,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
+});
+
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:8000/api/v1';
 
 const BASIN_POLYGON = [
   [19.35, 73.35], [17.95, 73.55], [16.90, 73.65], [15.85, 73.85], [15.10, 74.35], 
@@ -79,7 +88,9 @@ export default function App() {
   const [selectedStation, setSelectedStation] = useState("ALMATTI");
   const [replayData, setReplayData] = useState(null);
   const [replayLoading, setReplayLoading] = useState(false);
+  const [releaseDuration, setReleaseDuration] = useState(24.0);
   const mapRef = useRef(null);
+  const abortControllerRef = useRef(null);
 
   const [sliders, setSliders] = useState({
     ACTIVE_REACH: 0,
@@ -163,7 +174,13 @@ export default function App() {
     fetchPrediction(latlng.lat, latlng.lng, sliders);
   };
 
-  const fetchPrediction = async (lat, lon, currentOverrides) => {
+  const fetchPrediction = async (lat, lon, currentOverrides, currentDuration = releaseDuration) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     setLoading(true);
     try {
       const activeOverrides = Object.fromEntries(
@@ -172,10 +189,12 @@ export default function App() {
       const res = await fetch(`${API_BASE}/predict/coordinate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        signal: controller.signal,
         body: JSON.stringify({
           latitude: lat,
           longitude: lon,
-          custom_dam_outflow_override: activeOverrides
+          custom_dam_outflow_override: activeOverrides,
+          release_duration_hours: currentDuration
         })
       });
       
@@ -187,9 +206,15 @@ export default function App() {
       const data = await res.json();
       setPrediction(data);
     } catch (err) {
+      if (err.name === 'AbortError') {
+        return;
+      }
       setErrorMsg(err.message || "Failed to fetch prediction.");
+    } finally {
+      if (abortControllerRef.current === controller) {
+        setLoading(false);
+      }
     }
-    setLoading(false);
   };
 
   const handleSimulate = () => {
@@ -283,6 +308,35 @@ export default function App() {
                   SIM ACTIVE
                 </span>
               )}
+            </div>
+
+            {/* Dam Release Duration Selector */}
+            <div className="mb-3 bg-[#090d16] p-2 rounded-lg border border-gray-800">
+              <div className="flex justify-between items-center mb-1.5">
+                <span className="text-[11px] font-medium text-gray-400">Release Duration:</span>
+                <span className="text-[11px] font-mono text-teal-400 font-bold">{releaseDuration}h Wave</span>
+              </div>
+              <div className="grid grid-cols-4 gap-1">
+                {[6, 12, 24, 48].map((hrs) => (
+                  <button
+                    key={hrs}
+                    type="button"
+                    onClick={() => {
+                      setReleaseDuration(hrs);
+                      if (selectedLocation) {
+                        fetchPrediction(selectedLocation.lat, selectedLocation.lng, sliders, hrs);
+                      }
+                    }}
+                    className={`py-1 text-[11px] font-mono font-bold rounded transition-colors ${
+                      releaseDuration === hrs
+                        ? 'bg-teal-500 text-black shadow'
+                        : 'bg-gray-800 hover:bg-gray-700 text-gray-300 border border-gray-750'
+                    }`}
+                  >
+                    {hrs}h
+                  </button>
+                ))}
+              </div>
             </div>
 
             <div className="space-y-3 max-h-[220px] overflow-y-auto pr-1">
@@ -489,6 +543,34 @@ export default function App() {
                     </LeafletTooltip>
                   </Polyline>
                 )}
+
+                {/* 2D Flood Inundation Polygons */}
+                {prediction?.inundated_area_hectares > 0 && prediction.flood_inundation_polygons?.map((poly, idx) => (
+                  <Polygon 
+                    key={'flood-poly-' + idx} 
+                    positions={poly} 
+                    pathOptions={{ color: '#EF4444', fillColor: '#EF4444', fillOpacity: 0.30, weight: 1.5 }} 
+                  />
+                ))}
+
+                {/* Evacuation Route & Safe High-Ground Haven */}
+                {prediction?.nearest_safe_high_ground && 
+                 (prediction.forecasts?.["day_1_24h"]?.will_submerge || prediction.forecasts?.["day_1_24h"]?.safety_margin_m < 1.5) && (() => {
+                  const safe = prediction.nearest_safe_high_ground;
+                  return (
+                    <>
+                      <Marker position={[safe.lat, safe.lon]} icon={greenMarkerIcon}>
+                        <LeafletTooltip permanent direction="top">
+                          {`Candidate High Ground (Route Not Road-Verified): ${safe.distance_m}m ${safe.bearing} (+${safe.clearance_above_wse_m}m above WSE)`}
+                        </LeafletTooltip>
+                      </Marker>
+                      <Polyline 
+                        positions={[[selectedLocation.lat, selectedLocation.lng], [safe.lat, safe.lon]]}
+                        pathOptions={{ color: '#10B981', dashArray: '6, 6', weight: 2.5 }}
+                      />
+                    </>
+                  );
+                })()}
               </>
             )}
           </MapContainer>
@@ -634,6 +716,121 @@ export default function App() {
             </div>
           </div>
 
+          {/* Compound Hydraulic Diagnostics Strip */}
+          {prediction.hydraulic_diagnostics && (
+            <div className="bg-[#0f172a] p-4 rounded-xl border border-teal-900/60 shadow-lg space-y-3">
+              <div className="flex flex-wrap justify-between items-center border-b border-gray-800 pb-2 gap-2">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold text-teal-400 text-sm flex items-center gap-1.5">
+                    <Activity className="w-4 h-4 text-teal-300" />
+                    Copernicus GLO-30 Compound Hydraulic Diagnostics (HEC-RAS Formulation)
+                  </h3>
+                  {prediction.indirect_flanking ? (
+                    <span className="bg-red-500/20 text-red-400 border border-red-500/40 px-2 py-0.5 rounded text-[11px] font-bold">INDIRECT FLANKING</span>
+                  ) : prediction.barrier_protected ? (
+                    <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 px-2 py-0.5 rounded text-[11px] font-bold">BARRIER PROTECTED</span>
+                  ) : prediction.drainage_lock_active ? (
+                    <span className="bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 rounded text-[11px] font-bold">DRAINAGE LOCK ACTIVE</span>
+                  ) : (
+                    <span className="bg-gray-800 text-gray-300 border border-gray-700 px-2 py-0.5 rounded text-[11px]">DIRECT OVERBANK</span>
+                  )}
+                </div>
+                <span className="text-[11px] font-mono text-gray-300 bg-teal-950/80 border border-teal-800 px-2 py-0.5 rounded">
+                  {prediction.hydraulic_diagnostics.profile_points} Profile Transect Points (30m Spacing)
+                </span>
+              </div>
+
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 text-xs pt-1 font-mono">
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Wetted Top Width</span>
+                  <span className="text-white font-bold text-sm">
+                    {prediction.hydraulic_diagnostics.wetted_top_width_m} m
+                  </span>
+                </div>
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Flow Velocity</span>
+                  <span className="text-teal-300 font-bold text-sm">
+                    {prediction.hydraulic_diagnostics.channel_velocity_ms} m/s
+                  </span>
+                </div>
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Floodplain Roughness</span>
+                  <span className="text-amber-300 font-bold text-sm">
+                    n={prediction.hydraulic_diagnostics.manning_n_fp}
+                  </span>
+                  <span className="text-[10px] text-gray-400 block truncate">NDVI: {prediction.hydraulic_diagnostics.mean_floodplain_ndvi}</span>
+                </div>
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Dynamic AMC / Soil</span>
+                  <span className="text-emerald-300 font-bold text-sm">
+                    {prediction.hydraulic_diagnostics.amc_class}
+                  </span>
+                  <span className="text-[10px] text-gray-400 block truncate">CN={prediction.hydraulic_diagnostics.cn_effective} (P5: {prediction.hydraulic_diagnostics.p5_precipitation_mm}mm)</span>
+                </div>
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Storage Absorbed</span>
+                  <span className="text-cyan-300 font-bold text-sm">
+                    {prediction.hydraulic_diagnostics.empty_channel_storage_absorbed_pct}%
+                  </span>
+                </div>
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Flood Mechanism</span>
+                  <span className="text-rose-300 font-bold text-xs truncate block" title={prediction.hydraulic_diagnostics.flood_mechanism}>
+                    {prediction.hydraulic_diagnostics.flood_mechanism}
+                  </span>
+                </div>
+              </div>
+
+              {/* Barrier Topography, 2D Inundation & Evacuation Diagnostics */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs pt-2 font-mono border-t border-gray-800/80">
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800 flex flex-col justify-between">
+                  <span className="text-gray-400 text-[10px] block uppercase">Barrier / Ridge Status</span>
+                  <div className="mt-1">
+                    {prediction.indirect_flanking ? (
+                      <span className="bg-red-500/20 text-red-400 border border-red-500/40 px-2 py-0.5 rounded text-[11px] font-bold">INDIRECT FLANKING</span>
+                    ) : prediction.barrier_protected ? (
+                      <span className="bg-blue-500/20 text-blue-400 border border-blue-500/40 px-2 py-0.5 rounded text-[11px] font-bold">BARRIER PROTECTED</span>
+                    ) : prediction.drainage_lock_active ? (
+                      <span className="bg-amber-500/20 text-amber-400 border border-amber-500/40 px-2 py-0.5 rounded text-[11px] font-bold">DRAINAGE LOCK ACTIVE</span>
+                    ) : (
+                      <span className="bg-gray-800 text-gray-300 border border-gray-700 px-2 py-0.5 rounded text-[11px]">DIRECT OVERBANK</span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Critical Entry Y</span>
+                  <span className="text-white font-bold text-sm block">
+                    {prediction.critical_entry_height_y_m ? prediction.critical_entry_height_y_m.toFixed(1) + ' m' : 'N/A'}
+                  </span>
+                  <span className="text-[10px] text-gray-400 block truncate">
+                    Direct Ridge: {prediction.direct_ridge_height_h_m ? prediction.direct_ridge_height_h_m.toFixed(1) + ' m' : 'N/A'}
+                  </span>
+                </div>
+
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">2D Flood Footprint</span>
+                  <span className="text-rose-400 font-bold text-sm block">
+                    {prediction.inundated_area_hectares ? prediction.inundated_area_hectares.toFixed(1) + ' ha' : '0.0 ha'}
+                  </span>
+                  <span className="text-[10px] text-gray-400 block truncate">
+                    Dynamic Backwater Inundation
+                  </span>
+                </div>
+
+                <div className="bg-[#0b1120] p-2.5 rounded border border-gray-800">
+                  <span className="text-gray-400 text-[10px] block uppercase">Evacuation Safe Ground</span>
+                  <span className="text-emerald-300 font-bold text-xs block truncate" title={prediction.nearest_safe_high_ground ? `${prediction.nearest_safe_high_ground.distance_m}m ${prediction.nearest_safe_high_ground.bearing} (+${prediction.nearest_safe_high_ground.clearance_above_wse_m}m)` : 'None'}>
+                    {prediction.nearest_safe_high_ground ? `${prediction.nearest_safe_high_ground.distance_m}m ${prediction.nearest_safe_high_ground.bearing} (+${prediction.nearest_safe_high_ground.clearance_above_wse_m}m)` : 'None'}
+                  </span>
+                  <span className="text-[10px] text-gray-400 block truncate">
+                    Nearest High-Ground Haven
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Upgraded Forecast Cards (T+1, T+2, T+3) */}
           <div>
             <div className="flex justify-between items-center mb-3">
@@ -687,12 +884,18 @@ export default function App() {
                       <div className="flex justify-between">
                         <span className="text-gray-400">Total Active Flow:</span>
                         <span className="font-mono font-bold text-white">
-                          {forecast.predicted_discharge_cusecs?.toLocaleString()} cfs ({forecast.predicted_discharge_cumecs} m³/s)
+                          {forecast.predicted_discharge_cusecs?.toLocaleString()} cfs ({forecast.predicted_discharge_cumecs?.toFixed(1)} m³/s)
                         </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">Bankfull Threshold:</span>
-                        <span className="font-mono text-gray-300">{forecast.bankfull_capacity_cusecs?.toLocaleString()} cfs</span>
+                        <span className="text-gray-400">Channel Bankfull:</span>
+                        <span className="font-mono text-gray-300">
+                          {(forecast.channel_bankfull_cusecs || prediction.hydraulic_diagnostics?.channel_bankfull_cusecs)?.toLocaleString()} cfs
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-400">Site Flood Threshold:</span>
+                        <span className="font-mono text-amber-300/90 font-medium">{forecast.bankfull_capacity_cusecs?.toLocaleString()} cfs</span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">Water Level (MSL):</span>
@@ -703,7 +906,7 @@ export default function App() {
                         <span className="font-mono text-white">{forecast.predicted_river_depth_m?.toFixed(2)} m</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-400">SCS-CN Runoff (CN=82):</span>
+                        <span className="text-gray-400">SCS-CN Runoff (CN={prediction.hydraulic_diagnostics?.cn_effective ?? 82}):</span>
                         <span className="font-mono text-teal-400">+{forecast.slope_runoff_accumulation_m?.toFixed(3)} m</span>
                       </div>
 
@@ -879,7 +1082,7 @@ export default function App() {
                   Unseen Test-Set 2024 Monsoon Hydrograph Replay & Station Validation
                 </h2>
                 <p className="text-xs text-gray-400">
-                  Actual Observed vs. ST-Attention-GAT Forecasted Discharge (July – Sept 2024 Peak Flood)
+                  ECMWF GloFAS v4 Reference vs. ST-Attention-GAT Forecasted Discharge (July – Sept 2024 Peak Flood)
                 </p>
               </div>
 
@@ -934,7 +1137,7 @@ export default function App() {
                       <Line 
                         type="monotone" 
                         dataKey="observed_discharge_cumecs" 
-                        name="Observed River Discharge" 
+                        name="ECMWF GloFAS v4 Reference" 
                         stroke="#94a3b8" 
                         strokeWidth={2} 
                         dot={false} 

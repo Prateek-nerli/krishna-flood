@@ -116,6 +116,67 @@ def get_copernicus_dem_window(lat, lon, window_size=5):
     except Exception as e:
         return None, None, None
 
+def get_copernicus_dem_patch(lat: float, lon: float, size_px: int = 96):
+    """
+    Returns (dem_array, transform, crs) for a ~2.88 km x 2.88 km window centered at (lat, lon)
+    using Copernicus GLO-30 DEM, cached in data/dem_cache/.
+    """
+    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    cache_dir = os.path.join(base_dir, 'data', 'dem_cache')
+    os.makedirs(cache_dir, exist_ok=True)
+    
+    cache_file = os.path.join(cache_dir, f"dem_patch_{round(lat, 4)}_{round(lon, 4)}_{size_px}.npz")
+    if os.path.exists(cache_file):
+        try:
+            data = np.load(cache_file, allow_pickle=True)
+            dem_arr = data['dem_data']
+            transform_vals = data['transform']
+            from rasterio.transform import Affine
+            transform = Affine(transform_vals[0], transform_vals[1], transform_vals[2],
+                               transform_vals[3], transform_vals[4], transform_vals[5])
+            crs = str(data['crs'])
+            return dem_arr, transform, crs
+        except Exception:
+            pass
+
+    lat_deg = int(lat)
+    lon_deg = int(lon)
+    lat_str = f"N{lat_deg:02d}_00" if lat >= 0 else f"S{abs(lat_deg):02d}_00"
+    lon_str = f"E{lon_deg:03d}_00" if lon >= 0 else f"W{abs(lon_deg):03d}_00"
+    
+    tile_name = f"Copernicus_DSM_COG_10_{lat_str}_{lon_str}_DEM"
+    s3_path = f"s3://copernicus-dem-30m/{tile_name}/{tile_name}.tif"
+    
+    aws_session = rasterio.session.AWSSession(
+        boto3.Session(),
+        requester_pays=False,
+        aws_unsigned=True
+    )
+    
+    try:
+        with rasterio.Env(aws_session):
+            with rasterio.open(s3_path) as src:
+                row, col = src.index(lon, lat)
+                offset = size_px // 2
+                window = Window(col - offset, row - offset, size_px, size_px)
+                dem_data = src.read(1, window=window).astype(np.float32)
+                win_transform = src.window_transform(window)
+                crs = str(src.crs)
+                
+                try:
+                    np.savez_compressed(
+                        cache_file,
+                        dem_data=dem_data,
+                        transform=np.array([win_transform.a, win_transform.b, win_transform.c,
+                                            win_transform.d, win_transform.e, win_transform.f], dtype=np.float64),
+                        crs=crs
+                    )
+                except Exception:
+                    pass
+                return dem_data, win_transform, crs
+    except Exception as e:
+        raise RuntimeError("COPERNICUS_DEM_UNAVAILABLE") from e
+
 import time
 
 def get_true_elevation_batch(lat, lon, cop_center_raw):
@@ -378,4 +439,7 @@ def get_merit_hydro_data(lat, lon):
         "downstream_node_id": str(downstream_id),
         "reach_fraction_alpha": float(alpha),
         "is_water_body_raster": bool(is_water_body_raster),
+        "manning_n_fp": float(wris_data.get('manning_n_fp', 0.045) or 0.045),
+        "mean_floodplain_ndvi": float(wris_data.get('mean_floodplain_ndvi', 0.25) or 0.25),
+        "bank_transect": wris_data.get('bank_transect'),
     }

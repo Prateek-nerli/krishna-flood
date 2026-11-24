@@ -88,38 +88,40 @@ def generate_replays():
     for st in target_stations:
         replays["stations"][st] = []
 
-    # Run inference for each day in monsoon window
+    # Run inference across monsoon window with true horizon-lag alignment:
+    # Day t observation is paired with:
+    # - pred_t1 (24h ahead): forecast made at window ending t-1 (horizon 0)
+    # - pred_t3 (72h ahead): forecast made at window ending t-3 (horizon 2)
+    pred_dict = {}
     with torch.no_grad():
-        for t in monsoon_indices:
-            # sequence: [t-13 : t+1]
-            x_seq = feat_3d[t - 13 : t + 1] # [14, N, 6]
+        for t_end in range(monsoon_indices[0] - 3, monsoon_indices[-1] + 1):
+            x_seq = feat_3d[t_end - 13 : t_end + 1] # [14, N, 6]
             x_scaled = (x_seq - means.reshape(1, 1, 6)) / scales.reshape(1, 1, 6)
-            # reshape to [1, N, 14, 6]
             x_tensor = torch.tensor(x_scaled, dtype=torch.float32).permute(1, 0, 2).unsqueeze(0)
-            
             preds_scaled = model(x_tensor, adj) # [1, N, 3]
             preds_log = preds_scaled.cpu().numpy()[0] * q_scale + q_mean
-            preds_q = np.expm1(np.clip(preds_log, 0.0, 11.5))
+            pred_dict[t_end] = np.expm1(np.clip(preds_log, 0.0, 11.5))
+
+    for t in monsoon_indices:
+        d_str = dates.iloc[t].strftime("%Y-%m-%d")
+        p_t1_arr = pred_dict[t - 1]
+        p_t3_arr = pred_dict[t - 3]
+        
+        for st in target_stations:
+            idx = node_to_idx[st]
+            obs = float(raw_discharge[t, idx])
+            p_t1 = float(p_t1_arr[idx, 0])
+            p_t3 = float(p_t3_arr[idx, 2])
             
-            d_str = dates.iloc[t].strftime("%Y-%m-%d")
-            
-            for st in target_stations:
-                idx = node_to_idx[st]
-                obs = float(raw_discharge[t, idx])
-                obs_t1 = float(raw_discharge[t+1, idx]) if t+1 < T_total else obs
-                obs_t3 = float(raw_discharge[t+3, idx]) if t+3 < T_total else obs
-                p_t1 = float(preds_q[idx, 0])
-                p_t3 = float(preds_q[idx, 2])
-                
-                replays["stations"][st].append({
-                    "date": d_str,
-                    "observed_discharge_cumecs": round(obs, 1),
-                    "pred_t1_cumecs": round(p_t1, 1),
-                    "pred_t3_cumecs": round(p_t3, 1),
-                    "observed_cusecs": round(obs * 35.3147, 0),
-                    "pred_t1_cusecs": round(p_t1 * 35.3147, 0),
-                    "pred_t3_cusecs": round(p_t3 * 35.3147, 0)
-                })
+            replays["stations"][st].append({
+                "date": d_str,
+                "observed_discharge_cumecs": round(obs, 1),
+                "pred_t1_cumecs": round(p_t1, 1),
+                "pred_t3_cumecs": round(p_t3, 1),
+                "observed_cusecs": round(obs * 35.3147, 0),
+                "pred_t1_cusecs": round(p_t1 * 35.3147, 0),
+                "pred_t3_cusecs": round(p_t3 * 35.3147, 0)
+            })
 
     out_path = os.path.join(base_dir, "models", "test_hydrograph_replays.json")
     with open(out_path, "w", encoding="utf-8") as f:

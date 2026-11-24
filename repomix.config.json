@@ -1,6 +1,6 @@
 {
   "output": {
-    "filePath": "repomix-output.xml",
+    "filePath": "updatedrepo.xml",
     "style": "xml",
     "removeComments": false,
     "removeEmptyLines": false,
@@ -19,7 +19,10 @@
       "frontend/dist/**",
       "frontend/package-lock.json",
       "models/*.pt",
-      "models/*.pkl"
+      "models/*.pkl",
+      "repomix-output.xml",
+      "updatedrepo.xml",
+      "updatedrepo*"
     ]
   }
 }
