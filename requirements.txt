@@ -16,3 +16,9 @@ scipy
 pyproj
 opencv-python-headless
 matplotlib
+sqlalchemy
+python-dotenv
+passlib[bcrypt]
+bcrypt==4.0.1
+PyJWT
+apscheduler

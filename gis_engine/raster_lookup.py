@@ -385,12 +385,15 @@ def get_merit_hydro_data(lat, lon):
         E_bed_r = round(river_surface_elv - 1.0, 2)
         hand_m = round(max(1.0, elv - E_bed_r), 2)
 
-    # Node projection for DAG edge fraction
+    # Node projection for DAG edge fraction (preferring same WRIS river name when nearby)
     nodes = _get_nodes()
     upstream_id = "UNKNOWN"
     downstream_id = "UNKNOWN"
-    min_dist_edge = float('inf')
     alpha = 0.0
+
+    target_riv = (wris_data.get("wris_river_name") or "").strip().lower()
+    best_all = None   # (d, up_id, down_id, t)
+    best_match = None # (d, up_id, down_id, t)
 
     node_map = {n['node_id']: n for n in nodes}
     for n in nodes:
@@ -409,11 +412,22 @@ def get_merit_hydro_data(lat, lon):
             p_lat = A_lat + t * AB_lat
             p_lon = A_lon + t * AB_lon
             d = math.hypot(nearest_lat - p_lat, nearest_lon - p_lon)
-            if d < min_dist_edge:
-                min_dist_edge = d
-                upstream_id = n['node_id']
-                downstream_id = B['node_id']
-                alpha = t
+
+            cand = (d, n['node_id'], B['node_id'], t)
+            if best_all is None or d < best_all[0]:
+                best_all = cand
+            node_riv = (n.get("wris_river_name") or "").strip().lower()
+            if target_riv and node_riv == target_riv:
+                if best_match is None or d < best_match[0]:
+                    best_match = cand
+
+    chosen = best_all
+    if best_match is not None and best_all is not None:
+        if best_match[0] <= max(0.25, best_all[0] * 3.0):
+            chosen = best_match
+
+    if chosen is not None:
+        _, upstream_id, downstream_id, alpha = chosen
 
     hnd = float(hand_m)
     upa = round(max(150.0, (river_length_km ** 1.65) * 3.2), 1)

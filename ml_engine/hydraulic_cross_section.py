@@ -105,14 +105,15 @@ def extract_compound_cross_section(
         smoothed_fp = scipy.ndimage.minimum_filter1d(elevations, size=3)
         elevations[fp_mask] = np.maximum(E_bed_r + 0.35, smoothed_fp[fp_mask])
 
-    # 5. Detect bankfull height (where channel banks meet floodplain)
+    # 5. Detect bankfull height (outside carved bed zone where channel banks meet floodplain)
     half_w = max(15.0, W_live / 2.0)
-    left_bank_idx = np.argmin(np.abs(offsets - (-half_w)))
-    right_bank_idx = np.argmin(np.abs(offsets - (+half_w)))
+    bank_search_offset = max(half_w + step_m, half_w * 1.25)
+    left_bank_idx = np.argmin(np.abs(offsets - (-bank_search_offset)))
+    right_bank_idx = np.argmin(np.abs(offsets - (+bank_search_offset)))
     z_bank_left = float(elevations[left_bank_idx])
     z_bank_right = float(elevations[right_bank_idx])
     z_bank_min = min(z_bank_left, z_bank_right)
-    H_bankfull = max(1.2, z_bank_min - E_bed_r)
+    H_bankfull = max(3.0, min(8.0, z_bank_min - E_bed_r))
 
     return {
         "offsets": offsets,

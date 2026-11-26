@@ -180,7 +180,8 @@ def extract_connected_flood_footprint(
     dem_96x96: np.ndarray,
     river_pixels: Union[List[Tuple[int, int]], np.ndarray],
     predicted_wse_m: float,
-    transform: Any
+    transform: Any,
+    river_bed_elev_m: Optional[float] = None
 ) -> Tuple[List[List[List[float]]], float, np.ndarray]:
     """
     Extracts the hydrologically connected flood footprint for a predicted WSE.
@@ -190,6 +191,8 @@ def extract_connected_flood_footprint(
         river_pixels: Iterable/array of (row, col) coordinates belonging to river channel.
         predicted_wse_m: Predicted Water Surface Elevation (meters).
         transform: Rasterio Affine transform for pixel-to-geographic coordinate mapping.
+        river_bed_elev_m: Optional reference river bed elevation at target reach for
+            slope-aware local WSE attenuation along downstream cells.
 
     Returns:
         (flood_inundation_polygons, inundated_area_hectares, connected_mask):
@@ -200,16 +203,7 @@ def extract_connected_flood_footprint(
     H, W = dem_96x96.shape
     aff = _ensure_affine(transform)
 
-    # 1. Cells with elevation below or equal to predicted WSE
-    below_wse = (dem_96x96 <= predicted_wse_m)
-
-    # 2. 4-connected component labeling (cardinal connectivity)
-    structure_4 = np.array([[0, 1, 0],
-                            [1, 1, 1],
-                            [0, 1, 0]], dtype=int)
-    labeled_array, num_features = scipy.ndimage.label(below_wse, structure=structure_4)
-
-    # 3. Identify labels that intersect with river pixels
+    # 1. Build river mask & slope-aware local WSE when river_bed_elev_m is provided
     if isinstance(river_pixels, np.ndarray) and river_pixels.ndim == 2 and river_pixels.shape == (H, W) and river_pixels.dtype == bool:
         river_coords = [tuple(p) for p in np.argwhere(river_pixels)]
     else:
@@ -218,6 +212,24 @@ def extract_connected_flood_footprint(
     valid_river_rows = [p[0] for p in river_coords if 0 <= p[0] < H and 0 <= p[1] < W]
     valid_river_cols = [p[1] for p in river_coords if 0 <= p[0] < H and 0 <= p[1] < W]
 
+    if river_bed_elev_m is not None and valid_river_rows:
+        river_mask = np.zeros((H, W), dtype=bool)
+        river_mask[valid_river_rows, valid_river_cols] = True
+        _, indices = scipy.ndimage.distance_transform_edt(~river_mask, return_indices=True)
+        local_river_bed = dem_96x96[indices[0], indices[1]]
+        flow_depth = max(0.1, predicted_wse_m - float(river_bed_elev_m))
+        local_wse = np.minimum(predicted_wse_m, local_river_bed + flow_depth)
+        below_wse = (dem_96x96 <= local_wse)
+    else:
+        below_wse = (dem_96x96 <= predicted_wse_m)
+
+    # 2. 4-connected component labeling (cardinal connectivity)
+    structure_4 = np.array([[0, 1, 0],
+                            [1, 1, 1],
+                            [0, 1, 0]], dtype=int)
+    labeled_array, num_features = scipy.ndimage.label(below_wse, structure=structure_4)
+
+    # 3. Identify labels that intersect with river pixels
     if valid_river_rows:
         river_labels = np.unique(labeled_array[valid_river_rows, valid_river_cols])
         river_labels = river_labels[river_labels > 0]  # Exclude background 0

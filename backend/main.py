@@ -32,7 +32,26 @@ from ml_engine.flood_connectivity_2d import (
 )
 from etl_pipeline.open_meteo import get_live_basin_matrix, get_live_river_discharge
 
-app = FastAPI(title="KrishnaFlow AI Backend - IEEE Standard Hydrological Engine")
+from contextlib import asynccontextmanager
+from backend.database import init_db, SessionLocal
+from backend.db_models import User, UserLocation
+from backend.notifications import send_sms, format_flood_alert
+from backend.auth import auth_router
+from backend.user_routes import user_router, set_predict_runner
+from backend.admin_routes import admin_router, set_admin_predict_runner
+from backend.scheduler import start_scheduler, shutdown_scheduler, set_scheduler_predict_runner
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    init_db()
+    start_scheduler()
+    yield
+    shutdown_scheduler()
+
+app = FastAPI(
+    title="KrishnaFlow AI Backend - IEEE Standard Hydrological Engine",
+    lifespan=lifespan
+)
 
 app.add_middleware(
     CORSMiddleware,
@@ -41,6 +60,10 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(auth_router)
+app.include_router(user_router)
+app.include_router(admin_router)
 
 # Global runtime cache
 simulation_state: Dict[str, float] = {}
@@ -554,8 +577,9 @@ def predict_coordinate(req: PredictRequest):
 
         if is_water_body:
             pred_depth_final += 2.5
-            
-        wse_local = terrain['E_bed_r'] + pred_depth_final
+
+        pred_depth_final = round(float(pred_depth_final), 2)
+        wse_local = round(float(terrain['E_bed_r'] + pred_depth_final), 2)
 
         # SCS-CN Slope Runoff for Horizon Day (Dynamic AMC-adjusted CN)
         precip_day_mm = float(up_precip[min(p_w_idx + 1 + h_idx, len(up_precip) - 1)]) if up_precip else 0.0
@@ -621,8 +645,8 @@ def predict_coordinate(req: PredictRequest):
         )
     if is_water_body:
         t0_depth_final += 2.5
-    curr_depth_m = t0_depth_final
-    curr_wse_m = terrain['E_bed_r'] + curr_depth_m
+    curr_depth_m = round(float(t0_depth_final), 2)
+    curr_wse_m = round(float(terrain['E_bed_r'] + curr_depth_m), 2)
     is_bankfull = True if is_water_body or q_t0_cusecs >= t0_bankfull_cusecs or curr_depth_m >= hand_m else False
 
     telemetry = LiveTelemetry(
@@ -764,7 +788,7 @@ def predict_coordinate(req: PredictRequest):
             dem_patch, river_pixels_list, target_rc, dem_transform
         )
 
-        # Synchronize Site Flood Threshold with 2D Critical Entry Height Y
+        # Synchronize Site Flood Threshold & T+0 Bankfull Telemetry with 2D Critical Entry Height Y
         if not math.isinf(critical_entry_y):
             h_site_critical = max(0.5, critical_entry_y - float(terrain['E_bed_r']))
             K_site_crit, _, _, _, _ = compute_divided_channel_conveyance(h_site_critical, profile, n_ch, n_fp)
@@ -775,6 +799,64 @@ def predict_coordinate(req: PredictRequest):
 
             if telemetry is not None:
                 telemetry.bankfull_threshold_cusecs = true_site_threshold_cusecs
+                t0_exceeded = (
+                    is_water_body
+                    or q_t0_cusecs >= true_site_threshold_cusecs
+                    or curr_wse_m >= critical_entry_y
+                )
+                telemetry.is_bankfull = bool(t0_exceeded)
+                telemetry.ground_clearance_m = (
+                    0.0 if t0_exceeded else round(critical_entry_y - curr_wse_m, 2)
+                )
+
+        # Evaluate 2D threshold/level consistency, Indirect Flanking (4A) & Drainage Lock (4B) BEFORE 2D footprint extraction
+        clicked_dem = float(dem_patch[target_rc[0], target_rc[1]])
+        horizon_flanking = {}
+        horizon_barrier = {}
+        horizon_drainage_lock = {}
+
+        for h_name, f_obj in forecasts.items():
+            wse_h = f_obj.predicted_wse_m
+            q_h = f_obj.predicted_discharge_cusecs
+            crit_q = f_obj.bankfull_capacity_cusecs
+            h_flanking = False
+            h_barrier = False
+            h_drainage_lock = False
+
+            if not math.isinf(critical_entry_y) and (is_water_body or wse_h >= critical_entry_y or q_h >= crit_q):
+                if (critical_entry_y < (H_direct - 0.5)) and (wse_h >= critical_entry_y) and (wse_h < H_direct):
+                    h_flanking = True
+                f_obj.will_submerge = True
+                f_obj.risk_level = "CRITICAL"
+                subm_base = (wse_h - clicked_dem) if h_flanking else max(wse_h - critical_entry_y, wse_h - clicked_dem)
+                f_obj.submersion_depth_m = round(
+                    max(0.25 if h_flanking else 0.15, subm_base + (0.0 if h_flanking else float(f_obj.slope_runoff_accumulation_m))),
+                    2,
+                )
+                f_obj.safety_margin_m = 0.0
+            elif not math.isinf(critical_entry_y):
+                h_barrier = bool(clicked_dem < wse_h)
+                f_obj.will_submerge = False
+                f_obj.submersion_depth_m = 0.0
+                clearance_y = max(0.05, critical_entry_y - wse_h)
+                f_obj.safety_margin_m = round(max(0.5, clearance_y) if h_barrier else clearance_y, 2)
+                f_obj.risk_level = "SAFE" if h_barrier else ("WARNING" if f_obj.safety_margin_m < 1.2 else "SAFE")
+
+                if h_barrier and (p5_mm > 15.0):
+                    h_drainage_lock = True
+                    f_obj.slope_runoff_accumulation_m = round(f_obj.slope_runoff_accumulation_m * 1.65, 3)
+                    if f_obj.slope_runoff_accumulation_m > f_obj.safety_margin_m:
+                        f_obj.will_submerge = True
+                        f_obj.risk_level = "WARNING"
+                        f_obj.submersion_depth_m = round(f_obj.slope_runoff_accumulation_m - f_obj.safety_margin_m, 2)
+
+            horizon_flanking[h_name] = h_flanking
+            horizon_barrier[h_name] = h_barrier
+            horizon_drainage_lock[h_name] = h_drainage_lock
+
+        indirect_flanking = horizon_flanking.get("day_1_24h", False)
+        barrier_protected = horizon_barrier.get("day_1_24h", False)
+        drainage_lock_active = horizon_drainage_lock.get("day_1_24h", False)
 
         day1_wse = forecasts["day_1_24h"].predicted_wse_m
         day1_depth = forecasts["day_1_24h"].predicted_river_depth_m
@@ -783,7 +865,11 @@ def predict_coordinate(req: PredictRequest):
 
         if is_overbank_flood:
             flood_polys, inun_ha, conn_mask = extract_connected_flood_footprint(
-                dem_patch, river_pixels_list, day1_wse, dem_transform
+                dem_patch,
+                river_pixels_list,
+                day1_wse,
+                dem_transform,
+                river_bed_elev_m=float(terrain['E_bed_r']),
             )
         else:
             flood_polys = []
@@ -796,47 +882,6 @@ def predict_coordinate(req: PredictRequest):
             )
         else:
             safe_high_ground = None
-
-        # Scenarios 4A & 4B: Indirect Flanking & Drainage Lock (evaluated per-horizon)
-        clicked_dem = float(dem_patch[target_rc[0], target_rc[1]])
-        horizon_flanking = {}
-        horizon_barrier = {}
-        horizon_drainage_lock = {}
-
-        for h_name, f_obj in forecasts.items():
-            wse_h = f_obj.predicted_wse_m
-            h_flanking = False
-            h_barrier = False
-            h_drainage_lock = False
-
-            if (critical_entry_y < (H_direct - 0.5)) and (wse_h >= critical_entry_y) and (wse_h < H_direct):
-                h_flanking = True
-                f_obj.will_submerge = True
-                f_obj.risk_level = "CRITICAL"
-                f_obj.submersion_depth_m = round(max(0.25, wse_h - clicked_dem), 2)
-                f_obj.safety_margin_m = 0.0
-            elif (wse_h < critical_entry_y) and (clicked_dem < wse_h):
-                h_barrier = True
-                f_obj.will_submerge = False
-                f_obj.risk_level = "SAFE"
-                f_obj.submersion_depth_m = 0.0
-                f_obj.safety_margin_m = round(max(0.5, critical_entry_y - wse_h), 2)
-
-            if (h_barrier or (wse_h < critical_entry_y and clicked_dem < wse_h)) and (p5_mm > 15.0):
-                h_drainage_lock = True
-                f_obj.slope_runoff_accumulation_m = round(f_obj.slope_runoff_accumulation_m * 1.65, 3)
-                if f_obj.slope_runoff_accumulation_m > f_obj.safety_margin_m:
-                    f_obj.will_submerge = True
-                    f_obj.risk_level = "WARNING"
-                    f_obj.submersion_depth_m = round(f_obj.slope_runoff_accumulation_m - f_obj.safety_margin_m, 2)
-
-            horizon_flanking[h_name] = h_flanking
-            horizon_barrier[h_name] = h_barrier
-            horizon_drainage_lock[h_name] = h_drainage_lock
-
-        indirect_flanking = horizon_flanking.get("day_1_24h", False)
-        barrier_protected = horizon_barrier.get("day_1_24h", False)
-        drainage_lock_active = horizon_drainage_lock.get("day_1_24h", False)
 
     if indirect_flanking:
         t0_mechanism = "INDIRECT_RIDGE_FLANKING"
@@ -880,6 +925,127 @@ def predict_coordinate(req: PredictRequest):
         "inundated_area_hectares": round(float(inun_ha), 1)
     }
 
+    # 12. On explicit "Route Waves" action, check if coordinates match any stored DB user location
+    #     and immediately trigger SMS alerts when flood is detected/predicted.
+    auto_alert_summary = None
+    if req.trigger_registered_alerts:
+        flooded_days: List[str] = []
+        max_subm_depth = 0.0
+        peak_flood_flow = 0.0
+        for h_name, f_obj in forecasts.items():
+            if f_obj.will_submerge:
+                day_label = (
+                    "Day 1 (+24h)" if h_name.startswith("day_1")
+                    else ("Day 2 (+48h)" if h_name.startswith("day_2") else "Day 3 (+72h)")
+                )
+                flooded_days.append(day_label)
+                max_subm_depth = max(max_subm_depth, float(f_obj.submersion_depth_m))
+                peak_flood_flow = max(peak_flood_flow, float(f_obj.predicted_discharge_cusecs))
+
+        matched_pairs: List[Tuple[User, UserLocation]] = []
+        sent_recipients: List[Dict[str, Any]] = []
+        seen_user_ids = set()
+        db_session = SessionLocal()
+        try:
+            rows = (
+                db_session.query(User, UserLocation)
+                .join(UserLocation, UserLocation.user_id == User.id)
+                .filter(User.is_phone_verified == True)
+                .all()
+            )
+            for db_user, db_loc in rows:
+                if haversine(lat, lon, db_loc.latitude, db_loc.longitude) <= 300.0:
+                    matched_pairs.append((db_user, db_loc))
+
+            if flooded_days and matched_pairs:
+                is_sim = bool(active_overrides)
+                sim_summary = (
+                    ", ".join(f"{k}: {v:,.0f} cfs" for k, v in active_overrides.items())
+                    + f" ({release_dur:.0f}h duration)"
+                    if is_sim
+                    else ""
+                )
+                hg_str = ""
+                if safe_high_ground:
+                    hg_str = (
+                        f"{safe_high_ground.get('bearing', 'Nearby')} "
+                        f"({safe_high_ground.get('elevation_m', 500)}m, "
+                        f"{safe_high_ground.get('distance_m', 300)}m)"
+                    )
+                days_str = ", ".join(flooded_days)
+                now_utc = datetime.datetime.now(datetime.timezone.utc)
+
+                for db_user, db_loc in matched_pairs:
+                    if not is_sim:
+                        db_loc.last_checked_at = now_utc
+                        db_loc.last_risk_level = "CRITICAL"
+                        db_loc.last_flood_days_json = json.dumps(flooded_days)
+
+                    if db_user.id in seen_user_ids or not db_user.sms_enabled:
+                        continue
+                    seen_user_ids.add(db_user.id)
+
+                    alert_bundle = format_flood_alert(
+                        location_name=db_loc.place_name,
+                        lat=db_loc.latitude,
+                        lon=db_loc.longitude,
+                        flood_days=flooded_days,
+                        peak_flow_cfs=peak_flood_flow,
+                        max_depth_m=max_subm_depth,
+                        high_ground_str=hg_str,
+                        is_simulation=is_sim,
+                        sim_summary=sim_summary,
+                        language=db_user.alert_language or "bilingual",
+                    )
+                    sms_res = send_sms(
+                        db_session,
+                        db_user.phone,
+                        alert_bundle["sms_body"],
+                        alert_type="SIMULATION" if is_sim else "REAL",
+                        user_id=db_user.id,
+                        location_id=db_loc.id,
+                        language=db_user.alert_language or "bilingual",
+                        flood_days=days_str,
+                    )
+                    phone_tail = db_user.phone[-4:] if db_user.phone and len(db_user.phone) >= 4 else "****"
+                    sent_recipients.append({
+                        "user_name": db_user.full_name,
+                        "place_name": db_loc.place_name,
+                        "phone_masked": f"***{phone_tail}",
+                        "delivery_status": sms_res.get("status", "UNKNOWN"),
+                    })
+                if not is_sim:
+                    db_session.commit()
+            elif not flooded_days and matched_pairs and not active_overrides:
+                now_utc = datetime.datetime.now(datetime.timezone.utc)
+                for _, db_loc in matched_pairs:
+                    db_loc.last_checked_at = now_utc
+                    db_loc.last_risk_level = "SAFE"
+                    db_loc.last_flood_days_json = "[]"
+                db_session.commit()
+
+            auto_alert_summary = {
+                "checked": True,
+                "matched_locations": len(matched_pairs),
+                "flood_detected": bool(flooded_days),
+                "alerts_sent": len(sent_recipients),
+                "flood_days": flooded_days,
+                "recipients": sent_recipients,
+            }
+        except Exception as exc:
+            print(f"[RouteWavesAlert] Failed checking DB user locations: {exc}")
+            auto_alert_summary = {
+                "checked": True,
+                "matched_locations": 0,
+                "flood_detected": bool(flooded_days),
+                "alerts_sent": 0,
+                "flood_days": flooded_days,
+                "recipients": [],
+                "error": str(exc),
+            }
+        finally:
+            db_session.close()
+
     return PredictResponse(
         ground_elevation_m=terrain['elv'],
         nearest_river_point=f"{terrain['nearest_river_lat']},{terrain['nearest_river_lon']}",
@@ -906,6 +1072,7 @@ def predict_coordinate(req: PredictRequest):
         barrier_protected=barrier_protected,
         drainage_lock_active=drainage_lock_active,
         nearest_safe_high_ground=safe_high_ground,
+        auto_alert_summary=auto_alert_summary,
         model_info={
             "architecture": "ST-Attention-GAT (27 Stations)",
             "horizons": ["T+1 (24h)", "T+2 (48h)", "T+3 (72h)"],
@@ -940,3 +1107,15 @@ def get_hydrograph_replay(node_id: Optional[str] = "ALMATTI"):
         "available_stations": list(replays.get("stations", {}).keys()),
         "hydrograph": replays.get("stations", {}).get(target, [])
     }
+
+# Wire up in-process prediction runners for User Dashboard, Admin simulation, and 6-Hour Scheduler
+set_predict_runner(predict_coordinate, nodes_cache)
+set_admin_predict_runner(predict_coordinate, nodes_cache)
+set_scheduler_predict_runner(predict_coordinate)
+
+# Ensure DB tables & seeded admin exist on import (for TestClient / scripts)
+try:
+    init_db()
+except Exception as e:
+    print(f"[Backend] Notice on startup init_db: {e}")
+

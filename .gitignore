@@ -45,6 +45,9 @@ data/osm_water_cache/
 data/wris_krishna_subbasins.geojson
 
 # Temporary & Scratch Files
+.env
+*.env
+backend/.env
 temp_git/
 scratch/
 *.bak

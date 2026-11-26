@@ -6,6 +6,7 @@ class PredictRequest(BaseModel):
     longitude: float
     custom_dam_outflow_override: Optional[Dict[str, float]] = None
     release_duration_hours: Optional[float] = 24.0
+    trigger_registered_alerts: bool = False
 
 class ForecastDay(BaseModel):
     predicted_river_depth_m: float
@@ -69,8 +70,69 @@ class PredictResponse(BaseModel):
     barrier_protected: bool = False
     drainage_lock_active: bool = False
     nearest_safe_high_ground: Optional[Dict[str, Any]] = None
+    auto_alert_summary: Optional[Dict[str, Any]] = None
     model_info: Optional[Dict[str, Any]] = None
 
 class SimulateReleaseRequest(BaseModel):
     node_id: str
     outflow_cusecs: float
+
+# ==========================================
+# AUTH, CITIZEN DASHBOARD & ADMIN SCHEMAS
+# ==========================================
+
+class UserRegisterRequest(BaseModel):
+    full_name: str
+    phone: str
+    email: str
+    password: str
+    alert_language: Optional[str] = "bilingual"
+
+class VerifyOTPRequest(BaseModel):
+    email: str
+    phone_otp: str
+    email_otp: str
+
+class ResendOTPRequest(BaseModel):
+    email: str
+    channel: Optional[str] = "all"  # "sms", "email", or "all"
+
+class LoginRequest(BaseModel):
+    identifier: str  # email or phone
+    password: str
+
+class UserLocationCreate(BaseModel):
+    label: str = "Home"
+    latitude: float
+    longitude: float
+    place_name: str
+    is_primary: bool = False
+
+class UserLocationUpdate(BaseModel):
+    label: Optional[str] = None
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
+    place_name: Optional[str] = None
+    is_primary: Optional[bool] = None
+
+class UserPreferencesUpdate(BaseModel):
+    alert_language: Optional[str] = None
+    sms_enabled: Optional[bool] = None
+    email_enabled: Optional[bool] = None
+
+class TestAlertRequest(BaseModel):
+    location_id: Optional[str] = None
+
+class SimulateAndAlertRequest(BaseModel):
+    custom_dam_outflow_override: Dict[str, float]
+    release_duration_hours: float = 24.0
+    target_mode: str = "admin_only"  # "admin_only", "selected_user", "all_impacted"
+    target_user_id: Optional[str] = None
+    send_alerts: bool = False
+
+class AdminBroadcastRequest(BaseModel):
+    message_en: str
+    message_kn: str
+    filter_type: str = "ALL"  # "ALL", "RIVER", "DAM"
+    filter_value: Optional[str] = None
+
