@@ -1,4 +1,10 @@
 import os
+import sys
+
+base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if base_dir not in sys.path:
+    sys.path.insert(0, base_dir)
+
 import json
 import numpy as np
 import matplotlib
@@ -10,7 +16,7 @@ from ml_engine.model_tft_gat import ST_Attention_GAT, build_basin_adjacency
 
 def main():
     base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    fig_dir = os.path.join(base_dir, "ieee_figures")
+    fig_dir = os.path.join(base_dir, "docs", "ieee_figures")
     os.makedirs(fig_dir, exist_ok=True)
     
     # 1. Load metrics
